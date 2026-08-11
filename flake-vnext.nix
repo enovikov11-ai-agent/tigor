@@ -1,4 +1,6 @@
 {
+  description = "Stateless NixOS VM host and QCOW2 guest images";
+
   inputs = {
     # 2026-08-10 https://github.com/NixOS/nixpkgs/commits/nixos-26.05/
     nixpkgs.url = "github:NixOS/nixpkgs/fcb8fcd6bf2d0adecae5bd491afaaaf8311b758d";
@@ -18,43 +20,92 @@
     enableTools = true;  # Hardware inspection and maintenance
     enableVMs = true;    # QEMU, libvirt, virt-manager and passthrough
 
+    commonPackages = pkgs: with pkgs; [
+      curl
+      git
+      htop
+      tmux
+      vim
+    ];
+
+    hostPackages = pkgs: with pkgs; [
+      zfs
+    ];
+
+    gnomePackages = pkgs: with pkgs; [
+      nautilus
+      gnome-console
+    ];
+
+    extraPackages = pkgs: with pkgs; [
+      vscodium
+    ];
+
+    toolPackages = pkgs: with pkgs; [
+      pciutils
+      usbutils
+      dmidecode
+      smartmontools
+      nvme-cli
+      ethtool
+      lm_sensors
+      hdparm
+      ipmitool
+      efibootmgr
+    ];
+
+    vmHostPackages = pkgs: with pkgs; [
+      qemu_kvm
+      libvirt
+      virt-manager
+      passt
+      virtiofsd
+    ];
+
+    commonModule = { pkgs, ... }: {
+      time.timeZone = "Europe/Belgrade";
+      i18n.defaultLocale = "en_US.UTF-8";
+
+      nixpkgs.config.allowUnfree = true;
+      nix.settings.experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+
+      networking.firewall.enable = true;
+
+      services.openssh = {
+        enable = true;
+        generateHostKeys = true;
+        settings = {
+          PasswordAuthentication = false;
+          KbdInteractiveAuthentication = false;
+          X11Forwarding = false;
+        };
+      };
+
+      users.mutableUsers = false;
+      system.stateVersion = "26.05";
+
+      environment.systemPackages = commonPackages pkgs;
+    };
+
     stateless = lib.nixosSystem {
       inherit system;
 
       modules = [
+        commonModule
         ({ config, lib, pkgs, modulesPath, ... }: {
-          time.timeZone = "Europe/Belgrade";
-          i18n.defaultLocale = "en_US.UTF-8";
+          # Four concurrent builds, each sized for one quarter of the
+          # EPYC 7702P's 128 logical CPUs.
+          nix.settings.max-jobs = 4;
+          nix.settings.cores = 32;
 
-          nixpkgs.config.allowUnfree = true;
-
-          nix.settings = {
-            experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-
-            # Four concurrent builds, each sized for one quarter of the EPYC 7702P's 128 logical CPUs.
-            max-jobs = 4;
-            cores = 32;
+          services.openssh.settings = {
+            PermitRootLogin = "prohibit-password";
+            AllowUsers = [ "root" "box" ];
           };
 
-          networking.firewall.enable = true;
-
-          services.openssh = {
-            enable = true;
-            generateHostKeys = true;
-
-            settings = {
-              PasswordAuthentication = false;
-              KbdInteractiveAuthentication = false;
-              PermitRootLogin = "prohibit-password";
-              X11Forwarding = false;
-              AllowUsers = [ "root" "box" ];
-            };
-          };
-
-          users.mutableUsers = false;
           users.users = {
             root = {
               hashedPassword = mainPassword;
@@ -71,8 +122,6 @@
               openssh.authorizedKeys.keys = [ sshKey ];
             };
           };
-
-          system.stateVersion = "26.05";
 
           imports = [
             (modulesPath + "/installer/netboot/netboot.nix")
@@ -194,6 +243,7 @@
               settings = {
                 "org/gnome/desktop/interface".scaling-factor = lib.gvariant.mkUint32 2;
                 "org/gnome/desktop/session".idle-delay = lib.gvariant.mkUint32 0;
+                "org/gnome/settings-daemon/plugins/housekeeping".donation-reminder-enabled = false;
                 "org/gnome/settings-daemon/plugins/power" = {
                   sleep-inactive-ac-type = "nothing";
                   sleep-inactive-battery-type = "nothing";
@@ -219,44 +269,16 @@
           };
 
           environment.systemPackages =
-            (with pkgs; [
-              vim
-              curl
-              htop
-              tmux
-              zfs
-            ])
-            ++ lib.optionals enableGnome (with pkgs; [
-              nautilus
-              gnome-console
-            ])
-            ++ lib.optionals (enableGnome && enableExtras) (with pkgs; [
-              vscodium
-            ])
-            ++ lib.optionals enableTools (with pkgs; [
-              pciutils
-              usbutils
-              dmidecode
-              smartmontools
-              nvme-cli
-              ethtool
-              lm_sensors
-              hdparm
-              ipmitool
-              efibootmgr
-            ])
-            ++ lib.optionals enableVMs (with pkgs; [
-              qemu_kvm
-              libvirt
-              virt-manager
-              passt
-              virtiofsd
-            ]);
+            hostPackages pkgs
+            ++ lib.optionals enableGnome (gnomePackages pkgs)
+            ++ lib.optionals (enableGnome && enableExtras) (extraPackages pkgs)
+            ++ lib.optionals enableTools (toolPackages pkgs)
+            ++ lib.optionals enableVMs (vmHostPackages pkgs);
 
           environment.shellAliases = {
             mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
           } // lib.optionalAttrs enableVMs {
-            vmpersist = "mount --bind /sdd/vm/qemu /var/lib/libvirt/qemu && mount --bind /sdd/vm/images /var/lib/libvirt/images";
+            vmpersist = "mount --bind /ssd/vm/qemu /var/lib/libvirt/qemu && mount --bind /ssd/vm/images /var/lib/libvirt/images";
           };
 
           systemd.services.libvirtd.path = lib.optionals enableVMs [ pkgs.passt ];
@@ -268,14 +290,80 @@
         })
       ];
     };
+
+    vm = lib.nixosSystem {
+      inherit system;
+
+      modules = [
+        commonModule
+        "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+
+        ({ config, lib, modulesPath, pkgs, ... }: {
+          networking.hostName = "nixos-vm";
+          networking.useDHCP = lib.mkDefault true;
+
+          boot.loader.grub = {
+            enable = true;
+            devices = [ "/dev/vda" ];
+            efiSupport = true;
+            efiInstallAsRemovable = true;
+          };
+          boot.loader.efi.canTouchEfiVariables = false;
+          boot.loader.timeout = 1;
+
+          fileSystems."/" = {
+            device = "/dev/disk/by-label/nixos";
+            fsType = "ext4";
+            autoResize = true;
+          };
+          fileSystems."/boot" = {
+            device = "/dev/disk/by-label/ESP";
+            fsType = "vfat";
+            options = [ "umask=0077" ];
+          };
+
+          services.qemuGuest.enable = true;
+          services.spice-vdagentd.enable = true;
+
+          services.openssh = {
+            openFirewall = true;
+            settings = {
+              PermitRootLogin = "prohibit-password";
+              AllowUsers = [ "root" "nixos" ];
+            };
+          };
+
+          users.users.nixos = {
+            isNormalUser = true;
+            extraGroups = [ "wheel" ];
+            hashedPassword = "";
+            openssh.authorizedKeys.keys = [ sshKey ];
+          };
+
+          environment.etc."nixos/flake.nix".source = ./flake.nix;
+
+          system.build.qcow2 = builtins.import (modulesPath + "/../lib/make-disk-image.nix") {
+            inherit config lib pkgs;
+            name = "nixos-virt-manager-image";
+            baseName = "nixos-virt-manager";
+            format = "qcow2";
+            diskSize = 8192;
+            partitionTableType = "hybrid";
+            copyChannel = false;
+          };
+        })
+      ];
+    };
   in
   {
     nixosConfigurations = {
-      inherit stateless;
+      inherit stateless vm;
     };
 
     packages.${system} = {
       default = stateless.config.system.build.uki;
+      host = stateless.config.system.build.uki;
+      vm = vm.config.system.build.qcow2;
     };
   };
 }
