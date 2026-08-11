@@ -1,13 +1,10 @@
 # tigor
 Personal public monorepo
 
-public password hash = tradeoff between usability and security (underlying is high entropy pwd)
-
 # etc
 
 Minimax h3
 
-NVIDIA GeForce GT 710
 mkpasswd -m yescrypt -R 11
 
 mkdir /root/mnt

@@ -6,6 +6,7 @@
 
   outputs = { nixpkgs, ... }:
   let
+    # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
     mainPassword = "$6$JsF575e4YV0MxwGU$aDy3BMHg/5lvWZoMvsAV0TL/BIcXMu3ps1DnOf3.o.hQ3IqT/sfCwKJHdMaaRy2exNAEUFxpxPbO966DE5cm./";
 
@@ -88,7 +89,7 @@
             "vfio_pci"
             "vfio"
             "vfio_iommu_type1"
-            # The GT 710 is Kepler and must use Nouveau with GNOME 50.
+            # The NVIDIA GeForce GT 710 is Kepler and must use Nouveau with GNOME 50.
             # Load VFIO first so only the explicitly listed RTX PRO IDs are claimed.
             "nouveau"
           ];
