@@ -278,10 +278,13 @@
           environment.shellAliases = {
             mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
           } // lib.optionalAttrs enableVMs {
-            vmpersist = "mount --bind /ssd/vm/qemu /var/lib/libvirt/qemu && mount --bind /ssd/vm/images /var/lib/libvirt/images";
+            vmpersist = "systemctl stop libvirtd.service && mount --bind /ssd/vm/qemu /var/lib/libvirt/qemu && mount --bind /ssd/vm/images /var/lib/libvirt/images && systemctl start libvirtd.service";
           };
 
-          systemd.services.libvirtd.path = lib.optionals enableVMs [ pkgs.passt ];
+          systemd.services.libvirtd = lib.mkIf enableVMs {
+            wantedBy = [ "multi-user.target" ];
+            path = [ pkgs.passt ];
+          };
 
           systemd.targets.sleep.enable = false;
           systemd.targets.suspend.enable = false;
