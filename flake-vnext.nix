@@ -13,6 +13,11 @@
     lib = nixpkgs.lib;
     system = "x86_64-linux";
 
+    enableGnome = true;
+    enableExtras = true; # Firefox and VSCodium
+    enableTools = true;  # Hardware inspection and maintenance
+    enableVMs = true;    # QEMU, libvirt, virt-manager and passthrough
+
     stateless = lib.nixosSystem {
       inherit system;
 
@@ -29,8 +34,7 @@
               "flakes"
             ];
 
-            # Four concurrent builds, each sized for one quarter of the
-            # EPYC 7702P's 128 logical CPUs.
+            # Four concurrent builds, each sized for one quarter of the EPYC 7702P's 128 logical CPUs.
             max-jobs = 4;
             cores = 32;
           };
@@ -60,13 +64,10 @@
             box = {
               isNormalUser = true;
               hashedPassword = mainPassword;
-              extraGroups = [
-                "wheel"
-                "kvm"
-                "libvirtd"
-                "video"
-                "render"
-              ];
+              extraGroups =
+                [ "wheel" ]
+                ++ lib.optionals enableVMs [ "kvm" "libvirtd" ]
+                ++ lib.optionals enableGnome [ "video" "render" ];
               openssh.authorizedKeys.keys = [ sshKey ];
             };
           };
@@ -85,24 +86,30 @@
 
           boot.supportedFilesystems = [ "zfs" ];
 
-          boot.initrd.kernelModules = [
-            "vfio_pci"
-            "vfio"
-            "vfio_iommu_type1"
-            # The NVIDIA GeForce GT 710 is Kepler and must use Nouveau with GNOME 50.
-            # Load VFIO first so only the explicitly listed RTX PRO IDs are claimed.
-            "nouveau"
-          ];
-          boot.kernelModules = [ "kvm-amd" ];
-          boot.kernelParams = [
-            "nohibernate"
-            "amd_iommu=on"
-            "iommu=pt"
-            "iommu.strict=1"
-            # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio; the GT 710 stays on Nouveau.
-            "vfio-pci.ids=10de:2bb1,10de:22e8"
-            "modprobe.blacklist=ast"
-          ];
+          boot.initrd.kernelModules =
+            lib.optionals enableVMs [
+              "vfio_pci"
+              "vfio"
+              "vfio_iommu_type1"
+            ]
+            ++ lib.optionals enableGnome [
+              # The NVIDIA GeForce GT 710 is Kepler and must use Nouveau.
+              # VFIO modules precede it so the RTX PRO IDs are claimed first.
+              "nouveau"
+            ];
+          boot.kernelModules = lib.optionals enableVMs [ "kvm-amd" ];
+          boot.kernelParams =
+            [
+              "nohibernate"
+              "modprobe.blacklist=ast"
+            ]
+            ++ lib.optionals enableVMs [
+              "amd_iommu=on"
+              "iommu=pt"
+              "iommu.strict=1"
+              # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
+              "vfio-pci.ids=10de:2bb1,10de:22e8"
+            ];
           boot.blacklistedKernelModules = [ "ast" ];
 
           boot.uki.name = "BOOTX64";
@@ -111,30 +118,25 @@
 
           boot.zfs.forceImportRoot = false;
 
-          hardware.graphics.enable = true;
+          hardware.graphics.enable = enableGnome;
 
-          services.xserver = {
+          services.xserver = lib.mkIf enableGnome {
             enable = true;
             videoDrivers = [ "nouveau" ];
           };
-          services.displayManager.gdm = {
-            enable = true;
-          };
-          services.desktopManager.gnome.enable = true;
+          services.displayManager.gdm.enable = enableGnome;
+          services.desktopManager.gnome.enable = enableGnome;
 
-          # Keep the shell and settings panel, but not GNOME's application bundle.
-          services.gnome.core-apps.enable = false;
-          environment.gnome.excludePackages = with pkgs; [
-            gnome-backgrounds
-            gnome-bluetooth
-            gnome-color-manager
-            gnome-tour
-            gnome-user-docs
-            gnome-menus
-            orca
-          ];
+          environment.gnome.excludePackages = lib.optionals enableGnome (with pkgs; [
+              gnome-backgrounds
+              gnome-bluetooth
+              gnome-color-manager
+              gnome-tour
+              gnome-user-docs
+              gnome-menus
+              orca
+            ]);
 
-          # Disable nonessential GNOME services for this local admin desktop.
           hardware.bluetooth.enable = false;
           services.hardware.bolt.enable = false;
           i18n.inputMethod.enable = false;
@@ -145,7 +147,8 @@
           services.power-profiles-daemon.enable = false;
           services.orca.enable = false;
           services.upower.enable = lib.mkForce false;
-          services.gnome = {
+          services.gnome = lib.mkIf enableGnome {
+            core-apps.enable = false;
             evolution-data-server.enable = lib.mkForce false;
             gcr-ssh-agent.enable = false;
             gnome-browser-connector.enable = false;
@@ -160,20 +163,23 @@
           };
 
           services.pipewire = {
-            enable = true;
-            alsa.enable = true;
-            pulse.enable = true;
+            enable = enableGnome;
+            alsa.enable = enableGnome;
+            pulse.enable = enableGnome;
           };
 
-          programs.gnome-disks.enable = true;
-          programs.virt-manager.enable = true;
-          programs.firefox.enable = true;
+          programs.gnome-disks.enable = enableGnome;
+          programs.virt-manager.enable = enableVMs;
+          programs.firefox.enable = enableGnome && enableExtras;
 
-          # Run Electron applications such as VSCodium natively on Wayland.
-          environment.sessionVariables.NIXOS_OZONE_WL = "1";
+          environment.sessionVariables = lib.optionalAttrs (enableGnome && enableExtras) {
+            NIXOS_OZONE_WL = "1";
+          };
 
-          xdg.mime.defaultApplications."inode/directory" = [ "org.gnome.Nautilus.desktop" ];
-          programs.dconf.profiles = {
+          xdg.mime.defaultApplications = lib.optionalAttrs enableGnome {
+            "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+          };
+          programs.dconf.profiles = lib.mkIf enableGnome {
             gdm.databases = [{
               settings = {
                 "org/gnome/desktop/interface".scaling-factor = lib.gvariant.mkUint32 2;
@@ -196,13 +202,12 @@
                   "org.gnome.Nautilus.desktop"
                   "org.gnome.Console.desktop"
                   "org.gnome.DiskUtility.desktop"
-                  "virt-manager.desktop"
-                ];
+                ] ++ lib.optionals enableVMs [ "virt-manager.desktop" ];
               };
             }];
           };
 
-          virtualisation.libvirtd = {
+          virtualisation.libvirtd = lib.mkIf enableVMs {
             enable = true;
             onBoot = "ignore";
             onShutdown = "shutdown";
@@ -213,38 +218,48 @@
             };
           };
 
-          environment.systemPackages = with pkgs; [
-            qemu_kvm
-            libvirt
-            virt-manager
-            passt
-            virtiofsd
-            vscodium
+          environment.systemPackages =
+            (with pkgs; [
+              vim
+              curl
+              htop
+              tmux
+              zfs
+            ])
+            ++ lib.optionals enableGnome (with pkgs; [
+              nautilus
+              gnome-console
+            ])
+            ++ lib.optionals (enableGnome && enableExtras) (with pkgs; [
+              vscodium
+            ])
+            ++ lib.optionals enableTools (with pkgs; [
+              pciutils
+              usbutils
+              dmidecode
+              smartmontools
+              nvme-cli
+              ethtool
+              lm_sensors
+              hdparm
+              ipmitool
+              efibootmgr
+            ])
+            ++ lib.optionals enableVMs (with pkgs; [
+              qemu_kvm
+              libvirt
+              virt-manager
+              passt
+              virtiofsd
+            ]);
 
-            # Small hardware inspection and maintenance tools.
-            pciutils
-            usbutils
-            dmidecode
-            smartmontools
-            nvme-cli
-            ethtool
-            lm_sensors
-            hdparm
-            ipmitool
-            efibootmgr
+          environment.shellAliases = {
+            mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
+          } // lib.optionalAttrs enableVMs {
+            vmpersist = "mount --bind /sdd/vm/qemu /var/lib/libvirt/qemu && mount --bind /sdd/vm/images /var/lib/libvirt/images";
+          };
 
-            vim
-            curl
-            htop
-            tmux
-            zfs
-            nautilus
-            gnome-console
-          ];
-
-          environment.shellAliases = { mnt = "zpool import -a && zfs load-key -a && zfs mount -a"; };
-
-          systemd.services.libvirtd.path = [ pkgs.passt ];
+          systemd.services.libvirtd.path = lib.optionals enableVMs [ pkgs.passt ];
 
           systemd.targets.sleep.enable = false;
           systemd.targets.suspend.enable = false;
