@@ -55,6 +55,7 @@
       efibootmgr
     ];
 
+    # Clearly define packages needed even if it is duplication with other parts of config
     vmHostPackages = pkgs: with pkgs; [
       qemu_kvm
       libvirt
@@ -79,8 +80,10 @@
         enable = true;
         generateHostKeys = true;
         settings = {
+          AuthenticationMethods = "publickey";
           PasswordAuthentication = false;
           KbdInteractiveAuthentication = false;
+          PermitEmptyPasswords = false;
           X11Forwarding = false;
         };
       };
@@ -129,7 +132,7 @@
             (modulesPath + "/profiles/minimal.nix")
           ];
 
-          networking.hostName = "stateless";
+          networking.hostName = "stateless-r1";
           networking.hostId = "06e694f9";
           networking.nftables.enable = true;
           networking.networkmanager.enable = false;
@@ -269,6 +272,21 @@
             };
           };
 
+          # Make libvirt 12.x's secret bootstrap self-contained on this stateless host.
+          systemd.services.virt-secret-init-encryption = lib.mkIf enableVMs {
+            serviceConfig = {
+              StateDirectory = "libvirt/secrets";
+              StateDirectoryMode = "0700";
+              ExecStart = lib.mkForce (pkgs.writeShellScript "virt-secret-init-encryption" ''
+                umask 0077
+                ${pkgs.coreutils}/bin/dd if=/dev/random status=none bs=32 count=1 | \
+                  ${pkgs.systemd}/bin/systemd-creds encrypt --with-key=tpm2-absent \
+                    --name=secrets-encryption-key \
+                    - /var/lib/libvirt/secrets/secrets-encryption-key
+              '');
+            };
+          };
+
           environment.systemPackages =
             hostPackages pkgs
             ++ lib.optionals enableGnome (gnomePackages pkgs)
@@ -330,12 +348,20 @@
             };
           };
 
-          users.users.nixos = {
-            isNormalUser = true;
-            extraGroups = [ "wheel" ];
-            hashedPassword = "";
-            openssh.authorizedKeys.keys = [ sshKey ];
+          users.users = {
+            root = {
+              hashedPassword = "";
+              openssh.authorizedKeys.keys = [ sshKey ];
+            };
+
+            nixos = {
+              isNormalUser = true;
+              extraGroups = [ "wheel" ];
+              hashedPassword = "";
+              openssh.authorizedKeys.keys = [ sshKey ];
+            };
           };
+          security.sudo.wheelNeedsPassword = false;
 
           environment.etc."nixos/flake.nix".source = ./flake.nix;
 
