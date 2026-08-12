@@ -26,6 +26,7 @@
       htop
       tmux
       vim
+      tree
     ];
 
     hostPackages = pkgs: with pkgs; [

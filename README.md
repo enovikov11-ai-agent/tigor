@@ -13,6 +13,9 @@ ssh root@192.168.1.28
 mkdir /root/mnt
 mount /dev/sde1 /root/mnt
 cd /root/mnt/EFI/BOOT/
-mv BOOTX64.efi 2026-08-11_stateless-2_BOOTX64.efi
+mv BOOTX64.efi 2026-08-11_stateless-3_BOOTX64.efi
 cp /root/result/BOOTX64.efi /root/mnt/EFI/BOOT/
+sync
+cd ~
 umount /root/mnt
+reboot now
