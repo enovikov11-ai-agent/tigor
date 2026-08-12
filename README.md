@@ -26,3 +26,5 @@ Slow start
 Mouse
 Console - VM
 do nvidia can be present even without gui?
+net egress
+fast start
