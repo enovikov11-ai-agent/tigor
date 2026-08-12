@@ -132,7 +132,7 @@
             (modulesPath + "/profiles/minimal.nix")
           ];
 
-          networking.hostName = "stateless-r1";
+          networking.hostName = "stateless-r2";
           networking.hostId = "06e694f9";
           networking.nftables.enable = true;
           networking.networkmanager.enable = false;
@@ -277,13 +277,18 @@
             serviceConfig = {
               StateDirectory = "libvirt/secrets";
               StateDirectoryMode = "0700";
-              ExecStart = lib.mkForce (pkgs.writeShellScript "virt-secret-init-encryption" ''
-                umask 0077
-                ${pkgs.coreutils}/bin/dd if=/dev/random status=none bs=32 count=1 | \
-                  ${pkgs.systemd}/bin/systemd-creds encrypt --with-key=tpm2-absent \
-                    --name=secrets-encryption-key \
-                    - /var/lib/libvirt/secrets/secrets-encryption-key
-              '');
+              # The empty entry clears libvirt's package-provided ExecStart.
+              ExecStart = lib.mkForce [
+                ""
+                (pkgs.writeShellScript "virt-secret-init-encryption" ''
+                  umask 0077
+                  ${pkgs.coreutils}/bin/chmod 0700 /var/lib/libvirt/secrets
+                  ${pkgs.coreutils}/bin/dd if=/dev/random status=none bs=32 count=1 | \
+                    ${pkgs.systemd}/bin/systemd-creds encrypt --with-key=tpm2-absent \
+                      --name=secrets-encryption-key \
+                      - /var/lib/libvirt/secrets/secrets-encryption-key
+                '')
+              ];
             };
           };
 
