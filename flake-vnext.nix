@@ -8,23 +8,14 @@
 
   outputs = { self, nixpkgs, ... }:
   let
+    revision = 4;
+
     # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
     mainPassword = "$6$JsF575e4YV0MxwGU$aDy3BMHg/5lvWZoMvsAV0TL/BIcXMu3ps1DnOf3.o.hQ3IqT/sfCwKJHdMaaRy2exNAEUFxpxPbO966DE5cm./";
 
     lib = nixpkgs.lib;
     system = "x86_64-linux";
-
-    toolPackages = pkgs: with pkgs; [
-      pciutils
-      usbutils
-      dmidecode
-      smartmontools
-      nvme-cli
-      ethtool
-      lm_sensors
-      hdparm
-    ];
 
     gnomeModule = { scalingFactor, extras, includeVMManager ? false }:
       { lib, pkgs, ... }: {
@@ -147,50 +138,58 @@
       ];
     };
 
-    commonModule = { pkgs, ... }: {
-      time.timeZone = "Europe/Belgrade";
-      i18n.defaultLocale = "en_US.UTF-8";
+    commonModule = { tools }:
+      { lib, pkgs, ... }: {
+        time.timeZone = "Europe/Belgrade";
+        i18n.defaultLocale = "en_US.UTF-8";
 
-      nixpkgs.config.allowUnfree = true;
-      nix.settings.experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+        nixpkgs.config.allowUnfree = true;
+        nix.settings.experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
 
-      networking.firewall.enable = true;
+        networking.firewall.enable = true;
 
-      services.openssh = {
-        enable = true;
-        generateHostKeys = true;
-        settings = {
-          AuthenticationMethods = "publickey";
-          PasswordAuthentication = false;
-          KbdInteractiveAuthentication = false;
-          PermitEmptyPasswords = false;
-          X11Forwarding = false;
+        services.openssh = {
+          enable = true;
+          generateHostKeys = true;
+          settings = {
+            AuthenticationMethods = "publickey";
+            PasswordAuthentication = false;
+            KbdInteractiveAuthentication = false;
+            PermitEmptyPasswords = false;
+            X11Forwarding = false;
+          };
         };
+
+        users.mutableUsers = false;
+        system.stateVersion = "26.05";
+
+        environment.systemPackages =
+          (with pkgs; [
+            curl
+            git
+            htop
+            tmux
+            vim
+            tree
+            wireguard-tools
+          ])
+          ++ lib.optionals tools (with pkgs; [
+            pciutils
+            usbutils
+            dmidecode
+            ethtool
+          ]);
       };
-
-      users.mutableUsers = false;
-      system.stateVersion = "26.05";
-
-      environment.systemPackages = with pkgs; [
-        curl
-        git
-        htop
-        tmux
-        vim
-        tree
-        wireguard-tools
-      ];
-    };
 
     stateless = { gnome, extras, tools, virtualization, scalingFactor }:
       lib.nixosSystem {
         inherit system;
 
         modules =
-          [ commonModule ]
+          [ (commonModule { inherit tools; }) ]
           ++ lib.optional gnome (gnomeModule {
             inherit extras scalingFactor;
             includeVMManager = virtualization;
@@ -229,7 +228,7 @@
             (modulesPath + "/profiles/minimal.nix")
           ];
 
-          networking.hostName = "stateless-r3";
+          networking.hostName = "stateless-r${toString revision}";
           networking.hostId = "06e694f9";
           networking.nftables.enable = true;
           networking.networkmanager.enable = false;
@@ -305,12 +304,14 @@
 
           environment.systemPackages =
             (with pkgs; [ zfs ])
-            ++ lib.optionals tools (
-              toolPackages pkgs ++ (with pkgs; [
-                ipmitool
-                efibootmgr
-              ])
-            )
+            ++ lib.optionals tools (with pkgs; [
+              smartmontools
+              nvme-cli
+              lm_sensors
+              hdparm
+              ipmitool
+              efibootmgr
+            ])
             # Clearly define packages needed even if it is duplication with other parts of config.
             ++ lib.optionals virtualization (with pkgs; [
               qemu_kvm
@@ -340,20 +341,20 @@
           else 8192;
         imageTags =
           lib.optionals gnome [ "gui" ]
-          ++ lib.optionals (gnome && scalingFactor != 1) [ "scl" ]
           ++ lib.optionals containers [ "pod" ]
           ++ lib.optionals nvidia [ "nv" ];
         imageBaseName =
           "vm"
           + lib.optionalString (imageTags != [ ])
-            "-${lib.concatStringsSep "-" imageTags}";
+            "-${lib.concatStringsSep "-" imageTags}"
+          + "-r${toString revision}";
       in
       lib.nixosSystem {
         inherit system;
 
         modules =
           [
-            commonModule
+            (commonModule { inherit tools; })
             "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
           ]
           ++ lib.optional gnome (gnomeModule {
@@ -364,7 +365,7 @@
           ++ [
 
           ({ config, lib, modulesPath, pkgs, ... }: {
-          networking.hostName = "vm-r3";
+          networking.hostName = imageBaseName;
           networking.useDHCP = false;
           networking.useNetworkd = true;
           systemd.network = {
@@ -430,13 +431,11 @@
           };
           security.sudo.wheelNeedsPassword = false;
 
-          environment.systemPackages = lib.optionals tools (toolPackages pkgs);
-
           environment.etc."nixos/flake.nix".source = ./flake.nix;
 
           system.build.qcow2 = builtins.import (modulesPath + "/../lib/make-disk-image.nix") {
             inherit config lib pkgs;
-            name = "${imageBaseName}-image";
+            name = imageBaseName;
             baseName = imageBaseName;
             format = "qcow2";
             inherit diskSize;
