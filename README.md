@@ -18,13 +18,25 @@ cd ~
 umount /root/mnt
 reboot now
 
---
+Mouse passthrough
+Net egress
 
-add passwordless sudo
-pack flake nix into EFI as well
-Slow start
-Mouse
-Console - VM
-do nvidia can be present even without gui?
-net egress
-fast start
+wg
+Table = off
+
+<interface type='user'>
+  <model type='virtio'/>
+  <backend type='passt'/>
+  <source dev='wg0'/>
+</interface>
+
+You specifically want to see something equivalent to:
+
+--outbound-if4 wg0
+--outbound-if6 wg0
+
+If you see merely:
+
+-i wg0
+
+I would not call that a reliable killswitch.

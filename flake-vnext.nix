@@ -115,14 +115,42 @@
       };
 
     guestNvidiaModule = { gnome }:
-      { ... }: {
+      { config, lib, pkgs, ... }:
+      let
+        nvidiaSmi = lib.getExe' config.hardware.nvidia.package "nvidia-smi";
+      in
+      {
         hardware.graphics.enable = true;
         services.xserver.videoDrivers = [ "nvidia" ];
         hardware.nvidia = {
           branch = "production";
-          modesetting.enable = true;
+          modesetting.enable = gnome;
           open = true;
           nvidiaSettings = gnome;
+          nvidiaPersistenced = true;
+        };
+
+        # ECC is persistent but takes effect after the next reboot. RTX models
+        # without configurable ECC report N/A; that is not a boot failure.
+        systemd.services.nvidia-ecc = {
+          description = "Enable NVIDIA GPU ECC when supported";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "nvidia-persistenced.service" ];
+          wants = [ "nvidia-persistenced.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+            ExecStart = pkgs.writeShellScript "enable-nvidia-ecc" ''
+              current="$(${nvidiaSmi} --query-gpu=ecc.mode.current --format=csv,noheader 2>&1)" || {
+                echo "NVIDIA ECC status unavailable: $current"
+                exit 0
+              }
+              if ${pkgs.gnugrep}/bin/grep -qv '^Enabled$' <<< "$current"; then
+                ${nvidiaSmi} --ecc-config=1 || \
+                  echo "NVIDIA ECC is not configurable on this GPU in its current mode"
+              fi
+            '';
+          };
         };
       };
 
@@ -143,7 +171,8 @@
         time.timeZone = "Europe/Belgrade";
         i18n.defaultLocale = "en_US.UTF-8";
 
-        nixpkgs.config.allowUnfree = true;
+        nixpkgs.config.allowUnfreePredicate = pkg:
+          lib.getName pkg == "nvidia-x11";
         nix.settings.experimental-features = [
           "nix-command"
           "flakes"
@@ -164,7 +193,10 @@
         };
 
         users.mutableUsers = false;
+        security.sudo.wheelNeedsPassword = false;
         system.stateVersion = "26.05";
+
+        environment.etc."nixos/flake.nix".source = ./flake.nix;
 
         environment.systemPackages =
           (with pkgs; [
@@ -251,6 +283,9 @@
             [
               "nohibernate"
               "modprobe.blacklist=ast"
+              # QEMU opts its guest RAM into THP. Avoid synchronous compaction,
+              # which can make a very large VM appear to hang while starting.
+              "transparent_hugepage=madvise"
             ]
             ++ lib.optionals virtualization [
               "amd_iommu=on"
@@ -260,6 +295,10 @@
               "vfio-pci.ids=10de:2bb1,10de:22e8"
             ];
           boot.blacklistedKernelModules = [ "ast" ];
+
+          systemd.tmpfiles.rules = [
+            "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer"
+          ];
 
           boot.uki.name = "BOOTX64";
           boot.uki.version = null;
@@ -388,6 +427,14 @@
           boot.loader.efi.canTouchEfiVariables = false;
           boot.loader.timeout = 1;
 
+          # QEMU's virtio-console appears as hvc0. Keeping tty0 first leaves the
+          # graphical console usable when no virtio console device is attached.
+          boot.initrd.availableKernelModules = [ "virtio_console" ];
+          boot.kernelParams = [
+            "console=tty0"
+            "console=hvc0"
+          ];
+
           fileSystems."/" = {
             device = "/dev/disk/by-label/nixos";
             fsType = "ext4";
@@ -429,10 +476,6 @@
               openssh.authorizedKeys.keys = [ sshKey ];
             };
           };
-          security.sudo.wheelNeedsPassword = false;
-
-          environment.etc."nixos/flake.nix".source = ./flake.nix;
-
           system.build.qcow2 = builtins.import (modulesPath + "/../lib/make-disk-image.nix") {
             inherit config lib pkgs;
             name = imageBaseName;
