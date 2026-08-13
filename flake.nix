@@ -6,8 +6,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/fcb8fcd6bf2d0adecae5bd491afaaaf8311b758d";
   };
 
-  outputs = { nixpkgs, ... }:
+  outputs = { self, nixpkgs, ... }:
   let
+    revision = 4;
+
     # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
     mainPassword = "$6$JsF575e4YV0MxwGU$aDy3BMHg/5lvWZoMvsAV0TL/BIcXMu3ps1DnOf3.o.hQ3IqT/sfCwKJHdMaaRy2exNAEUFxpxPbO966DE5cm./";
@@ -15,85 +17,7 @@
     lib = nixpkgs.lib;
     system = "x86_64-linux";
 
-    enableGnome = true;
-    enableExtras = true; # Firefox and VSCodium
-    enableTools = true;  # Hardware inspection and maintenance
-    enableHostVirtualization = true; # QEMU, libvirt, virt-manager and passthrough
-    hostScalingFactor = 2;
-    enableGuestGui = true;
-    enableGuestScaling = true;
-    enableGuestNvidia = true; # Set true when passing the RTX PRO 6000 through
-    enableGuestContainers = true;
-    guestScalingFactor = 2;
-    guestDiskSize =
-      if enableGuestContainers then 32768
-      else if enableGuestGui || enableGuestNvidia then 16384
-      else 8192;
-    guestImageTags =
-      lib.optionals enableGuestGui [ "gui" ]
-      ++ lib.optionals (enableGuestGui && enableGuestScaling) [ "scl" ]
-      ++ lib.optionals enableGuestContainers [ "pod" ]
-      ++ lib.optionals enableGuestNvidia [ "nv" ];
-    guestImageBaseName =
-      "vm"
-      + lib.optionalString (guestImageTags != [ ])
-        "-${lib.concatStringsSep "-" guestImageTags}";
-
-    commonPackages = pkgs: with pkgs; [
-      curl
-      git
-      htop
-      tmux
-      vim
-      tree
-      wireguard-tools
-    ];
-
-    hostPackages = pkgs: with pkgs; [
-      zfs
-    ];
-
-    gnomePackages = pkgs: with pkgs; [
-      nautilus
-      gnome-console
-    ];
-
-    extraPackages = pkgs: with pkgs; [
-      vscodium
-    ];
-
-    toolPackages = pkgs: with pkgs; [
-      pciutils
-      usbutils
-      dmidecode
-      smartmontools
-      nvme-cli
-      ethtool
-      lm_sensors
-      hdparm
-    ];
-
-    hostOnlyToolPackages = pkgs: with pkgs; [
-      ipmitool
-      efibootmgr
-    ];
-
-    # Clearly define packages needed even if it is duplication with other parts of config
-    vmHostPackages = pkgs: with pkgs; [
-      qemu_kvm
-      libvirt
-      virt-manager
-      passt
-      virtiofsd
-    ];
-
-    guestContainerPackages = pkgs: with pkgs; [
-      podman
-      podman-compose
-      gvisor # Provides runsc.
-    ];
-
-    gnomeModule = { scalingFactor, includeVMManager ? false }:
+    gnomeModule = { scalingFactor, extras, includeVMManager ? false }:
       { lib, pkgs, ... }: {
         hardware.graphics.enable = true;
 
@@ -143,13 +67,16 @@
         };
 
         programs.gnome-disks.enable = true;
-        programs.firefox.enable = enableExtras;
+        programs.firefox.enable = extras;
 
         environment.systemPackages =
-          gnomePackages pkgs
-          ++ lib.optionals enableExtras (extraPackages pkgs);
+          (with pkgs; [
+            nautilus
+            gnome-console
+          ])
+          ++ lib.optionals extras (with pkgs; [ vscodium ]);
 
-        environment.sessionVariables = lib.optionalAttrs enableExtras {
+        environment.sessionVariables = lib.optionalAttrs extras {
           NIXOS_OZONE_WL = "1";
         };
 
@@ -187,66 +114,120 @@
         };
       };
 
-    guestNvidiaModule = { ... }: {
-      hardware.graphics.enable = true;
-      services.xserver.videoDrivers = [ "nvidia" ];
-      hardware.nvidia = {
-        branch = "production";
-        modesetting.enable = true;
-        open = true;
-        nvidiaSettings = enableGuestGui;
+    guestNvidiaModule = { gnome }:
+      { config, lib, pkgs, ... }:
+      let
+        nvidiaSmi = lib.getExe' config.hardware.nvidia.package "nvidia-smi";
+      in
+      {
+        hardware.graphics.enable = true;
+        services.xserver.videoDrivers = [ "nvidia" ];
+        hardware.nvidia = {
+          branch = "production";
+          modesetting.enable = gnome;
+          open = true;
+          nvidiaSettings = gnome;
+          nvidiaPersistenced = true;
+        };
+
+        # ECC is persistent but takes effect after the next reboot. RTX models
+        # without configurable ECC report N/A; that is not a boot failure.
+        systemd.services.nvidia-ecc = {
+          description = "Enable NVIDIA GPU ECC when supported";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "nvidia-persistenced.service" ];
+          wants = [ "nvidia-persistenced.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+            ExecStart = pkgs.writeShellScript "enable-nvidia-ecc" ''
+              current="$(${nvidiaSmi} --query-gpu=ecc.mode.current --format=csv,noheader 2>&1)" || {
+                echo "NVIDIA ECC status unavailable: $current"
+                exit 0
+              }
+              if ${pkgs.gnugrep}/bin/grep -qv '^Enabled$' <<< "$current"; then
+                ${nvidiaSmi} --ecc-config=1 || \
+                  echo "NVIDIA ECC is not configurable on this GPU in its current mode"
+              fi
+            '';
+          };
+        };
       };
-    };
 
     guestContainersModule = { pkgs, ... }: {
       virtualisation.podman = {
         enable = true;
         extraRuntimes = [ pkgs.gvisor ];
       };
-      environment.systemPackages = guestContainerPackages pkgs;
+      environment.systemPackages = with pkgs; [
+        podman
+        podman-compose
+        gvisor # Provides runsc.
+      ];
     };
 
-    commonModule = { pkgs, ... }: {
-      time.timeZone = "Europe/Belgrade";
-      i18n.defaultLocale = "en_US.UTF-8";
+    commonModule = { tools }:
+      { lib, pkgs, ... }: {
+        time.timeZone = "Europe/Belgrade";
+        i18n.defaultLocale = "en_US.UTF-8";
 
-      nixpkgs.config.allowUnfree = true;
-      nix.settings.experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+        nixpkgs.config.allowUnfreePredicate = pkg:
+          lib.hasPrefix "nvidia-" (lib.getName pkg);
+        nix.settings.experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
 
-      networking.firewall.enable = true;
+        networking.firewall.enable = true;
 
-      services.openssh = {
-        enable = true;
-        generateHostKeys = true;
-        settings = {
-          AuthenticationMethods = "publickey";
-          PasswordAuthentication = false;
-          KbdInteractiveAuthentication = false;
-          PermitEmptyPasswords = false;
-          X11Forwarding = false;
+        services.openssh = {
+          enable = true;
+          generateHostKeys = true;
+          settings = {
+            AuthenticationMethods = "publickey";
+            PasswordAuthentication = false;
+            KbdInteractiveAuthentication = false;
+            PermitEmptyPasswords = false;
+            X11Forwarding = false;
+          };
         };
+
+        users.mutableUsers = false;
+        security.sudo.wheelNeedsPassword = false;
+        system.stateVersion = "26.05";
+
+        environment.etc."nixos/flake.nix".source = ./flake.nix;
+
+        environment.systemPackages =
+          (with pkgs; [
+            curl
+            git
+            htop
+            tmux
+            vim
+            tree
+            wireguard-tools
+          ])
+          ++ lib.optionals tools (with pkgs; [
+            pciutils
+            usbutils
+            dmidecode
+            ethtool
+          ]);
       };
 
-      users.mutableUsers = false;
-      system.stateVersion = "26.05";
+    stateless = { gnome, extras, tools, virtualization, scalingFactor }:
+      lib.nixosSystem {
+        inherit system;
 
-      environment.systemPackages = commonPackages pkgs;
-    };
-
-    stateless = lib.nixosSystem {
-      inherit system;
-
-      modules =
-        [ commonModule ]
-        ++ lib.optional enableGnome (gnomeModule {
-          scalingFactor = hostScalingFactor;
-          includeVMManager = enableHostVirtualization;
-        })
-        ++ [
-        ({ config, lib, pkgs, modulesPath, ... }: {
+        modules =
+          [ (commonModule { inherit tools; }) ]
+          ++ lib.optional gnome (gnomeModule {
+            inherit extras scalingFactor;
+            includeVMManager = virtualization;
+          })
+          ++ [
+          ({ config, lib, pkgs, modulesPath, ... }: {
           # Four concurrent builds, each sized for one quarter of the
           # EPYC 7702P's 128 logical CPUs.
           nix.settings.max-jobs = 4;
@@ -268,8 +249,8 @@
               hashedPassword = mainPassword;
               extraGroups =
                 [ "wheel" ]
-                ++ lib.optionals enableHostVirtualization [ "kvm" "libvirtd" ]
-                ++ lib.optionals enableGnome [ "video" "render" ];
+                ++ lib.optionals virtualization [ "kvm" "libvirtd" ]
+                ++ lib.optionals gnome [ "video" "render" ];
               openssh.authorizedKeys.keys = [ sshKey ];
             };
           };
@@ -279,7 +260,7 @@
             (modulesPath + "/profiles/minimal.nix")
           ];
 
-          networking.hostName = "stateless-r3";
+          networking.hostName = "stateless-r${toString revision}";
           networking.hostId = "06e694f9";
           networking.nftables.enable = true;
           networking.networkmanager.enable = false;
@@ -287,23 +268,26 @@
           boot.supportedFilesystems = [ "zfs" ];
 
           boot.initrd.kernelModules =
-            lib.optionals enableHostVirtualization [
+            lib.optionals virtualization [
               "vfio_pci"
               "vfio"
               "vfio_iommu_type1"
             ]
-            ++ lib.optionals enableGnome [
+            ++ lib.optionals gnome [
               # The NVIDIA GeForce GT 710 is Kepler and must use Nouveau.
               # VFIO modules precede it so the RTX PRO IDs are claimed first.
               "nouveau"
             ];
-          boot.kernelModules = lib.optionals enableHostVirtualization [ "kvm-amd" ];
+          boot.kernelModules = lib.optionals virtualization [ "kvm-amd" ];
           boot.kernelParams =
             [
               "nohibernate"
               "modprobe.blacklist=ast"
+              # QEMU opts its guest RAM into THP. Avoid synchronous compaction,
+              # which can make a very large VM appear to hang while starting.
+              "transparent_hugepage=madvise"
             ]
-            ++ lib.optionals enableHostVirtualization [
+            ++ lib.optionals virtualization [
               "amd_iommu=on"
               "iommu=pt"
               "iommu.strict=1"
@@ -312,17 +296,21 @@
             ];
           boot.blacklistedKernelModules = [ "ast" ];
 
+          systemd.tmpfiles.rules = [
+            "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer"
+          ];
+
           boot.uki.name = "BOOTX64";
           boot.uki.version = null;
           boot.uki.settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
 
           boot.zfs.forceImportRoot = false;
 
-          services.xserver.videoDrivers = lib.mkIf enableGnome [ "nouveau" ];
+          services.xserver.videoDrivers = lib.mkIf gnome [ "nouveau" ];
 
-          programs.virt-manager.enable = enableHostVirtualization;
+          programs.virt-manager.enable = virtualization;
 
-          virtualisation.libvirtd = lib.mkIf enableHostVirtualization {
+          virtualisation.libvirtd = lib.mkIf virtualization {
             enable = true;
             onBoot = "ignore";
             onShutdown = "shutdown";
@@ -334,7 +322,7 @@
           };
 
           # Make libvirt 12.x's secret bootstrap self-contained on this stateless host.
-          systemd.services.virt-secret-init-encryption = lib.mkIf enableHostVirtualization {
+          systemd.services.virt-secret-init-encryption = lib.mkIf virtualization {
             serviceConfig = {
               StateDirectory = "libvirt/secrets";
               StateDirectoryMode = "0700";
@@ -354,11 +342,23 @@
           };
 
           environment.systemPackages =
-            hostPackages pkgs
-            ++ lib.optionals enableTools (
-              toolPackages pkgs ++ hostOnlyToolPackages pkgs
-            )
-            ++ lib.optionals enableHostVirtualization (vmHostPackages pkgs);
+            (with pkgs; [ zfs ])
+            ++ lib.optionals tools (with pkgs; [
+              smartmontools
+              nvme-cli
+              lm_sensors
+              hdparm
+              ipmitool
+              efibootmgr
+            ])
+            # Clearly define packages needed even if it is duplication with other parts of config.
+            ++ lib.optionals virtualization (with pkgs; [
+              qemu_kvm
+              libvirt
+              virt-manager
+              passt
+              virtiofsd
+            ]);
 
           environment.shellAliases = {
             mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
@@ -368,27 +368,43 @@
           systemd.targets.suspend.enable = false;
           systemd.targets.hibernate.enable = false;
           systemd.targets.hybrid-sleep.enable = false;
-        })
-      ];
-    };
+          })
+        ];
+      };
 
-    vm = lib.nixosSystem {
-      inherit system;
+    vm = { gnome, extras, tools, nvidia, containers, scalingFactor }:
+      let
+        diskSize =
+          if containers then 32768
+          else if gnome || nvidia then 16384
+          else 8192;
+        imageTags =
+          lib.optionals gnome [ "gui" ]
+          ++ lib.optionals containers [ "pod" ]
+          ++ lib.optionals nvidia [ "nv" ];
+        imageBaseName =
+          "vm"
+          + lib.optionalString (imageTags != [ ])
+            "-${lib.concatStringsSep "-" imageTags}"
+          + "-r${toString revision}";
+      in
+      lib.nixosSystem {
+        inherit system;
 
-      modules =
-        [
-          commonModule
-          "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
-        ]
-        ++ lib.optional enableGuestGui (gnomeModule {
-          scalingFactor = if enableGuestScaling then guestScalingFactor else 1;
-        })
-        ++ lib.optional enableGuestNvidia guestNvidiaModule
-        ++ lib.optional enableGuestContainers guestContainersModule
-        ++ [
+        modules =
+          [
+            (commonModule { inherit tools; })
+            "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+          ]
+          ++ lib.optional gnome (gnomeModule {
+            inherit extras scalingFactor;
+          })
+          ++ lib.optional nvidia (guestNvidiaModule { inherit gnome; })
+          ++ lib.optional containers guestContainersModule
+          ++ [
 
-        ({ config, lib, modulesPath, pkgs, ... }: {
-          networking.hostName = "vm-r3";
+          ({ config, lib, modulesPath, pkgs, ... }: {
+          networking.hostName = imageBaseName;
           networking.useDHCP = false;
           networking.useNetworkd = true;
           systemd.network = {
@@ -411,6 +427,14 @@
           boot.loader.efi.canTouchEfiVariables = false;
           boot.loader.timeout = 1;
 
+          # QEMU's virtio-console appears as hvc0. Keeping tty0 first leaves the
+          # graphical console usable when no virtio console device is attached.
+          boot.initrd.availableKernelModules = [ "virtio_console" ];
+          boot.kernelParams = [
+            "console=tty0"
+            "console=hvc0"
+          ];
+
           fileSystems."/" = {
             device = "/dev/disk/by-label/nixos";
             fsType = "ext4";
@@ -423,8 +447,8 @@
           };
 
           services.qemuGuest.enable = true;
-          services.spice-vdagentd.enable = enableGuestGui;
-          services.displayManager.autoLogin = lib.mkIf enableGuestGui {
+          services.spice-vdagentd.enable = gnome;
+          services.displayManager.autoLogin = lib.mkIf gnome {
             enable = true;
             user = "nixos";
           };
@@ -447,39 +471,47 @@
               isNormalUser = true;
               extraGroups =
                 [ "wheel" ]
-                ++ lib.optionals (enableGuestGui || enableGuestNvidia) [ "video" "render" ];
+                ++ lib.optionals (gnome || nvidia) [ "video" "render" ];
               hashedPassword = "";
               openssh.authorizedKeys.keys = [ sshKey ];
             };
           };
-          security.sudo.wheelNeedsPassword = false;
-
-          environment.systemPackages = lib.optionals enableTools (toolPackages pkgs);
-
-          environment.etc."nixos/flake.nix".source = ./flake.nix;
-
           system.build.qcow2 = builtins.import (modulesPath + "/../lib/make-disk-image.nix") {
             inherit config lib pkgs;
-            name = "${guestImageBaseName}-image";
-            baseName = guestImageBaseName;
+            name = imageBaseName;
+            baseName = imageBaseName;
             format = "qcow2";
-            diskSize = guestDiskSize;
+            inherit diskSize;
             partitionTableType = "hybrid";
             copyChannel = false;
           };
-        })
-      ];
-    };
+          })
+        ];
+      };
   in
   {
     nixosConfigurations = {
-      inherit stateless vm;
+      stateless = stateless {
+        gnome = true;
+        extras = true; # Firefox and VSCodium
+        tools = true; # Hardware inspection and maintenance
+        virtualization = true; # QEMU, libvirt, virt-manager and passthrough
+        scalingFactor = 2;
+      };
+      vm = vm {
+        gnome = true;
+        extras = true; # Firefox and VSCodium
+        tools = true; # Hardware inspection and maintenance
+        nvidia = true; # Set true when passing the RTX PRO 6000 through
+        containers = true;
+        scalingFactor = 2;
+      };
     };
 
     packages.${system} = {
-      default = stateless.config.system.build.uki;
-      host = stateless.config.system.build.uki;
-      vm = vm.config.system.build.qcow2;
+      default = self.nixosConfigurations.stateless.config.system.build.uki;
+      host = self.nixosConfigurations.stateless.config.system.build.uki;
+      vm = self.nixosConfigurations.vm.config.system.build.qcow2;
     };
   };
 }

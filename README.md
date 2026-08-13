@@ -18,25 +18,21 @@ cd ~
 umount /root/mnt
 reboot now
 
-Mouse passthrough
-Net egress
+cp /etc/nixos/flake.nix .
+nix build .#vm
 
-wg
+virsh define /ssd/vm/nixos.xml
+virsh dumpxml nixos
+virsh undefine nixos
+
+echo o > /proc/sysrq-trigger
+
 Table = off
+wg-quick up ./wg0.conf
 
-<interface type='user'>
-  <model type='virtio'/>
-  <backend type='passt'/>
-  <source dev='wg0'/>
-</interface>
-
-You specifically want to see something equivalent to:
-
---outbound-if4 wg0
---outbound-if6 wg0
-
-If you see merely:
-
--i wg0
-
-I would not call that a reliable killswitch.
+USB mouse passthrough to VM
+Add python3, node, rust, etc
+Killswitch for VM
+Check it is --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
+Harden with --no-map-gw --map-host-loopback none
+Passwordless sudo as a flag
