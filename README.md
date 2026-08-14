@@ -1,10 +1,17 @@
-# tigor monorepo
+# Tigor monorepo
 
-Minimax h3
-mkpasswd -m yescrypt -R 11
+## Ideas
+
+Run minimax h3
+
+## Home AI Box
+
+### Login
 
 ssh-keygen -R 192.168.1.28
 ssh root@192.168.1.28
+
+### Rebuild
 
 nix build
 mkdir /root/mnt
@@ -18,21 +25,35 @@ cd ~
 umount /root/mnt
 reboot now
 
-cp /etc/nixos/flake.nix .
-nix build .#vm
+/etc/nixos/flake.nix
+
+./vm.py --cpu 32 --ram 32 --gpu --ui --net wg0 --disk /ssd/vm/vm-pod-nv-r4.qcow2
+
+### VM
 
 virsh define /ssd/vm/nixos.xml
 virsh dumpxml nixos
 virsh undefine nixos
 
-echo o > /proc/sysrq-trigger
+### Wireguard
 
 Table = off
 wg-quick up ./wg0.conf
 
-USB mouse passthrough to VM
-Add python3, node, rust, etc
-Killswitch for VM
+### Ideas
+
+disable sudo flag
+
+produce wg0.conf pair
+
+Key management for SSH, VPN and ZFS
+
+add docker images to vm pkgs.dockerTools.pullImage
+
+Sysrq sillswitch for VM: echo o > /proc/sysrq-trigger
 Check it is --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
 Harden with --no-map-gw --map-host-loopback none
-Passwordless sudo as a flag
+Better hash algo: mkpasswd -m yescrypt -R 11
+USB mouse passthrough to VM
+
+Enable TSME

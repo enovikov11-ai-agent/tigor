@@ -8,7 +8,8 @@
 
   outputs = { self, nixpkgs, ... }:
   let
-    revision = 4;
+    # For release candidates use r5-rc1 format
+    revision = "r5";
 
     # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -60,29 +61,17 @@
           tinysparql.enable = false;
         };
 
-        services.pipewire = {
-          enable = true;
-          alsa.enable = true;
-          pulse.enable = true;
-        };
+        services.pipewire = { enable = true; alsa.enable = true; pulse.enable = true; };
 
         programs.gnome-disks.enable = true;
         programs.firefox.enable = extras;
 
-        environment.systemPackages =
-          (with pkgs; [
-            nautilus
-            gnome-console
-          ])
+        environment.systemPackages = (with pkgs; [ nautilus gnome-console ])
           ++ lib.optionals extras (with pkgs; [ vscodium ]);
 
-        environment.sessionVariables = lib.optionalAttrs extras {
-          NIXOS_OZONE_WL = "1";
-        };
+        environment.sessionVariables = lib.optionalAttrs extras { NIXOS_OZONE_WL = "1"; };
 
-        xdg.mime.defaultApplications = {
-          "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
-        };
+        xdg.mime.defaultApplications = { "inode/directory" = [ "org.gnome.Nautilus.desktop" ]; };
 
         programs.dconf.profiles = {
           gdm.databases = [{
@@ -130,8 +119,6 @@
           nvidiaPersistenced = true;
         };
 
-        # ECC is persistent but takes effect after the next reboot. RTX models
-        # without configurable ECC report N/A; that is not a boot failure.
         systemd.services.nvidia-ecc = {
           description = "Enable NVIDIA GPU ECC when supported";
           wantedBy = [ "multi-user.target" ];
@@ -155,15 +142,8 @@
       };
 
     guestContainersModule = { pkgs, ... }: {
-      virtualisation.podman = {
-        enable = true;
-        extraRuntimes = [ pkgs.gvisor ];
-      };
-      environment.systemPackages = with pkgs; [
-        podman
-        podman-compose
-        gvisor # Provides runsc.
-      ];
+      virtualisation.podman = { enable = true; extraRuntimes = [ pkgs.gvisor ]; };
+      environment.systemPackages = with pkgs; [ podman podman-compose gvisor ];
     };
 
     commonModule = { tools }:
@@ -171,12 +151,8 @@
         time.timeZone = "Europe/Belgrade";
         i18n.defaultLocale = "en_US.UTF-8";
 
-        nixpkgs.config.allowUnfreePredicate = pkg:
-          lib.hasPrefix "nvidia-" (lib.getName pkg);
-        nix.settings.experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
+        nixpkgs.config.allowUnfreePredicate = pkg: lib.hasPrefix "nvidia-" (lib.getName pkg);
+        nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
         networking.firewall.enable = true;
 
@@ -199,94 +175,52 @@
         environment.etc."nixos/flake.nix".source = ./flake.nix;
 
         environment.systemPackages =
-          (with pkgs; [
-            curl
-            git
-            htop
-            tmux
-            vim
-            tree
-            wireguard-tools
-          ])
-          ++ lib.optionals tools (with pkgs; [
-            pciutils
-            usbutils
-            dmidecode
-            ethtool
-          ]);
+          (with pkgs; [ curl git htop python3 tmux vim tree wireguard-tools jq ])
+          ++ lib.optionals tools (with pkgs; [ pciutils usbutils dmidecode ethtool ]);
       };
 
-    stateless = { gnome, extras, tools, virtualization, scalingFactor }:
+    stateless = { gnome, extras, tools, virtualization, scalingFactor ? 1 }:
       lib.nixosSystem {
         inherit system;
 
         modules =
           [ (commonModule { inherit tools; }) ]
-          ++ lib.optional gnome (gnomeModule {
-            inherit extras scalingFactor;
-            includeVMManager = virtualization;
-          })
+          ++ lib.optional gnome (gnomeModule { inherit extras scalingFactor; includeVMManager = virtualization; })
           ++ [
           ({ config, lib, pkgs, modulesPath, ... }: {
-          # Four concurrent builds, each sized for one quarter of the
-          # EPYC 7702P's 128 logical CPUs.
+
           nix.settings.max-jobs = 4;
           nix.settings.cores = 32;
 
-          services.openssh.settings = {
-            PermitRootLogin = "prohibit-password";
-            AllowUsers = [ "root" "box" ];
-          };
+          services.openssh.settings = { PermitRootLogin = "prohibit-password"; AllowUsers = [ "root" "box" ]; };
 
           users.users = {
-            root = {
-              hashedPassword = mainPassword;
-              openssh.authorizedKeys.keys = [ sshKey ];
-            };
+            root = { hashedPassword = mainPassword; openssh.authorizedKeys.keys = [ sshKey ]; };
 
             box = {
               isNormalUser = true;
               hashedPassword = mainPassword;
-              extraGroups =
-                [ "wheel" ]
-                ++ lib.optionals virtualization [ "kvm" "libvirtd" ]
+              extraGroups = [ "wheel" ] ++ lib.optionals virtualization [ "kvm" "libvirtd" ]
                 ++ lib.optionals gnome [ "video" "render" ];
               openssh.authorizedKeys.keys = [ sshKey ];
             };
           };
 
-          imports = [
-            (modulesPath + "/installer/netboot/netboot.nix")
-            (modulesPath + "/profiles/minimal.nix")
-          ];
+          imports = [ (modulesPath + "/installer/netboot/netboot.nix") (modulesPath + "/profiles/minimal.nix") ];
 
-          networking.hostName = "stateless-r${toString revision}";
+          networking.hostName = "stateless-${revision}";
           networking.hostId = "06e694f9";
           networking.nftables.enable = true;
           networking.networkmanager.enable = false;
 
           boot.supportedFilesystems = [ "zfs" ];
 
+          # NVIDIA GeForce GT 710
           boot.initrd.kernelModules =
-            lib.optionals virtualization [
-              "vfio_pci"
-              "vfio"
-              "vfio_iommu_type1"
-            ]
-            ++ lib.optionals gnome [
-              # The NVIDIA GeForce GT 710 is Kepler and must use Nouveau.
-              # VFIO modules precede it so the RTX PRO IDs are claimed first.
-              "nouveau"
-            ];
+            lib.optionals virtualization [ "vfio_pci" "vfio" "vfio_iommu_type1" ]
+            ++ lib.optionals gnome [ "nouveau" ];
           boot.kernelModules = lib.optionals virtualization [ "kvm-amd" ];
-          boot.kernelParams =
-            [
-              "nohibernate"
-              "modprobe.blacklist=ast"
-              # QEMU opts its guest RAM into THP. Avoid synchronous compaction,
-              # which can make a very large VM appear to hang while starting.
-              "transparent_hugepage=madvise"
-            ]
+          boot.kernelParams = [ "nohibernate" "modprobe.blacklist=ast" "transparent_hugepage=madvise" ]
             ++ lib.optionals virtualization [
               "amd_iommu=on"
               "iommu=pt"
@@ -296,9 +230,7 @@
             ];
           boot.blacklistedKernelModules = [ "ast" ];
 
-          systemd.tmpfiles.rules = [
-            "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer"
-          ];
+          systemd.tmpfiles.rules = [ "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer" ];
 
           boot.uki.name = "BOOTX64";
           boot.uki.version = null;
@@ -317,16 +249,24 @@
             firewallBackend = "nftables";
             qemu = {
               package = pkgs.qemu_kvm;
+
+              runAsRoot = false;
+
+              verbatimConfig = ''
+                namespaces = []
+                seccomp_sandbox = 1
+                spice_auto_unix_socket = 1
+                vnc_auto_unix_socket = 1
+              '';
+
               vhostUserPackages = [ pkgs.virtiofsd ];
             };
           };
 
-          # Make libvirt 12.x's secret bootstrap self-contained on this stateless host.
           systemd.services.virt-secret-init-encryption = lib.mkIf virtualization {
             serviceConfig = {
               StateDirectory = "libvirt/secrets";
               StateDirectoryMode = "0700";
-              # The empty entry clears libvirt's package-provided ExecStart.
               ExecStart = lib.mkForce [
                 ""
                 (pkgs.writeShellScript "virt-secret-init-encryption" ''
@@ -351,7 +291,6 @@
               ipmitool
               efibootmgr
             ])
-            # Clearly define packages needed even if it is duplication with other parts of config.
             ++ lib.optionals virtualization (with pkgs; [
               qemu_kvm
               libvirt
@@ -372,7 +311,7 @@
         ];
       };
 
-    vm = { gnome, extras, tools, nvidia, containers, scalingFactor }:
+    vm = { gnome, extras, tools, nvidia, containers, scalingFactor ? 1 }:
       let
         diskSize =
           if containers then 32768
@@ -386,7 +325,7 @@
           "vm"
           + lib.optionalString (imageTags != [ ])
             "-${lib.concatStringsSep "-" imageTags}"
-          + "-r${toString revision}";
+          + "-${revision}";
       in
       lib.nixosSystem {
         inherit system;
@@ -405,18 +344,6 @@
 
           ({ config, lib, modulesPath, pkgs, ... }: {
           networking.hostName = imageBaseName;
-          networking.useDHCP = false;
-          networking.useNetworkd = true;
-          systemd.network = {
-            enable = true;
-            networks."10-dhcp" = {
-              matchConfig.Name = "en* eth*";
-              networkConfig = {
-                DHCP = "yes";
-                IPv6AcceptRA = true;
-              };
-            };
-          };
 
           boot.loader.grub = {
             enable = true;
@@ -426,14 +353,6 @@
           };
           boot.loader.efi.canTouchEfiVariables = false;
           boot.loader.timeout = 1;
-
-          # QEMU's virtio-console appears as hvc0. Keeping tty0 first leaves the
-          # graphical console usable when no virtio console device is attached.
-          boot.initrd.availableKernelModules = [ "virtio_console" ];
-          boot.kernelParams = [
-            "console=tty0"
-            "console=hvc0"
-          ];
 
           fileSystems."/" = {
             device = "/dev/disk/by-label/nixos";
@@ -493,24 +412,22 @@
     nixosConfigurations = {
       stateless = stateless {
         gnome = true;
-        extras = true; # Firefox and VSCodium
-        tools = true; # Hardware inspection and maintenance
-        virtualization = true; # QEMU, libvirt, virt-manager and passthrough
+        extras = false;
+        tools = true;
+        virtualization = true;
         scalingFactor = 2;
       };
       vm = vm {
-        gnome = true;
-        extras = true; # Firefox and VSCodium
-        tools = true; # Hardware inspection and maintenance
-        nvidia = true; # Set true when passing the RTX PRO 6000 through
+        gnome = false;
+        extras = false;
+        tools = true;
+        nvidia = true;
         containers = true;
-        scalingFactor = 2;
       };
     };
 
     packages.${system} = {
       default = self.nixosConfigurations.stateless.config.system.build.uki;
-      host = self.nixosConfigurations.stateless.config.system.build.uki;
       vm = self.nixosConfigurations.vm.config.system.build.qcow2;
     };
   };
