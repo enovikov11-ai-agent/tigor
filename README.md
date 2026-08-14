@@ -25,7 +25,8 @@ cd ~
 umount /root/mnt
 reboot now
 
-/etc/nixos/flake.nix
+cat /etc/nixos/flake.nix > flake.nix
+nix build .#vm
 
 ./vm.py --cpu 32 --ram 32 --gpu --ui --net wg0 --disk /ssd/vm/vm-pod-nv-r4.qcow2
 
@@ -40,20 +41,22 @@ virsh undefine nixos
 Table = off
 wg-quick up ./wg0.conf
 
+### Learnings
+
+Memory can be encrypted with TSME, but it hurts perf
+Numa, prefetcher, cpu timings, ram timings, boot guard
+UMAF inspect
+
 ### Ideas
 
-disable sudo flag
-
-produce wg0.conf pair
-
-Key management for SSH, VPN and ZFS
-
-add docker images to vm pkgs.dockerTools.pullImage
-
+Permanent SSH keys
+Disable sudo flag
+Produce wg0.conf pair
+SEV-ES
+Add docker images to vm pkgs.dockerTools.pullImage
 Sysrq sillswitch for VM: echo o > /proc/sysrq-trigger
 Check it is --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
 Harden with --no-map-gw --map-host-loopback none
 Better hash algo: mkpasswd -m yescrypt -R 11
 USB mouse passthrough to VM
-
-Enable TSME
+nvidia-smi conf-compute -q

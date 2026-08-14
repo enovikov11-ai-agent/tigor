@@ -13,22 +13,30 @@ BASE = """
   <name/>
   <memory unit="GiB"/>
   <vcpu/>
-  <os><type arch="x86_64" machine="pc-q35-10.2">hvm</type><boot dev="hd"/></os>
-  <features><acpi/><apic/><vmport state="off"/></features>
+  <os firmware="efi"><type arch="x86_64" machine="pc-q35-10.2">hvm</type><boot dev="hd"/></os>
+  <features><acpi/><apic/><ioapic driver="kvm"/><smm state="off"/><vmport state="off"/></features>
   <cpu mode="host-passthrough" check="none" migratable="off"/>
   <clock offset="utc"/>
   <devices>
     <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
-    <disk type="file" device="disk"><driver name="qemu" type="qcow2"/><source/><target dev="vda" bus="virtio"/></disk>
+    <disk type="file" device="disk"><driver name="qemu" type="qcow2" iommu="on"/><source/><target dev="vda" bus="virtio"/></disk>
     <audio id="1" type="none"/>
     <watchdog model="itco" action="reset"/>
     <memballoon model="none"/>
-    <rng model="virtio"><backend model="random">/dev/urandom</backend></rng>
+    <rng model="virtio"><driver iommu="on"/><backend model="random">/dev/urandom</backend></rng>
   </devices>
 </domain>
 """
 
-NET = """<interface type="user"><source/><model type="virtio"/><backend type="passt"/></interface>"""
+SEC = """
+<sec>
+  <memoryBacking><locked/></memoryBacking>
+  <on_reboot>destroy</on_reboot>
+  <launchSecurity type="sev"><policy>0x000f</policy><cbitpos>47</cbitpos><reducedPhysBits>1</reducedPhysBits></launchSecurity>
+</sec>
+"""
+
+NET = """<interface type="user"><source/><model type="virtio"/><driver iommu="on"/><rom enabled="no"/><backend type="passt"/></interface>"""
 
 UI = """
 <ui>
@@ -51,7 +59,7 @@ GPU = """
 """
 
 
-def generate_xml(cpu, ram, disk, net=None, ui=False, gpu=False, name=None):
+def generate_xml(cpu, ram, disk, net=None, ui=False, gpu=False, sec=False, name=None):
     name = name or datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     root = ET.fromstring(BASE)
     devices = root.find("devices")
@@ -72,6 +80,15 @@ def generate_xml(cpu, ram, disk, net=None, ui=False, gpu=False, name=None):
     if gpu:
         devices.extend(list(ET.fromstring(GPU)))
 
+    if sec:
+        os = root.find("os")
+        os.insert(list(os).index(os.find("boot")), ET.Element("loader", stateless="yes"))
+        memory_backing, on_reboot, launch_security = list(ET.fromstring(SEC))
+        root.insert(list(root).index(root.find("memory")) + 1, memory_backing)
+        root.insert(list(root).index(devices), on_reboot)
+        root.append(launch_security)
+        root.find("devices/watchdog").set("action", "shutdown")
+
     ET.indent(root, space="  ")
     return ET.tostring(root, encoding="unicode", xml_declaration=True)
 
@@ -84,11 +101,14 @@ def main():
     p.add_argument("--net", action="append")
     p.add_argument("--ui", action="store_true")
     p.add_argument("--gpu", action="store_true")
+    p.add_argument("--sec", action="store_true", help="enable AMD SEV-ES")
     p.add_argument("--dry-run", action="store_true")
     args = p.parse_args()
 
     name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    xml = generate_xml(args.cpu, args.ram, args.disk, args.net, args.ui, args.gpu, name)
+    xml = generate_xml(
+        args.cpu, args.ram, args.disk, args.net, args.ui, args.gpu, args.sec, name
+    )
     path = Path(tempfile.gettempdir()) / f"{name}.xml"
     path.write_text(xml, encoding="utf-8")
     print(path)

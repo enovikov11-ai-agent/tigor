@@ -9,7 +9,7 @@
   outputs = { self, nixpkgs, ... }:
   let
     # For release candidates use r5-rc1 format
-    revision = "r5";
+    revision = "r6-rc1";
 
     # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -222,6 +222,8 @@
           boot.kernelModules = lib.optionals virtualization [ "kvm-amd" ];
           boot.kernelParams = [ "nohibernate" "modprobe.blacklist=ast" "transparent_hugepage=madvise" ]
             ++ lib.optionals virtualization [
+              "kvm_amd.sev=1"
+              "kvm_amd.sev_es=1"
               "amd_iommu=on"
               "iommu=pt"
               "iommu.strict=1"
