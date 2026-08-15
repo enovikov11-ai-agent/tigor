@@ -28,13 +28,15 @@ reboot now
 cat /etc/nixos/flake.nix > flake.nix
 nix build .#vm
 
-./vm.py --cpu 32 --ram 32 --gpu --ui --net wg0 --disk /ssd/vm/vm-pod-nv-r4.qcow2
+nixos-rebuild switch --flake .#stateless
+
+python3 vm.py --cpu 32 --ram 32 --disk /ssd/vm/vm-pod-nv-r6-rc1.qcow2 --net eno1 --ui --gpu --sec
 
 ### VM
 
 virsh define /ssd/vm/nixos.xml
 virsh dumpxml nixos
-virsh undefine nixos
+virsh undefine nixos --nvram
 
 ### Wireguard
 
@@ -52,7 +54,6 @@ UMAF inspect
 Permanent SSH keys
 Disable sudo flag
 Produce wg0.conf pair
-SEV-ES
 Add docker images to vm pkgs.dockerTools.pullImage
 Sysrq sillswitch for VM: echo o > /proc/sysrq-trigger
 Check it is --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0

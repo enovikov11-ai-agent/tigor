@@ -9,7 +9,7 @@
   outputs = { self, nixpkgs, ... }:
   let
     # For release candidates use r5-rc1 format
-    revision = "r6-rc1";
+    revision = "r6";
 
     # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -205,6 +205,11 @@
               openssh.authorizedKeys.keys = [ sshKey ];
             };
           };
+          users.groups.kvm.members = lib.optionals virtualization [ "qemu-libvirtd" ];
+
+          services.udev.extraRules = lib.optionalString virtualization ''
+            SUBSYSTEM=="misc", KERNEL=="sev", GROUP="kvm", MODE="0660"
+          '';
 
           imports = [ (modulesPath + "/installer/netboot/netboot.nix") (modulesPath + "/profiles/minimal.nix") ];
 

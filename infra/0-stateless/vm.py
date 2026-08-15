@@ -8,6 +8,9 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 
+SEV_FIRMWARE = "/run/libvirt/nix-ovmf/edk2-x86_64-code.fd"
+
+
 BASE = """
 <domain type="kvm">
   <name/>
@@ -82,7 +85,12 @@ def generate_xml(cpu, ram, disk, net=None, ui=False, gpu=False, sec=False, name=
 
     if sec:
         os = root.find("os")
-        os.insert(list(os).index(os.find("boot")), ET.Element("loader", stateless="yes"))
+        os.attrib.pop("firmware")
+        loader = ET.Element(
+            "loader", readonly="yes", type="pflash", stateless="yes", format="raw"
+        )
+        loader.text = SEV_FIRMWARE
+        os.insert(list(os).index(os.find("boot")), loader)
         memory_backing, on_reboot, launch_security = list(ET.fromstring(SEC))
         root.insert(list(root).index(root.find("memory")) + 1, memory_backing)
         root.insert(list(root).index(devices), on_reboot)
@@ -98,6 +106,7 @@ def main():
     p.add_argument("--cpu", type=int, required=True)
     p.add_argument("--ram", type=int, required=True)
     p.add_argument("--disk", required=True)
+    p.add_argument("--name", help="libvirt domain name (default: current timestamp)")
     p.add_argument("--net", action="append")
     p.add_argument("--ui", action="store_true")
     p.add_argument("--gpu", action="store_true")
@@ -105,11 +114,12 @@ def main():
     p.add_argument("--dry-run", action="store_true")
     args = p.parse_args()
 
-    name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    generated_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    name = args.name or generated_name
     xml = generate_xml(
         args.cpu, args.ram, args.disk, args.net, args.ui, args.gpu, args.sec, name
     )
-    path = Path(tempfile.gettempdir()) / f"{name}.xml"
+    path = Path(tempfile.gettempdir()) / f"{generated_name}.xml"
     path.write_text(xml, encoding="utf-8")
     print(path)
 
