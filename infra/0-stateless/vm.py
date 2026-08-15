@@ -41,6 +41,21 @@ SEC = """
 
 NET = """<interface type="user"><source/><model type="virtio"/><driver iommu="on"/><rom enabled="no"/><backend type="passt"/></interface>"""
 
+FILESYSTEM = """
+<filesystem type="mount">
+  <driver type="virtiofs"/>
+  <source/>
+  <target/>
+</filesystem>
+"""
+
+SHARED_MEMORY = """
+<memoryBacking>
+  <source type="memfd"/>
+  <access mode="shared"/>
+</memoryBacking>
+"""
+
 UI = """
 <ui>
   <input type="mouse" bus="ps2"/>
@@ -62,7 +77,18 @@ GPU = """
 """
 
 
-def generate_xml(cpu, ram, disk, net=None, ui=False, gpu=False, sec=False, name=None):
+def generate_xml(
+    cpu,
+    ram,
+    disk,
+    net=None,
+    ui=False,
+    gpu=False,
+    sec=False,
+    name=None,
+    ro=None,
+    rw=None,
+):
     name = name or datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     root = ET.fromstring(BASE)
     devices = root.find("devices")
@@ -77,6 +103,20 @@ def generate_xml(cpu, ram, disk, net=None, ui=False, gpu=False, sec=False, name=
         interface.find("source").set("dev", dev)
         devices.append(interface)
 
+    filesystems = [(path, True) for path in ro or []]
+    filesystems.extend((path, False) for path in rw or [])
+    for path, readonly in filesystems:
+        filesystem = ET.fromstring(FILESYSTEM)
+        filesystem.find("source").set("dir", path)
+        filesystem.find("target").set("dir", path)
+        if readonly:
+            filesystem.append(ET.Element("readonly"))
+        devices.append(filesystem)
+
+    if filesystems:
+        memory_backing = ET.fromstring(SHARED_MEMORY)
+        root.insert(list(root).index(root.find("memory")) + 1, memory_backing)
+
     if ui:
         devices.extend(list(ET.fromstring(UI)))
 
@@ -84,6 +124,8 @@ def generate_xml(cpu, ram, disk, net=None, ui=False, gpu=False, sec=False, name=
         devices.extend(list(ET.fromstring(GPU)))
 
     if sec:
+        if root.find("memoryBacking") is not None:
+            raise ValueError("--sec cannot be combined with --ro or --rw")
         os = root.find("os")
         os.attrib.pop("firmware")
         loader = ET.Element(
@@ -108,6 +150,8 @@ def main():
     p.add_argument("--disk", required=True)
     p.add_argument("--name", help="libvirt domain name (default: current timestamp)")
     p.add_argument("--net", action="append")
+    p.add_argument("--ro", action="append", metavar="DIR", help="share DIR read-only")
+    p.add_argument("--rw", action="append", metavar="DIR", help="share DIR read-write")
     p.add_argument("--ui", action="store_true")
     p.add_argument("--gpu", action="store_true")
     p.add_argument("--sec", action="store_true", help="enable AMD SEV-ES")
@@ -117,7 +161,16 @@ def main():
     generated_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     name = args.name or generated_name
     xml = generate_xml(
-        args.cpu, args.ram, args.disk, args.net, args.ui, args.gpu, args.sec, name
+        args.cpu,
+        args.ram,
+        args.disk,
+        net=args.net,
+        ui=args.ui,
+        gpu=args.gpu,
+        sec=args.sec,
+        name=name,
+        ro=args.ro,
+        rw=args.rw,
     )
     path = Path(tempfile.gettempdir()) / f"{generated_name}.xml"
     path.write_text(xml, encoding="utf-8")

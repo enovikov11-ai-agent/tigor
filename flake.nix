@@ -9,7 +9,7 @@
   outputs = { self, nixpkgs, ... }:
   let
     # For release candidates use r5-rc1 format
-    revision = "r6";
+    revision = "r7";
 
     # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -144,6 +144,21 @@
     guestContainersModule = { pkgs, ... }: {
       virtualisation.podman = { enable = true; extraRuntimes = [ pkgs.gvisor ]; };
       environment.systemPackages = with pkgs; [ podman podman-compose gvisor ];
+    };
+
+    guestNvidiaContainerToolkitModule = { lib, pkgs, ... }: {
+      hardware.nvidia-container-toolkit.enable = true;
+
+      environment.etc."nvidia-container-runtime/config.toml".text = ''
+        [nvidia-container-runtime-hook]
+        path = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime-hook"
+
+        [nvidia-ctk]
+        path = "${pkgs.nvidia-container-toolkit}/bin/nvidia-ctk"
+
+        [features]
+        disable-cuda-compat-lib-hook = true
+      '';
     };
 
     commonModule = { tools }:
@@ -347,6 +362,7 @@
           })
           ++ lib.optional nvidia (guestNvidiaModule { inherit gnome; })
           ++ lib.optional containers guestContainersModule
+          ++ lib.optional (containers && nvidia) guestNvidiaContainerToolkitModule
           ++ [
 
           ({ config, lib, modulesPath, pkgs, ... }: {

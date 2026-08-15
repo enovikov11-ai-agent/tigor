@@ -6,12 +6,10 @@ Run minimax h3
 
 ## Home AI Box
 
-### Login
+### Commands
 
 ssh-keygen -R 192.168.1.28
 ssh root@192.168.1.28
-
-### Rebuild
 
 nix build
 mkdir /root/mnt
@@ -30,18 +28,18 @@ nix build .#vm
 
 nixos-rebuild switch --flake .#stateless
 
-python3 vm.py --cpu 32 --ram 32 --disk /ssd/vm/vm-pod-nv-r6-rc1.qcow2 --net eno1 --ui --gpu --sec
-
-### VM
-
 virsh define /ssd/vm/nixos.xml
 virsh dumpxml nixos
 virsh undefine nixos --nvram
 
-### Wireguard
-
-Table = off
+apt install wireguard-tools
 wg-quick up ./wg0.conf
+ufw allow 2026/udp
+
+python3 vm.py --cpu 32 --ram 32 --disk /ssd/vm/vm-pod-nv-r6-rc1.qcow2 --net eno1 --ui --gpu --ro /ssd/internet --rw /ssd/vm/containers
+
+mount -t virtiofs /ssd/internet /ssd/internet
+mount -t virtiofs /ssd/vm/containers /var/lib/containers
 
 ### Learnings
 
@@ -51,6 +49,16 @@ UMAF inspect
 
 ### Ideas
 
+Virtiofs automount
+VM EFI UKI -kernel
+Flag for <portForward proto='tcp'><range start='2222' to='22'/></portForward>
+Sudo flag, password param
+Set 450W nvidia limit in VM
+Add SEV-ES attestation and key wrapping
+Add file sharing via --ro and --rw
+Check should I downgrade Linux kernel and is it using latest due to ZFS https://wiki.nixos.org/wiki/ZFS
+Build nix with github URL as a source
+Check do ZFS checks and guarantees integrity
 Permanent SSH keys
 Disable sudo flag
 Produce wg0.conf pair

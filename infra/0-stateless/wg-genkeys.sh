@@ -37,6 +37,7 @@ cat > "$VPN_DIR/vm.conf" <<EOF
 [Interface]
 PrivateKey = $VM_PRIVATE_KEY
 Address = $VM_ADDRESS/$VPN_PREFIX
+Table = off
 
 [Peer]
 PublicKey = $SERVER_PUBLIC_KEY
