@@ -1,5 +1,5 @@
 {
-  description = "Stateless NixOS VM host and QCOW2 guest images";
+  description = "Stateless NixOS host and diskless UKI guest images";
 
   inputs = {
     # 2026-08-10 https://github.com/NixOS/nixpkgs/commits/nixos-26.05/
@@ -9,7 +9,7 @@
   outputs = { self, nixpkgs, ... }:
   let
     # For release candidates use r5-rc1 format
-    revision = "r7";
+    revision = "r8-rc1";
 
     # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -184,7 +184,6 @@
         };
 
         users.mutableUsers = false;
-        security.sudo.wheelNeedsPassword = false;
         system.stateVersion = "26.05";
 
         environment.etc."nixos/flake.nix".source = ./flake.nix;
@@ -194,7 +193,7 @@
           ++ lib.optionals tools (with pkgs; [ pciutils usbutils dmidecode ethtool ]);
       };
 
-    stateless = { gnome, extras, tools, virtualization, scalingFactor ? 1 }:
+    stateless = { gnome, extras, tools, virtualization, sudo, password, scalingFactor ? 1 }:
       lib.nixosSystem {
         inherit system;
 
@@ -207,15 +206,19 @@
           nix.settings.max-jobs = 4;
           nix.settings.cores = 32;
 
-          services.openssh.settings = { PermitRootLogin = "prohibit-password"; AllowUsers = [ "root" "box" ]; };
+          services.openssh.settings = { PermitRootLogin = "prohibit-password"; AllowUsers = [ "root" "nixos" ]; };
+
+          security.sudo = { enable = sudo; }
+            // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
 
           users.users = {
-            root = { hashedPassword = mainPassword; openssh.authorizedKeys.keys = [ sshKey ]; };
+            root = { hashedPassword = password; openssh.authorizedKeys.keys = [ sshKey ]; };
 
-            box = {
+            nixos = {
               isNormalUser = true;
-              hashedPassword = mainPassword;
-              extraGroups = [ "wheel" ] ++ lib.optionals virtualization [ "kvm" "libvirtd" ]
+              hashedPassword = password;
+              extraGroups = lib.optionals sudo [ "wheel" ]
+                ++ lib.optionals virtualization [ "kvm" "libvirtd" ]
                 ++ lib.optionals gnome [ "video" "render" ];
               openssh.authorizedKeys.keys = [ sshKey ];
             };
@@ -316,6 +319,7 @@
             ++ lib.optionals virtualization (with pkgs; [
               qemu_kvm
               libvirt
+              openssl
               virt-manager
               passt
               virtiofsd
@@ -333,12 +337,8 @@
         ];
       };
 
-    vm = { gnome, extras, tools, nvidia, containers, scalingFactor ? 1 }:
+    vm = { gnome, extras, tools, nvidia, containers, sudo, password, scalingFactor ? 1 }:
       let
-        diskSize =
-          if containers then 32768
-          else if gnome || nvidia then 16384
-          else 8192;
         imageTags =
           lib.optionals gnome [ "gui" ]
           ++ lib.optionals containers [ "pod" ]
@@ -366,30 +366,32 @@
           ++ [
 
           ({ config, lib, modulesPath, pkgs, ... }: {
+          imports = [ (modulesPath + "/installer/netboot/netboot.nix") ];
+
           networking.hostName = imageBaseName;
 
-          boot.loader.grub = {
-            enable = true;
-            devices = [ "/dev/vda" ];
-            efiSupport = true;
-            efiInstallAsRemovable = true;
-          };
-          boot.loader.efi.canTouchEfiVariables = false;
-          boot.loader.timeout = 1;
-
-          fileSystems."/" = {
-            device = "/dev/disk/by-label/nixos";
-            fsType = "ext4";
-            autoResize = true;
-          };
-          fileSystems."/boot" = {
-            device = "/dev/disk/by-label/ESP";
-            fsType = "vfat";
-            options = [ "umask=0077" ];
-          };
+          boot.kernelModules = [ "virtiofs" ];
+          boot.uki.name = imageBaseName;
+          boot.uki.version = null;
+          boot.uki.settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
 
           services.qemuGuest.enable = true;
           services.spice-vdagentd.enable = gnome;
+          systemd.services.mount-virtiofs-shares = {
+            description = "Mount virtiofs path shares";
+            wantedBy = [ "multi-user.target" ];
+            after = [ "systemd-modules-load.service" ];
+            serviceConfig.Type = "oneshot";
+            path = with pkgs; [ coreutils util-linux ];
+            script = ''
+              shopt -s nullglob
+              for tagFile in /sys/fs/virtio_fs/*/tag; do
+                IFS= read -r path < "$tagFile"
+                mkdir -p -- "$path"
+                mount -t virtiofs -- "$path" "$path"
+              done
+            '';
+          };
           services.displayManager.autoLogin = lib.mkIf gnome {
             enable = true;
             user = "nixos";
@@ -403,29 +405,23 @@
             };
           };
 
+          security.sudo = { enable = sudo; }
+            // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
+
           users.users = {
             root = {
-              hashedPassword = "";
+              hashedPassword = password;
               openssh.authorizedKeys.keys = [ sshKey ];
             };
 
             nixos = {
               isNormalUser = true;
               extraGroups =
-                [ "wheel" ]
+                lib.optionals sudo [ "wheel" ]
                 ++ lib.optionals (gnome || nvidia) [ "video" "render" ];
-              hashedPassword = "";
+              hashedPassword = password;
               openssh.authorizedKeys.keys = [ sshKey ];
             };
-          };
-          system.build.qcow2 = builtins.import (modulesPath + "/../lib/make-disk-image.nix") {
-            inherit config lib pkgs;
-            name = imageBaseName;
-            baseName = imageBaseName;
-            format = "qcow2";
-            inherit diskSize;
-            partitionTableType = "hybrid";
-            copyChannel = false;
           };
           })
         ];
@@ -438,6 +434,8 @@
         extras = false;
         tools = true;
         virtualization = true;
+        sudo = true;
+        password = mainPassword;
         scalingFactor = 2;
       };
       vm = vm {
@@ -446,12 +444,14 @@
         tools = true;
         nvidia = true;
         containers = true;
+        sudo = true;
+        password = "";
       };
     };
 
     packages.${system} = {
       default = self.nixosConfigurations.stateless.config.system.build.uki;
-      vm = self.nixosConfigurations.vm.config.system.build.qcow2;
+      vm = self.nixosConfigurations.vm.config.system.build.uki;
     };
   };
 }

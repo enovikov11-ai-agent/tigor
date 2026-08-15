@@ -19,7 +19,6 @@ cd /root/mnt/EFI/BOOT/
 mv BOOTX64.efi "$(date '+%Y-%m-%d_%H-%M-%S')_BOOTX64.efi"
 cp /root/result/BOOTX64.efi /root/mnt/EFI/BOOT/
 sync
-cd ~
 umount /root/mnt
 reboot now
 
@@ -36,7 +35,7 @@ apt install wireguard-tools
 wg-quick up ./wg0.conf
 ufw allow 2026/udp
 
-python3 vm.py --cpu 32 --ram 32 --disk /ssd/vm/vm-pod-nv-r6-rc1.qcow2 --net eno1 --ui --gpu --ro /ssd/internet --rw /ssd/vm/containers
+python3 vm.py --cpu 64 --ram 128 --kernel /ssd/vm/vm-pod-nv-r8-rc1.efi --net eno1 --ui --gpu --ssh 2222 --ro /ssd/internet --rw /ssd/vm/containers
 
 mount -t virtiofs /ssd/internet /ssd/internet
 mount -t virtiofs /ssd/vm/containers /var/lib/containers
@@ -49,23 +48,16 @@ UMAF inspect
 
 ### Ideas
 
-Virtiofs automount
-VM EFI UKI -kernel
-Flag for <portForward proto='tcp'><range start='2222' to='22'/></portForward>
-Sudo flag, password param
-Set 450W nvidia limit in VM
-Add SEV-ES attestation and key wrapping
-Add file sharing via --ro and --rw
-Check should I downgrade Linux kernel and is it using latest due to ZFS https://wiki.nixos.org/wiki/ZFS
-Build nix with github URL as a source
-Check do ZFS checks and guarantees integrity
-Permanent SSH keys
-Disable sudo flag
-Produce wg0.conf pair
-Add docker images to vm pkgs.dockerTools.pullImage
+Fix 2222 firewall
+Fix automount
+
+Nvidia 450W power limit
+Template generation
 Sysrq sillswitch for VM: echo o > /proc/sysrq-trigger
 Check it is --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
 Harden with --no-map-gw --map-host-loopback none
 Better hash algo: mkpasswd -m yescrypt -R 11
-USB mouse passthrough to VM
 nvidia-smi conf-compute -q
+USB mouse passthrough to VM
+TPM SSH & VPN key handling
+Lightweight repo and nix build github:owner/repo
