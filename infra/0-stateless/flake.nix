@@ -165,6 +165,10 @@
       '';
     };
 
+    stateless = { vm ? false, gnome ? false, extras ? false, tools ? false, nvidia ? false,
+      containers ? false, hypervisor ? false, vfio ? false, sudo ? false, password ? "",
+      scalingFactor ? 1 }:
+      let
     commonModule = { vm, tools, gnome, nvidia, hypervisor, vfio, sudo, password, imageBaseName }:
       { lib, pkgs, ... }: {
         assertions = [{
@@ -256,10 +260,6 @@
 
           });
 
-    stateless = { vm ? false, gnome ? false, extras ? false, tools ? false, nvidia ? false,
-      containers ? false, hypervisor ? false, vfio ? false, sudo ? false, password ? "",
-      scalingFactor ? 1 }:
-      let
         imageTags =
           lib.optionals gnome [ "gui" ]
           ++ lib.optionals containers [ "pod" ]
