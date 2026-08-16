@@ -211,6 +211,18 @@
         let
           hostNvidia = (!vm) && nvidia;
           rtxPassthrough = (!vm) && (!nvidia);
+          vfioPciIds =
+            # Bind the unused GPU's complete IOMMU group before display drivers probe.
+            lib.optionals hostNvidia [
+              # 01:00.0 GT 710 and 01:00.1 HDMI audio.
+              "10de:128b"
+              "10de:0e0f"
+            ]
+            ++ lib.optionals rtxPassthrough [
+              # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
+              "10de:2bb1"
+              "10de:22e8"
+            ];
           imageName =
             (if vm then "vm-" else "host-")
             + revision
@@ -313,7 +325,7 @@
                   supportedFilesystems = lib.optionals (!vm) [ "zfs" ];
 
                   initrd.kernelModules =
-                    lib.optionals rtxPassthrough [
+                    lib.optionals (vfioPciIds != [ ]) [
                       "vfio_pci"
                       "vfio"
                       "vfio_iommu_type1"
@@ -333,10 +345,7 @@
                     "iommu=pt"
                     "iommu.strict=1"
                   ]
-                  ++ lib.optionals rtxPassthrough [
-                    # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
-                    "vfio-pci.ids=10de:2bb1,10de:22e8"
-                  ];
+                  ++ lib.optional (vfioPciIds != [ ]) "vfio-pci.ids=${lib.concatStringsSep "," vfioPciIds}";
                   blacklistedKernelModules =
                     [ "ast" ]
                     # NVIDIA's open driver supports the RTX PRO, not the GT 710.
