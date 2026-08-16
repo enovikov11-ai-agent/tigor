@@ -2,8 +2,8 @@
   description = "Stateless NixOS host and diskless UKI guest images";
 
   inputs = {
-    # 2026-08-10 https://github.com/NixOS/nixpkgs/commits/nixos-26.05/
-    nixpkgs.url = "github:NixOS/nixpkgs/fcb8fcd6bf2d0adecae5bd491afaaaf8311b758d";
+    # 2026-08-14 https://github.com/NixOS/nixpkgs/commits/nixos-26.05/
+    nixpkgs.url = "github:NixOS/nixpkgs/02e08985a27c65ffd33d434eeb2e660a2e4dc84d";
   };
 
   outputs =
@@ -199,7 +199,6 @@
       stateless =
         {
           vm ? false,
-          hypervisor ? false,
           nvidia ? false,
           containers ? false,
           gnome ? false,
@@ -210,16 +209,15 @@
           password ? "!",
         }:
         let
-          imageTags =
-            lib.optionals vm [ "-vm" ]
-            ++ lib.optionals hypervisor [ "-host" ]
-            ++ lib.optionals nvidia [ "-nvda" ]
-            ++ lib.optionals containers [ "-pods" ]
-            ++ lib.optionals gnome [ "-gui" ]
-            ++ lib.optionals firefox [ "-ff" ]
-            ++ lib.optionals vscodium [ "-vs" ]
-            ++ lib.optionals sudo [ "-su" ];
-          imageName = revision + "${lib.concatStringsSep "" imageTags}";
+          imageName =
+            (if vm then "vm" else "host")
+            + revision
+            + lib.optionalString nvidia "-nvda"
+            + lib.optionalString containers "-pods"
+            + lib.optionalString gnome "-gui"
+            + lib.optionalString firefox "-ff"
+            + lib.optionalString vscodium "-vs"
+            + lib.optionalString sudo "-su";
           ukiName = "${imageName}-BOOTX64";
         in
         lib.nixosSystem {
@@ -296,7 +294,7 @@
                     hashedPassword = password;
                     extraGroups =
                       lib.optionals sudo [ "wheel" ]
-                      ++ lib.optionals hypervisor [
+                      ++ lib.optionals (!vm) [
                         "kvm"
                         "libvirtd"
                       ]
@@ -307,7 +305,7 @@
                     openssh.authorizedKeys.keys = [ sshKey ];
                   };
                 };
-                users.groups.kvm.members = lib.optionals hypervisor [ "qemu-libvirtd" ];
+                users.groups.kvm.members = lib.optionals (!vm) [ "qemu-libvirtd" ];
 
                 boot = {
                   supportedFilesystems = lib.optionals (!vm) [ "zfs" ];
@@ -320,13 +318,13 @@
                     ]
                     # NVIDIA GeForce GT 710
                     ++ lib.optionals (gnome && !nvidia) [ "nouveau" ];
-                  kernelModules = lib.optionals vm [ "virtiofs" ] ++ lib.optionals hypervisor [ "kvm-amd" ];
+                  kernelModules = lib.optionals vm [ "virtiofs" ] ++ lib.optionals (!vm) [ "kvm-amd" ];
                   kernelParams = [
                     "nohibernate"
                     "modprobe.blacklist=ast"
                     "transparent_hugepage=madvise"
                   ]
-                  ++ lib.optionals hypervisor [
+                  ++ lib.optionals (!vm) [
                     "kvm_amd.sev=1"
                     "kvm_amd.sev_es=1"
                     "amd_iommu=on"
@@ -346,7 +344,7 @@
                   zfs.forceImportRoot = lib.mkIf (!vm) false;
                 };
 
-                services.udev.extraRules = lib.optionalString hypervisor ''
+                services.udev.extraRules = lib.optionalString (!vm) ''
                   SUBSYSTEM=="misc", KERNEL=="sev", GROUP="kvm", MODE="0660"
                 '';
                 services.xserver.videoDrivers = lib.mkIf (gnome && !nvidia) [ "nouveau" ];
@@ -377,9 +375,9 @@
                 };
 
                 programs.firefox.enable = firefox;
-                programs.virt-manager.enable = hypervisor;
+                programs.virt-manager.enable = (!vm);
 
-                virtualisation.libvirtd = lib.mkIf hypervisor {
+                virtualisation.libvirtd = lib.mkIf (!vm) {
                   enable = true;
                   onBoot = "ignore";
                   onShutdown = "shutdown";
@@ -400,7 +398,7 @@
                   };
                 };
 
-                systemd.services.virt-secret-init-encryption = lib.mkIf hypervisor {
+                systemd.services.virt-secret-init-encryption = lib.mkIf (!vm) {
                   serviceConfig = {
                     StateDirectory = "libvirt/secrets";
                     StateDirectoryMode = "0700";
@@ -452,7 +450,7 @@
                   ])
                   ++ lib.optionals vscodium (with pkgs; [ vscodium ])
                   ++ lib.optionals (!vm) (with pkgs; [ zfs ])
-                  ++ lib.optionals hypervisor (
+                  ++ lib.optionals (!vm) (
                     with pkgs;
                     [
                       qemu_kvm
@@ -474,7 +472,7 @@
           ]
           ++ lib.optional gnome (gnomeModule {
             inherit scalingFactor;
-            includeVMManager = hypervisor;
+            includeVMManager = (!vm);
           })
           ++ lib.optional nvidia (nvidiaModule {
             inherit gnome;
@@ -486,7 +484,6 @@
     {
       nixosConfigurations = {
         host = stateless {
-          hypervisor = true;
           containers = true;
           gnome = true;
           scalingFactor = 2;
