@@ -43,6 +43,8 @@ UMAF inspect
 
 ## Ideas
 
+Reusable EFI target, only params do change
+
 Template nodes
 Template generation/json input
 Folder path diff src dst
