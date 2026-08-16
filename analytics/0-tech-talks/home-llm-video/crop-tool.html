@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Video Crop & Overlay Planner</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a2e; color: #e0e0e0; font-family: monospace; padding: 20px; }
+h1 { font-size: 16px; margin-bottom: 12px; color: #a78bfa; }
+.row { display: flex; gap: 16px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+.row label { font-size: 13px; }
+.row input[type="file"] { font-size: 13px; }
+.row input[type="text"] { width: 50px; background: #222; color: #e0e0e0; border: 1px solid #555; padding: 2px 6px; font-family: monospace; font-size: 13px; text-align: center; }
+button { background: #333; color: #e0e0e0; border: 1px solid #555; padding: 4px 10px; cursor: pointer; font-family: monospace; font-size: 13px; }
+button:hover { background: #444; }
+button.active { background: #a78bfa; color: #1a1a2e; }
+button.active-b { background: #ef4444; color: #fff; }
+.scrubber { width: 100%; max-width: 900px; }
+.time { font-size: 13px; color: #a78bfa; }
+canvas { display: block; cursor: crosshair; background: #000; }
+video { display: none; }
+.out { margin-top: 12px; background: #111; padding: 12px; font-size: 13px; white-space: pre; border: 1px solid #333; max-width: 900px; user-select: text; cursor: text; }
+.link { margin-top: 6px; font-size: 12px; word-break: break-all; user-select: text; }
+.link a { color: #a78bfa; }
+</style>
+</head>
+<body>
+<h1>Video Crop & Overlay Planner</h1>
+
+<div class="row">
+  <label>Video: <input type="file" id="fileIn" accept="video/*"></label>
+  <span class="time" id="time">--:--:-- / --:--:--</span>
+  <button id="btnPlay">Play/Pause</button>
+</div>
+<div class="row">
+  <input type="range" id="scrub" class="scrubber" min="0" max="10000" value="0">
+</div>
+<div class="row">
+  <button id="btnA" class="active">A — Crop</button>
+  <button id="btnB">B — Slide</button>
+  <span style="color:#888; font-size:12px; margin-left:8px">Ratio A:</span>
+  <input type="text" id="ratioAw" value="16">:<input type="text" id="ratioAh" value="9">
+  <span style="color:#888; font-size:12px; margin-left:8px">Ratio B:</span>
+  <input type="text" id="ratioBw" value="16">:<input type="text" id="ratioBh" value="9">
+  <label style="font-size:12px">Display: <input type="range" id="zoom" min="25" max="100" value="50" style="width:80px"><span id="zoomVal">50%</span></label>
+</div>
+
+<canvas id="c"></canvas>
+<video id="v" muted></video>
+
+<div class="out" id="out">Load a video to begin.</div>
+<div class="link" id="lnk"></div>
+
+<script>
+const c = document.getElementById('c'), ctx = c.getContext('2d');
+const v = document.getElementById('v');
+
+let vW = 0, vH = 0, scale = 0.5;
+let active = 'a'; // 'a' or 'b'
+
+// rects in video coords, null until drawn
+let rects = { a: null, b: null };
+// drawing state
+let drawing = false, startX = 0, startY = 0;
+
+function qs() { return new URLSearchParams(location.search); }
+
+function loadState() {
+  const p = qs();
+  for (const k of ['a', 'b']) {
+    const v = p.get(k);
+    if (v) {
+      const [x, y, w, h] = v.split(',').map(Number);
+      if ([x,y,w,h].every(n => !isNaN(n))) rects[k] = { x, y, w, h };
+    }
+  }
+  if (p.has('ra')) { const [w,h] = p.get('ra').split(':'); document.getElementById('ratioAw').value = w; document.getElementById('ratioAh').value = h; }
+  if (p.has('rb')) { const [w,h] = p.get('rb').split(':'); document.getElementById('ratioBw').value = w; document.getElementById('ratioBh').value = h; }
+}
+
+function saveState() {
+  const p = new URLSearchParams();
+  for (const k of ['a', 'b']) {
+    const r = rects[k];
+    if (r) p.set(k, [Math.round(r.x), Math.round(r.y), Math.round(r.w), Math.round(r.h)].join(','));
+  }
+  const ra = document.getElementById('ratioAw').value + ':' + document.getElementById('ratioAh').value;
+  const rb = document.getElementById('ratioBw').value + ':' + document.getElementById('ratioBh').value;
+  p.set('ra', ra); p.set('rb', rb);
+  const url = location.pathname + '?' + p.toString();
+  history.replaceState(null, '', url);
+  document.getElementById('lnk').innerHTML = '<a href="' + url + '">' + url + '</a>';
+}
+
+function getRatio(which) {
+  const wEl = document.getElementById('ratio' + which.toUpperCase() + 'w');
+  const hEl = document.getElementById('ratio' + which.toUpperCase() + 'h');
+  const w = parseFloat(wEl.value) || 16, h = parseFloat(hEl.value) || 9;
+  return w / h;
+}
+
+function fmt(s) {
+  return [s/3600|0, (s%3600)/60|0, s%60|0].map(n => String(n).padStart(2,'0')).join(':');
+}
+
+function toVid(e) {
+  const r = c.getBoundingClientRect();
+  return { x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale };
+}
+
+function updateOutput() {
+  const a = rects.a, b = rects.b;
+  let txt = `Source: ${vW}x${vH}  |  Time: ${fmt(v.currentTime)}\n\n`;
+  if (a) {
+    txt += `A Crop (video coords):  x=${Math.round(a.x)} y=${Math.round(a.y)} w=${Math.round(a.w)} h=${Math.round(a.h)}\n`;
+    txt += `ffmpeg crop:  crop=${Math.round(a.w)}:${Math.round(a.h)}:${Math.round(a.x)}:${Math.round(a.y)}\n\n`;
+  } else { txt += 'A Crop: not set\n\n'; }
+  if (b) {
+    // b coords relative to a if a exists
+    if (a) {
+      const rx = Math.round(b.x - a.x), ry = Math.round(b.y - a.y);
+      txt += `B Slide (within A):  x=${rx} y=${ry} w=${Math.round(b.w)} h=${Math.round(b.h)}\n`;
+      txt += `ffmpeg scale:    scale=${Math.round(b.w)}:${Math.round(b.h)}\n`;
+      txt += `ffmpeg overlay:  overlay=${rx}:${ry}\n`;
+    } else {
+      txt += `B Slide (video coords):  x=${Math.round(b.x)} y=${Math.round(b.y)} w=${Math.round(b.w)} h=${Math.round(b.h)}\n`;
+    }
+  } else { txt += 'B Slide: not set'; }
+  document.getElementById('out').textContent = txt;
+}
+
+function draw() {
+  if (!vW) return;
+  const dw = vW * scale, dh = vH * scale;
+  c.width = dw; c.height = dh;
+  ctx.drawImage(v, 0, 0, dw, dh);
+
+  // dim outside A
+  if (rects.a) {
+    const r = rects.a;
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    const x = r.x*scale, y = r.y*scale, w = r.w*scale, h = r.h*scale;
+    ctx.fillRect(0, 0, dw, y);
+    ctx.fillRect(0, y+h, dw, dh-y-h);
+    ctx.fillRect(0, y, x, h);
+    ctx.fillRect(x+w, y, dw-x-w, h);
+  }
+
+  for (const [k, color] of [['a', '#a78bfa'], ['b', '#ef4444']]) {
+    const r = rects[k];
+    if (!r) continue;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.setLineDash(k === active ? [] : [6, 3]);
+    ctx.strokeRect(r.x*scale, r.y*scale, r.w*scale, r.h*scale);
+    ctx.setLineDash([]);
+    ctx.font = '12px monospace';
+    ctx.fillStyle = color;
+    ctx.fillText((k === 'a' ? 'A CROP' : 'B SLIDE') + ` ${Math.round(r.w)}x${Math.round(r.h)}`, r.x*scale + 4, r.y*scale + 14);
+  }
+
+  // current drawing preview
+  if (drawing) {
+    ctx.strokeStyle = active === 'a' ? '#a78bfa' : '#ef4444';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    const pr = previewRect();
+    ctx.strokeRect(pr.x*scale, pr.y*scale, pr.w*scale, pr.h*scale);
+    ctx.setLineDash([]);
+  }
+
+  updateOutput();
+  requestAnimationFrame(draw);
+}
+
+let curX = 0, curY = 0;
+
+function previewRect() {
+  const ratio = getRatio(active);
+  let w = curX - startX;
+  let h = w / ratio;
+  // allow drawing in any direction
+  if (w < 0) { w = -w; h = w / ratio; return { x: startX - w, y: startY - h, w, h }; }
+  return { x: startX, y: startY, w, h };
+}
+
+c.addEventListener('mousedown', e => {
+  const p = toVid(e);
+  drawing = true;
+  startX = p.x; startY = p.y;
+  curX = p.x; curY = p.y;
+});
+
+c.addEventListener('mousemove', e => {
+  if (!drawing) return;
+  const p = toVid(e);
+  curX = p.x; curY = p.y;
+});
+
+c.addEventListener('mouseup', e => {
+  if (!drawing) return;
+  drawing = false;
+  const p = toVid(e);
+  curX = p.x; curY = p.y;
+  const r = previewRect();
+  if (r.w > 5 && r.h > 5) {
+    rects[active] = { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.w), h: Math.round(r.h) };
+    saveState();
+  }
+});
+
+document.getElementById('btnA').addEventListener('click', () => {
+  active = 'a';
+  document.getElementById('btnA').className = 'active';
+  document.getElementById('btnB').className = '';
+});
+document.getElementById('btnB').addEventListener('click', () => {
+  active = 'b';
+  document.getElementById('btnB').className = 'active-b';
+  document.getElementById('btnA').className = '';
+});
+
+document.getElementById('btnPlay').addEventListener('click', () => { v.paused ? v.play() : v.pause(); });
+
+document.getElementById('zoom').addEventListener('input', e => {
+  scale = e.target.value / 100;
+  document.getElementById('zoomVal').textContent = e.target.value + '%';
+});
+
+document.getElementById('scrub').addEventListener('input', e => {
+  if (v.duration) v.currentTime = (e.target.value / 10000) * v.duration;
+});
+v.addEventListener('timeupdate', () => {
+  if (v.duration) {
+    document.getElementById('scrub').value = (v.currentTime / v.duration) * 10000;
+    document.getElementById('time').textContent = fmt(v.currentTime) + ' / ' + fmt(v.duration);
+  }
+});
+
+// ratio inputs trigger save
+for (const id of ['ratioAw','ratioAh','ratioBw','ratioBh']) {
+  document.getElementById(id).addEventListener('change', saveState);
+}
+
+document.getElementById('fileIn').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  v.src = URL.createObjectURL(f);
+  v.addEventListener('loadedmetadata', () => { vW = v.videoWidth; vH = v.videoHeight; draw(); }, { once: true });
+});
+
+loadState();
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Write compact code, omit comments but write obvious working code. Prefer stdlib unless absolute neccesary.

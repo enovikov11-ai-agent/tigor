@@ -1,0 +1,5649 @@
+AAPL, AAPL
+MSFT, MSFT
+AMZN, AMZN
+GOOG, GOOG
+GOOGL, GOOGL
+TSLA, TSLA
+FB, FB
+BABA, Alibaba Group Holding Limited American Depositary Shares each representing eight Ordinary share
+TSM, Taiwan Semiconductor Manufacturing Company Ltd.
+V, Visa Inc.
+JNJ, Johnson & Johnson Common Stock
+WMT, Walmart Inc. Common Stock
+JPM, JP Morgan Chase & Co. Common Stock
+NVDA, NVDA
+UNH, UnitedHealth Group Incorporated Common Stock (DE)
+MA, Mastercard Incorporated Common Stock
+PG, Procter & Gamble Company (The) Common Stock
+DIS, Walt Disney Company (The) Common Stock
+HD, Home Depot, Inc. (The) Common Stock
+PYPL, PYPL
+BAC, Bank of America Corporation Common Stock
+NFLX, NFLX
+ASML, ASML
+VZ, Verizon Communications Inc. Common Stock
+INTC, INTC
+ADBE, ADBE
+CMCSA, CMCSA
+NVS, Novartis AG Common Stock
+NKE, Nike, Inc. Common Stock
+PDD, PDD
+KO, Coca
+CRM, Salesforce, Inc. Common Stock
+TM, Toyota Motor Corporation Common Stock
+T, AT&T Inc.
+MRK, Merck & Company, Inc. Common Stock (new)
+TMO, Thermo Fisher Scientific Inc Common Stock
+PFE, Pfizer, Inc. Common Stock
+XOM, Exxon Mobil Corporation Common Stock
+ABT, Abbott Laboratories Common Stock
+LLY, Eli Lilly and Company Common Stock
+ABBV, AbbVie Inc. Common Stock
+PEP, PEP
+CSCO, CSCO
+AVGO, AVGO
+QCOM, QCOM
+BHP, BHP Group Limited American Depositary Shares (Each representing two Ordinary Shares)
+ORCL, Oracle Corporation Common Stock
+CVX, Chevron Corporation Common Stock
+DHR, Danaher Corporation Common Stock
+ACN, Accenture plc Class A Ordinary Shares (Ireland)
+NVO, Novo Nordisk A/S Common Stock
+NEE, NextEra Energy, Inc. Common Stock
+TMUS, TMUS
+COST, COST
+MCD, McDonald's Corporation Common Stock
+TXN, TXN
+MDT, Medtronic plc. Ordinary Shares
+UL, Unilever PLC Common Stock
+SAP, SAP  SE ADS
+AMGN, AMGN
+BBL, BBL
+JD, JD
+BMY, Bristol
+SHOP, SHOP
+HON, HON
+AZN, AZN
+UNP, Union Pacific Corporation Common Stock
+UPS, United Parcel Service, Inc. Common Stock
+HDB, HDFC Bank Limited Common Stock
+MS, Morgan Stanley Common Stock
+CHTR, CHTR
+WFC, Wells Fargo & Company Common Stock
+LIN, LIN
+BUD, Anheuser
+LOW, Lowe's Companies, Inc. Common Stock
+C, Citigroup, Inc. Common Stock
+PM, Philip Morris International Inc Common Stock
+SNE, SNE
+SNY, SNY
+SBUX, SBUX
+SE, Sea Limited American Depositary Shares, each representing one Class A Ordinary Share
+RY, Royal Bank Of Canada Common Stock
+TOT, TOT
+BA, Boeing Company (The) Common Stock
+HSBC, HSBC Holdings, plc. Common Stock
+BLK, BlackRock, Inc. Common Stock
+ZM, ZM
+AMD, AMD
+SCHW, Charles Schwab Corporation (The) Common Stock
+ABNB, ABNB
+IBM, International Business Machines Corporation Common Stock
+NOW, ServiceNow, Inc. Common Stock
+TD, Toronto Dominion Bank (The) Common Stock
+CAT, Caterpillar, Inc. Common Stock
+INTU, INTU
+RTX, RTX Corporation Common Stock
+AXP, American Express Company Common Stock
+RIO, Rio Tinto Plc Common Stock
+SQ, SQ
+GS, Goldman Sachs Group, Inc. (The) Common Stock
+AMT, American Tower Corporation (REIT) Common Stock
+MELI, MELI
+MMM, 3M Company Common Stock
+GE, GE Aerospace Common Stock
+AMAT, AMAT
+CVS, CVS Health Corporation Common Stock
+NIO, NIO Inc. American depositary shares, each  representing one Class A ordinary share
+GSK, GSK plc American Depositary Shares (Each representing two Ordinary Shares)
+TGT, Target Corporation Common Stock
+DE, Deere & Company Common Stock
+UBER, Uber Technologies, Inc. Common Stock
+LMT, Lockheed Martin Corporation Common Stock
+DEO, Diageo plc Common Stock
+MU, MU
+EL, Estee Lauder Companies, Inc. (The) Common Stock
+SYK, Stryker Corporation Common Stock
+VALE, VALE S.A.  American Depositary Shares Each Representing one common share
+ISRG, ISRG
+BTI, British American Tobacco  Industries, p.l.c. Common Stock ADR
+BIDU, BIDU
+BKNG, BKNG
+BEKE, KE Holdings Inc American Depositary Shares (each representing three Class A Ordinary Shares)
+GILD, GILD
+LRCX, LRCX
+BP, BP p.l.c. Common Stock
+SNOW, Snowflake Inc. Class A Common Stock
+CI, The Cigna Group Common Stock
+MDLZ, MDLZ
+TJX, TJX Companies, Inc. (The) Common Stock
+FIS, Fidelity National Information Services, Inc. Common Stock
+NTES, NTES
+SNAP, Snap Inc. Class A Common Stock
+GM, General Motors Company Common Stock
+ANTM, ANTM
+MO, Altria Group, Inc.
+ZTS, Zoetis Inc. Class A Common Stock
+INFY, Infosys Limited American Depositary Shares
+SPGI, S&P Global Inc. Common Stock
+CNI, Canadian National Railway Company Common Stock
+BDX, Becton, Dickinson and Company Common Stock
+PLD, Prologis, Inc. Common Stock
+ATVI, ATVI
+FISV, FISV
+ENB, Enbridge Inc Common Stock
+ADP, ADP
+USB, U.S. Bancorp Common Stock
+TFC, Truist Financial Corporation Common Stock
+CB, Chubb Limited  Common Stock
+CCI, Crown Castle Inc. Common Stock
+FDX, FedEx Corporation Common Stock
+CSX, CSX
+CL, Colgate
+SHW, Sherwin
+PBR, Petroleo Brasileiro S.A.
+DUK, Duke Energy Corporation (Holding Company) Common Stock
+CME, CME
+BNS, Bank Nova Scotia Halifax Pfd 3 Ordinary Shares
+ADSK, ADSK
+PNC, PNC Financial Services Group, Inc. (The) Common Stock
+ITW, Illinois Tool Works Inc. Common Stock
+EQIX, EQIX
+SPOT, Spotify Technology S.A. Ordinary Shares
+LFC, LFC
+SO, Southern Company (The) Common Stock
+TWLO, Twilio Inc. Class A Common Stock
+ICE, Intercontinental Exchange Inc. Common Stock
+APD, Air Products and Chemicals, Inc. Common Stock
+ABB, ABB
+EQNR, Equinor ASA
+SNP, SNP
+NSC, Norfolk Southern Corporation Common Stock
+VRTX, VRTX
+PLTR, PLTR
+DASH, DASH
+ECL, Ecolab Inc. Common Stock
+WBK, WBK
+MUFG, Mitsubishi UFJ Financial Group, Inc. Common Stock
+PTR, PTR
+DD, DuPont de Nemours, Inc. Common Stock
+ILMN, ILMN
+D, Dominion Energy, Inc. Common Stock
+TEAM, TEAM
+BAM, Brookfield Asset Management Inc Class A Limited Voting Shares
+COP, ConocoPhillips Common Stock
+ADI, ADI
+REGN, REGN
+DELL, Dell Technologies Inc. Class C Common Stock 
+TAK, Takeda Pharmaceutical Company Limited American Depositary Shares (each representing 1/2 of a share of Common Stock)
+MMC, Marsh & McLennan Companies, Inc. Common Stock
+WDAY, WDAY
+HCA, HCA Healthcare, Inc. Common Stock
+VMW, VMW
+GPN, Global Payments Inc. Common Stock
+BSBR, Banco Santander Brasil SA American Depositary Shares, each representing one unit
+SCCO, Southern Copper Corporation Common Stock
+SAN, Banco Santander, S.A. Sponsored ADR (Spain)
+PGR, Progressive Corporation (The) Common Stock
+ROKU, ROKU
+HUM, Humana Inc. Common Stock
+UBS, UBS Group AG Registered Ordinary Shares
+EW, Edwards Lifesciences Corporation Common Stock
+ITUB, Itau Unibanco Banco Holding SA American Depositary Shares (Each repstg 500 Preferred shares)
+RACE, Ferrari N.V. Common Shares
+BSX, Boston Scientific Corporation Common Stock
+MRNA, MRNA
+IBN, ICICI Bank Limited Common Stock
+PHG, Koninklijke Philips N.V. NY Registry Shares
+DG, Dollar General Corporation Common Stock
+EMR, Emerson Electric Company Common Stock
+MCO, Moody's Corporation Common Stock
+PUK, Prudential Public Limited Company Common Stock
+AMOV, AMOV
+NOC, Northrop Grumman Corporation Common Stock
+NEM, Newmont Corporation
+ETN, Eaton Corporation, PLC Ordinary Shares
+BMO, Bank Of Montreal Common Stock
+CRWD, CRWD
+RELX, RELX PLC PLC American Depositary Shares (Each representing One Ordinary Share)
+DOCU, DOCU
+WM, Waste Management, Inc. Common Stock
+NXPI, NXPI
+COF, Capital One Financial Corporation Common Stock
+AMX, America Movil, S.A.B. de C.V. American Depositary Shares (each representing the right to receive twenty (20) Series B Shares
+HMC, Honda Motor Company, Ltd. Common Stock
+AON, Aon plc Class A Ordinary Shares (Ireland)
+VOD, VOD
+KLAC, KLAC
+EPD, Enterprise Products Partners L.P. Common Stock
+CVNA, Carvana Co. Class A Common Stock
+PTON, PTON
+MNST, MNST
+BILI, BILI
+F, Ford Motor Company Common Stock
+MET, MetLife, Inc. Common Stock
+CP, Canadian Pacific Kansas City Limited Common Shares
+TAL, TAL Education Group American Depositary Shares
+TME, Tencent Music Entertainment Group American Depositary Shares, each representing two Class A Ordinary Shares
+PINS, Pinterest, Inc. Class A Common Stock
+LULU, LULU
+BX, Blackstone Inc. Common Stock
+KMB, KMB
+FCX, Freeport
+KDP, KDP
+SMFG, Sumitomo Mitsui Financial Group Inc Unsponsored American Depositary Shares (Japan)
+ABEV, Ambev S.A. American Depositary Shares (Each representing 1 Common Share)
+STZ, Constellation Brands, Inc. Common Stock
+ROP, ROP
+GD, General Dynamics Corporation Common Stock
+VEEV, Veeva Systems Inc. Class A Common Stock
+CEO, CEO
+CHWY, Chewy, Inc. Class A Common Stock
+CTSH, CTSH
+DOW, Dow Inc. Common Stock 
+NGG, National Grid Transco, PLC National Grid PLC (NEW) American Depositary Shares
+TEL, TE Connectivity plc Ordinary Shares
+EA, EA
+ALGN, ALGN
+IDXX, IDXX
+CMG, Chipotle Mexican Grill, Inc. Common Stock
+GOLD, GOLD
+U, Unity Software Inc. Common Stock
+TRP, TC Energy Corporation Common Stock
+EXC, EXC
+BIIB, BIIB
+LVS, Las Vegas Sands Corp. Common Stock
+SNPS, SNPS
+WBA, WBA
+AEP, AEP
+BAX, Baxter International Inc. Common Stock
+TRI, TRI
+ROST, ROST
+MCHP, MCHP
+KHC, KHC
+XPEV, XPeng Inc. American depositary shares, each representing two Class A ordinary shares
+MAR, MAR
+RKT, Rocket Companies, Inc. Class A Common Stock
+APH, Amphenol Corporation Common Stock
+ERIC, ERIC
+DLR, Digital Realty Trust, Inc. Common Stock
+CM, Canadian Imperial Bank of Commerce Common Stock
+PSA, Public Storage Common Stock
+EBAY, EBAY
+BCE, BCE, Inc. Common Stock
+A, Agilent Technologies, Inc. Common Stock
+LHX, L3Harris Technologies, Inc. Common Stock
+CDNS, CDNS
+SYY, Sysco Corporation Common Stock
+TWTR, TWTR
+TTD, TTD
+TDOC, Teladoc Health, Inc. Common Stock
+JCI, Johnson Controls International plc Ordinary Share
+APTV, Aptiv PLC Ordinary Shares
+LU, Lufax Holding Ltd American Depositary Shares, each representing two (2) Ordinary Shares
+MTCH, MTCH
+BK, The Bank of New York Mellon Corporation Common Stock
+E, ENI S.p.A. Common Stock
+LBRDK, LBRDK
+TRV, The Travelers Companies, Inc. Common Stock
+LBRDA, LBRDA
+MFC, Manulife Financial Corporation Common Stock
+TT, Trane Technologies plc
+CMI, Cummins Inc. Common Stock
+ING, ING Group, N.V. Common Stock
+ALC, Alcon Inc. Ordinary Shares
+STM, STMicroelectronics N.V. Common Stock
+WIT, Wipro Limited Common Stock
+CNC, Centene Corporation Common Stock
+IQV, IQVIA Holdings, Inc. Common Stock
+DXCM, DXCM
+PH, Parker
+ZG, ZG
+TROW, TROW
+MRVL, MRVL
+CSGP, CSGP
+PANW, PANW
+XLNX, XLNX
+SRE, DBA Sempra Common Stock
+ALXN, ALXN
+INFO, Harbor ETF Trust Harbor PanAgora Dynamic Large Cap Core ETF
+XEL, XEL
+CRH, CRH PLC Ordinary Shares
+KMI, Kinder Morgan, Inc. Common Stock
+AIG, American International Group, Inc. New Common Stock
+RNG, RingCentral, Inc. Class A Common Stock
+PCAR, PCAR
+CARR, Carrier Global Corporation Common Stock 
+GIS, General Mills, Inc. Common Stock
+OKTA, OKTA
+BGNE, BGNE
+MSCI, MSCI Inc. Common Stock
+MFG, Mizuho Financial Group, Inc. Sponosred ADR (Japan)
+CTAS, CTAS
+SLB, Schlumberger N.V. Common Stock
+Z, Z
+BCS, Barclays PLC Common Stock
+ALL, Allstate Corporation (The) Common Stock
+ZBH, Zimmer Biomet Holdings, Inc. Common Stock
+CS, CS
+ORLY, ORLY
+LYG, Lloyds Banking Group Plc American Depositary Shares
+PRU, Prudential Financial, Inc. Common Stock
+SGEN, SGEN
+VFC, V.F. Corporation Common Stock
+AFL, AFLAC Incorporated Common Stock
+HPQ, HP Inc. Common Stock
+PPG, PPG Industries, Inc. Common Stock
+BBVA, Banco Bilbao Vizcaya Argentaria S.A. Common Stock
+YUM, Yum! Brands, Inc.
+ANSS, ANSS
+EOG, EOG Resources, Inc. Common Stock
+RPRX, RPRX
+DDOG, DDOG
+PSX, Phillips 66 Common Stock
+TDG, Transdigm Group Incorporated Common Stock
+VRSK, VRSK
+CTVA, Corteva, Inc. Common Stock 
+PAYX, PAYX
+SPG, Simon Property Group, Inc. Common Stock
+PLUG, PLUG
+RMD, ResMed Inc. Common Stock
+ORAN, ORAN
+LI, LI
+ROK, Rockwell Automation, Inc. Common Stock
+HSY, The Hershey Company Common Stock
+LYB, LyondellBasell Industries NV Ordinary Shares Class A (Netherlands)
+SBAC, SBAC
+RSG, Republic Services, Inc. Common Stock
+CHT, Chunghwa Telecom Co., Ltd.
+NTR, Nutrien Ltd. Common Shares
+ES, Eversource Energy (D/B/A) Common Stock
+W, Wayfair Inc. Class A Common Stock
+MPC, Marathon Petroleum Corporation Common Stock
+BBY, Best Buy Co., Inc. Common Stock
+MCK, McKesson Corporation Common Stock
+BLL, BLL
+PEG, Public Service Enterprise Group Incorporated Common Stock
+IBKR, IBKR
+MSI, Motorola Solutions, Inc. Common Stock
+ADM, Archer
+MTD, Mettler
+ZS, ZS
+AWK, American Water Works Company, Inc. Common Stock
+AFRM, AFRM
+HLT, Hilton Worldwide Holdings Inc. Common Stock 
+EDU, New Oriental Education & Technology Group, Inc. Sponsored ADR representing 10 Ordinary Share (Cayman Islands)
+CNQ, Canadian Natural Resources Limited Common Stock
+GLW, Corning Incorporated Common Stock
+VIACA, VIACA
+PXD, PXD
+DHI, D.R. Horton, Inc. Common Stock
+DFS, DFS
+ZTO, ZTO Express (Cayman) Inc. American Depositary Shares, each representing one Class A ordinary share.
+GMAB, GMAB
+VIAC, VIAC
+OTIS, Otis Worldwide Corporation Common Stock 
+SWK, Stanley Black & Decker, Inc. Common Stock
+LUV, Southwest Airlines Company Common Stock
+AZO, AutoZone, Inc. Common Stock
+SLF, Sun Life Financial Inc. Common Stock
+SPLK, SPLK
+EC, Ecopetrol S.A. American Depositary Shares
+WEC, WEC Energy Group, Inc. Common Stock
+FAST, FAST
+WCN, Waste Connections, Inc. Common Shares
+CPRT, CPRT
+KEYS, Keysight Technologies Inc. Common Stock
+AME, AMETEK, Inc.
+SU, Suncor Energy  Inc. Common Stock
+FRC, FRC
+ETSY, ETSY
+ENPH, ENPH
+TU, Telus Corporation Ordinary Shares
+SWKS, SWKS
+WLTW, WLTW
+LEN, Lennar Corporation Class A Common Stock
+FMX, Fomento Economico Mexicano S.A.B. de C.V. Common Stock
+WELL, Welltower Inc. Common Stock
+WMB, Williams Companies, Inc. (The) Common Stock
+STT, State Street Corporation Common Stock
+BNTX, BNTX
+NET, Cloudflare, Inc. Class A Common Stock
+KR, Kroger Company (The) Common Stock
+CLX, Clorox Company (The) Common Stock
+DAL, Delta Air Lines, Inc. Common Stock
+UMC, United Microelectronics Corporation (NEW) Common Stock
+NWG, NatWest Group plc American Depositary Shares, (each representing two (2) Ordinary Shares)
+DLTR, DLTR
+SIRI, SIRI
+BBD, Banco Bradesco Sa American Depositary Shares
+EXAS, EXAS
+MXIM, MXIM
+AMP, Ameriprise Financial, Inc. Common Stock
+SIVB, SIVB
+WY, Weyerhaeuser Company Common Stock
+FMS, Fresenius Medical Care AG American Depositary Shares (Each representing 1/2 of an Ordinary Share)
+COUP, COUP
+YUMC, Yum China Holdings, Inc. Common Stock
+WORK, WORK
+FTNT, FTNT
+HRL, Hormel Foods Corporation Common Stock
+MKC, McCormick & Company, Incorporated Common Stock
+CERN, CERN
+ARE, Alexandria Real Estate Equities, Inc. Common Stock
+RCI, Rogers Communication, Inc. Common Stock
+STNE, STNE
+TEF, Telefonica SA Common Stock
+TSN, Tyson Foods, Inc. Common Stock
+VLO, Valero Energy Corporation Common Stock
+TLK, PT Telekomunikasi Indonesia, Tbk
+ODFL, ODFL
+MPLX, MPLX LP Common Units Representing Limited Partner Interests
+MT, Arcelor Mittal NY Registry Shares NEW
+GRMN, Garmin Ltd. Common Stock (Switzerland)
+RYAAY, RYAAY
+PAYC, Paycom Software, Inc. Common Stock
+DTE, DTE Energy Company Common Stock
+NOK, Nokia Corporation Sponsored American Depositary Shares
+TTWO, TTWO
+ANET, Arista Networks, Inc. Common Stock
+FNV, Franco
+FTV, Fortive Corporation Common Stock 
+YNDX, YNDX
+PCG, Pacific Gas & Electric Co. Common Stock
+XP, XP
+MDB, MDB
+ED, Consolidated Edison, Inc. Common Stock
+NDAQ, NDAQ
+AVB, AvalonBay Communities, Inc. Common Stock
+BBDO, Banco Bradesco Sa American Depositary Shares (each representing one Common Share)
+BKR, BKR
+EQR, Equity Residential Common Shares of Beneficial Interest
+TER, TER
+KKR, KKR & Co. Inc. Common Stock
+MGA, Magna International, Inc. Common Stock
+AJG, Arthur J. Gallagher & Co. Common Stock
+DB, Deutsche Bank AG Common Stock
+EIX, Edison International Common Stock
+O, Realty Income Corporation Common Stock
+CCL, Carnival Corporation Common Stock
+FLT, FLT
+LH, Labcorp Holdings Inc. Common Stock
+VRSN, VRSN
+WST, West Pharmaceutical Services, Inc. Common Stock
+CBRE, CBRE Group Inc Common Stock Class A
+CAJ, CAJ
+ABC, ABC
+FITB, FITB
+GSX, GSX
+SYF, Synchrony Financial Common Stock
+ZBRA, ZBRA
+CCEP, CCEP
+EFX, Equifax, Inc. Common Stock
+INCY, INCY
+FTCH, FTCH
+PPL, PPL Corporation Common Stock
+GWW, W.W. Grainger, Inc. Common Stock
+CHD, Church & Dwight Company, Inc. Common Stock
+GDS, GDS
+VMC, Vulcan Materials Company (Holding Company) Common Stock
+VTRS, VTRS
+QRVO, QRVO
+DKNG, DKNG
+IX, ORIX Corporation American Depositary Shares
+KSU, KSU
+GIB, CGI Inc. Common Stock
+IP, International Paper Company Common Stock
+ATUS, Altice USA, Inc. Class A Common Stock
+EPAM, EPAM Systems, Inc. Common Stock
+TXG, TXG
+K, Kellanova Common Stock
+ALNY, ALNY
+OXY, Occidental Petroleum Corporation Common Stock
+WMG, WMG
+TCOM, TCOM
+VIPS, Vipshop Holdings Limited American Depositary Shares, each representing two ordinary shares
+SNN, Smith & Nephew SNATS, Inc. Common Stock
+NTRS, NTRS
+DISCB, DISCB
+HOLX, HOLX
+CDW, CDW
+MKTX, MKTX
+EXPE, EXPE
+KMX, CarMax Inc
+MLM, Martin Marietta Materials, Inc. Common Stock
+CTLT, CTLT
+PODD, PODD
+FTS, Fortis Inc. Common Shares
+PKX, POSCO HOLDINGS INC. American Depositary Shares (Each representing 1/4th of a share of Common Stock)
+OKE, ONEOK, Inc. Common Stock
+IR, Ingersoll Rand Inc. Common Stock
+ETR, Entergy Corporation Common Stock
+CQP, Cheniere Energy Partners, LP Common Units
+COO, COO
+URI, United Rentals, Inc. Common Stock
+ALB, Albemarle Corporation Common Stock
+XYL, Xylem Inc. Common Stock New
+CNHI, CNHI
+PAGS, PagSeguro Digital Ltd. Class A Common Shares
+API, API
+DISCA, DISCA
+HES, Hess Corporation Common Stock
+VTR, Ventas, Inc. Common Stock
+MTB, M&T Bank Corporation Common Stock
+CVAC, CVAC
+QSR, Restaurant Brands International Inc. Common Shares
+ROL, Rollins, Inc. Common Stock
+WPM, Wheaton Precious Metals Corp Common Shares (Canada)
+CHKP, CHKP
+TSCO, TSCO
+QS, QuantumScape Corporation Class A Common Stock
+DOV, Dover Corporation Common Stock
+HUBS, HubSpot, Inc. Common Stock
+HIG, The Hartford Insurance Group, Inc. Common Stock
+AES, The AES Corporation Common Stock
+AEE, Ameren Corporation Common Stock
+ZI, ZI
+TFX, Teleflex Incorporated Common Stock
+FOXA, FOXA
+MPWR, MPWR
+CCC, CCC
+IAC, IAC
+KEY, KeyCorp Common Stock
+AKAM, AKAM
+BIO, Bio
+TRMB, TRMB
+AVTR, Avantor, Inc. Common Stock
+LOGI, LOGI
+ZEN, ZEN
+ET, Energy Transfer LP Common Units 
+TRU, TransUnion Common Stock
+GNRC, Generac Holdlings Inc. Common Stock
+GDRX, GDRX
+HEI, Heico Corporation Common Stock
+AMCR, Amcor plc Ordinary Shares
+FOX, FOX
+SSNC, SSNC
+WISH, WISH
+BR, Broadridge Financial Solutions, Inc. Common Stock
+NVCR, NVCR
+HZNP, HZNP
+AEM, Agnico Eagle Mines Limited Common Stock
+TYL, Tyler Technologies, Inc. Common Stock
+RCL, Royal Caribbean Cruises Ltd. Common Stock
+RUN, RUN
+RF, Regions Financial Corporation Common Stock
+HAL, Halliburton Company Common Stock
+PKI, PKI
+PENN, PENN
+WAT, Waters Corporation Common Stock
+FE, FirstEnergy Corp. Common Stock
+ULTA, ULTA
+NICE, NICE
+INVH, Invitation Homes Inc. Common Stock
+CAG, ConAgra Brands, Inc. Common Stock
+DGX, Quest Diagnostics Incorporated Common Stock
+NMR, Nomura Holdings Inc ADR American Depositary Shares
+CMS, CMS Energy Corporation Common Stock
+BURL, Burlington Stores, Inc. Common Stock
+NVR, NVR, Inc. Common Stock
+LNG, Cheniere Energy, Inc. Common Stock
+UI, Ubiquiti Inc. Common Stock
+SKM, SK Telecom Co., Ltd. Common Stock
+CZR, CZR
+NUE, Nucor Corporation Common Stock
+SEDG, SEDG
+CFG, Citizens Financial Group, Inc. Common Stock
+CAH, Cardinal Health, Inc. Common Stock
+PEAK, PEAK
+DISH, DISH
+DISCK, DISCK
+IQ, IQ
+STE, STERIS plc (Ireland) Ordinary Shares
+ASX, ASE Technology Holding Co., Ltd. American Depositary Shares (each representing Two Common Shares) 
+VAR, VAR
+GH, GH
+BMRN, BMRN
+LDOS, Leidos Holdings, Inc. Common Stock
+BPY, BPY
+SUZ, Suzano S.A. American Depositary Shares (each representing One Ordinary Share)
+DRI, Darden Restaurants, Inc. Common Stock
+EXPD, Expeditors International of Washington, Inc. Common Stock
+ESS, Essex Property Trust, Inc. Common Stock
+OPEN, OPEN
+SUI, Sun Communities, Inc. Common Stock
+KB, KB Financial Group Inc
+ABMD, ABMD
+HPE, Hewlett Packard Enterprise Company Common Stock
+BIP, Brookfield Infrastructure Partners LP Limited Partnership Units
+CTXS, CTXS
+CDAY, CDAY
+MGM, MGM Resorts International Common Stock
+CUK, Carnival Plc ADS ADS
+JBHT, JBHT
+WDC, WDC
+LYV, Live Nation Entertainment, Inc. Common Stock
+STX, STX
+SHG, Shinhan Financial Group Co Ltd American Depositary Shares
+HTHT, HTHT
+CE, Celanese Corporation Common Stock
+MAA, Mid
+ON, ON
+WAB, Westinghouse Air Brake Technologies Corporation Common Stock
+PTC, PTC
+PBA, Pembina Pipeline Corp. Ordinary Shares (Canada)
+LYFT, LYFT
+ALLY, Ally Financial Inc. Common Stock
+ENTG, ENTG
+EXR, Extra Space Storage Inc Common Stock
+MAS, Masco Corporation Common Stock
+DPZ, DPZ
+DRE, DRE
+SQM, Sociedad Quimica y Minera S.A. Common Stock
+IEX, IDEX Corporation Common Stock
+FMC, FMC Corporation Common Stock
+POOL, POOL
+IMO, Imperial Oil Limited Common Stock
+ESTC, Elastic N.V. Ordinary Shares
+CGNX, CGNX
+PFG, PFG
+GPC, Genuine Parts Company Common Stock
+LBTYA, LBTYA
+ARGX, ARGX
+LSXMB, LSXMB
+TW, TW
+LBTYB, LBTYB
+MASI, MASI
+NTAP, NTAP
+LBTYK, LBTYK
+FICO, Fair Isaac Corporation Common Stock
+J, Jacobs Solutions Inc. Common Stock
+EMN, Eastman Chemical Company Common Stock
+TDY, Teledyne Technologies Incorporated Common Stock
+ELAN, Elanco Animal Health Incorporated Common Stock
+AGR, AGR
+APPN, APPN
+IT, Gartner, Inc. Common Stock
+BXP, BXP, Inc. Common Stock
+CRSP, CRSP
+VICI, VICI Properties Inc. Common Stock
+HBAN, HBAN
+GDDY, GoDaddy Inc. Class A Common Stock
+CPB, CPB
+TTM, TTM
+KEP, Korea Electric Power Corporation Common Stock
+CINF, CINF
+RJF, Raymond James Financial, Inc. Common Stock
+CRL, Charles River Laboratories International, Inc. Common Stock
+NUAN, NUAN
+WIX, WIX
+AVLR, AVLR
+VIV, Telefonica Brasil S.A. American Depositary Shares (Each representing One Common Share)
+LSXMA, LSXMA
+TECH, TECH
+TEVA, Teva Pharmaceutical Industries Limited American Depositary Shares
+LSXMK, LSXMK
+ZLAB, ZLAB
+MKL, Markel Group Inc. Common Stock
+ABCL, ABCL
+BEP, Brookfield Renewable Partners L.P. Limited Partnership Units
+ACGL, ACGL
+FUTU, FUTU
+BRO, Brown & Brown, Inc. Common Stock
+OMC, Omnicom Group Inc. Common Stock
+DVA, DaVita Inc. Common Stock
+BEN, Franklin Resources, Inc. Common Stock
+IPGP, IPGP
+HAS, HAS
+PKG, Packaging Corporation of America Common Stock
+CHRW, CHRW
+WPP, WPP plc American Depositary Shares
+BAH, Booz Allen Hamilton Holding Corporation Common Stock
+MOH, Molina Healthcare Inc Common Stock
+OSH, OSH
+IEP, IEP
+ATHM, Autohome Inc. American Depositary Shares, each representing four class A ordinary shares.
+PHM, PulteGroup, Inc. Common Stock
+AVY, Avery Dennison Corporation Common Stock
+GRFS, GRFS
+JHX, James Hardie Industries plc American Depositary Shares (Ireland)
+BKI, BKI
+YSG, Yatsen Holding Limited American Depositary Shares, each representing twenty (20) Class A Ordinary Shares
+FBHS, FBHS
+SMG, Scotts Miracle
+L, Loews Corporation Common Stock
+OTEX, OTEX
+SJM, The J.M. Smucker Company Common Stock
+DT, Dynatrace, Inc. Common Stock
+GGG, Graco Inc. Common Stock
+CGC, CGC
+CCK, Crown Holdings, Inc.
+CREE, CREE
+FFIV, FFIV
+LB, LandBridge Company LLC Class A Shares Representing Limited Liability Company Interests
+XRAY, XRAY
+CHGG, Chegg, Inc. Common Stock
+BSY, BSY
+QGEN, Qiagen N.V. Common Shares
+MPW, Medical Properties Trust, Inc. common stock
+NTCO, NTCO
+WHR, Whirlpool Corporation Common Stock
+PLTK, PLTK
+IFF, International Flavors & Fragrances, Inc. Common Stock
+ERIE, ERIE
+LNT, LNT
+UAL, UAL
+CABO, Cable One, Inc. Common Stock
+BAP, Credicorp Ltd. Common Stock
+WRK, WRK
+LUMN, Lumen Technologies, Inc. Common Stock
+NLOK, NLOK
+PPD, PPD
+EVRG, EVRG
+SBSW, D/B/A Sibanye
+FDS, FactSet Research Systems Inc. Common Stock
+AI, C3.ai, Inc. Class A Common Stock
+RGEN, RGEN
+DVN, Devon Energy Corporation Common Stock
+EQH, Equitable Holdings, Inc. Common Stock
+AIRC, AIRC
+CVE, Cenovus Energy Inc Common Stock
+ENIA, ENIA
+FIVN, FIVN
+IHG, Intercontinental Hotels Group American Depositary Shares (Each representing one Ordinary Share)
+CG, CG
+WPC, W. P. Carey Inc. REIT
+WRB, W.R. Berkley Corporation Common Stock
+KC, KC
+FSLY, Fastly, Inc. Class A Common Stock
+NLY, Annaly Capital Management Inc. Common Stock
+OLED, OLED
+CNP, CenterPoint Energy, Inc (Holding Co) Common Stock
+HWM, Howmet Aerospace Inc. Common Stock
+WYNN, WYNN
+FNF, FNF Group of Fidelity National Financial, Inc. Common Stock
+PEGA, PEGA
+JKHY, JKHY
+ZNGA, ZNGA
+ELS, Equity Lifestyle Properties, Inc. Common Stock
+UDR, UDR, Inc. Common Stock
+LW, Lamb Weston Holdings, Inc. Common Stock 
+RDY, Dr. Reddy's Laboratories Ltd Common Stock
+ICLR, ICLR
+SAM, Boston Beer Company, Inc. (The) Common Stock
+TXT, Textron Inc. Common Stock
+TREX, Trex Company, Inc. Common Stock
+RPM, RPM International Inc. Common Stock
+LKQ, LKQ
+FSLR, FSLR
+ATO, Atmos Energy Corporation Common Stock
+LII, Lennox International, Inc. Common Stock
+NDSN, NDSN
+WTRG, Essential Utilities, Inc. Common Stock
+AAP, Advance Auto Parts Inc.
+OZON, OZON
+LAZR, LAZR
+NWSA, NWSA
+UHS, Universal Health Services, Inc. Common Stock
+TAP, Molson Coors Beverage Company Class B Common Stock
+PCTY, PCTY
+MTN, Vail Resorts, Inc. Common Stock
+NBIX, NBIX
+TECK, Teck Resources Ltd Ordinary Shares
+TTC, Toro Company (The) Common Stock
+CNA, CNA Financial Corporation Common Stock
+AAXN, AAXN
+DAR, Darling Ingredients Inc. Common Stock
+MRTX, MRTX
+PWR, Quanta Services, Inc. Common Stock
+NWS, NWS
+MOS, Mosaic Company (The) Common Stock
+BCH, Banco De Chile ADS
+KL, KL
+XPO, XPO, Inc. Common Stock
+MHK, Mohawk Industries, Inc. Common Stock
+CBOE, Cboe Global Markets, Inc. Common Stock
+BILL, BILL Holdings, Inc. Common Stock
+APO, Apollo Global Management, Inc. (New) Common Stock
+FIVE, FIVE
+FND, Floor & Decor Holdings, Inc. Common Stock
+NWL, NWL
+DADA, DADA
+WLK, Westlake Corporation Common Stock
+BWA, BorgWarner Inc. Common Stock
+DNB, Dun & Bradstreet Holdings, Inc. Common Stock
+ALLE, Allegion plc Ordinary Shares
+BLDP, BLDP
+VST, Vistra Corp. Common Stock
+CIG, Comp En De Mn Cemig ADS American Depositary Shares
+GWRE, Guidewire Software, Inc. Common Stock
+SKLZ, Skillz Inc. Class A Common Stock
+AQN, Algonquin Power & Utilities Corp. Common Shares
+MORN, MORN
+AMED, AMED
+MMP, MMP
+RH, RH Common Stock
+NTRA, NTRA
+MKSI, MKSI
+GFL, GFL Environmental Inc. Subordinate voting shares, no par value
+HST, HST
+SFIX, SFIX
+PLAN, PLAN
+NRG, NRG Energy, Inc. Common Stock
+WSM, Williams
+BEPC, Brookfield Renewable Corporation Brookfield Renewable Corporation Class A Subordinate Voting Shares
+FANG, FANG
+LEA, Lear Corporation Common Stock
+BSAC, Banco Santander 
+CPT, Camden Property Trust Common Stock
+HSIC, HSIC
+GL, Globe Life Inc. Common Stock
+AMH, American Homes 4 Rent Common Shares of Beneficial Interest
+QDEL, QDEL
+FLEX, FLEX
+LNC, Lincoln National Corporation Common Stock
+NVTA, NVTA
+KOF, Coca Cola Femsa S.A.B. de C.V.  American Depositary Shares, each representing 10 Units (each Unit consists of 3 Series B Shares and 5 Series L Shares)
+IIVI, IIVI
+WB, WB
+WSO, Watsco, Inc. Common Stock
+AAL, AAL
+AU, AngloGold Ashanti PLC Ordinary Shares
+AZPN, AZPN
+SNA, Snap
+PNR, Pentair plc. Ordinary Share
+IVZ, Invesco Ltd Common Stock
+IPG, Interpublic Group of Companies, Inc. (The) Common Stock
+BG, Bunge Limited Common Shares
+TPR, Tapestry, Inc. Common Stock
+MGP, MGP
+DNLI, DNLI
+DLB, Dolby Laboratories Common Stock
+BHC, Bausch Health Companies Inc. Common Stock
+BFAM, Bright Horizons Family Solutions Inc. Common Stock
+GLPI, GLPI
+CX, Cemex, S.A.B. de C.V. Sponsored ADR
+FWONK, FWONK
+JAZZ, JAZZ
+AOS, A.O. Smith Corporation Common Stock
+BRKR, BRKR
+UHAL, U
+RARE, RARE
+DOX, DOX
+CF, CF Industries Holdings, Inc. Common Stock
+TWST, TWST
+ADPT, ADPT
+MNSO, MINISO Group Holding Limited American Depositary Shares, each representing four Ordinary Shares
+TS, Tenaris S.A. American Depositary Shares
+DBX, DBX
+RE, RE
+OC, Owens Corning Inc Common Stock New
+IPHI, IPHI
+LPLA, LPLA
+ST, Sensata Technologies Holding plc Ordinary Shares
+WU, Western Union Company (The) Common Stock
+HUBB, Hubbell Inc Common Stock
+ARMK, Aramark Common Stock
+FATE, FATE
+DECK, Deckers Outdoor Corporation Common Stock
+LAD, Lithia Motors, Inc. Common Stock
+GNTX, GNTX
+ATR, AptarGroup, Inc. Common Stock
+COLD, Americold Realty Trust, Inc. Common Stock
+WEX, WEX Inc. common stock
+SMAR, SMAR
+RP, RP
+PEN, Penumbra, Inc. Common Stock
+SJR, SJR
+EWBC, EWBC
+SCI, Service Corporation International Common Stock
+BYND, BYND
+KGC, Kinross Gold Corporation Common Stock
+AGNC, AGNC
+BLDR, Builders FirstSource, Inc. Common Stock
+EBR, Centrais Electricas Brasileiras S A American Depositary Shares (Each representing one Common Share)
+CHE, Chemed Corp
+CIB, Grupo Cibest S.A. American Depositary Shares each representing four Preferred Shares
+EHC, Encompass Health Corporation Common Stock
+IRM, Iron Mountain Incorporated (Delaware)Common Stock REIT
+LMND, Lemonade, Inc. Common Stock
+OCFT, OneConnect Financial Technology Co., Ltd. American Depositary Shares, each representing thirty ordinary shares
+PNW, Pinnacle West Capital Corporation Common Stock
+CMA, Comerica Incorporated Common Stock
+ASND, ASND
+IONS, IONS
+SEIC, SEIC
+SBNY, SBNY
+AEG, Aegon Ltd. New York Registry Shares
+FVRR, Fiverr International Ltd. Ordinary Shares, no par value
+CONE, CONE
+AGCO, AGCO Corporation Common Stock
+BBIO, BBIO
+SID, Companhia Siderurgica Nacional S.A. Common Stock
+CIEN, Ciena Corporation Common Stock
+FWONA, FWONA
+PRAH, PRAH
+ZNH, ZNH
+VEDL, VEDL
+CHDN, CHDN
+GFI, Gold Fields Limited American Depositary Shares
+LAMR, LAMR
+GPS, GPS
+ARWR, ARWR
+UAA, Under Armour, Inc. Class A Common Stock
+ACAD, ACAD
+NI, NiSource Inc Common Stock
+AYX, AYX
+STOR, STOR
+KOD, KOD
+NYT, New York Times Company (The) Common Stock
+ATH, ATH
+Y, Y
+JNPR, Juniper Networks, Inc. Common Stock
+LEVI, Levi Strauss & Co Class A Common Stock
+JLL, Jones Lang LaSalle Incorporated Common Stock
+GLOB, Globant S.A. Common Shares
+EV, EV
+OHI, Omega Healthcare Investors, Inc. Common Stock
+ACI, Albertsons Companies, Inc. Class A Common Stock
+CSL, Carlisle Companies Incorporated Common Stock
+MCFE, MCFE
+STLD, STLD
+LSPD, Lightspeed Commerce Inc. Subordinate Voting Shares
+CBSH, CBSH
+IAA, IAA
+NVAX, NVAX
+FHN, First Horizon Corporation Common Stock
+MRVI, MRVI
+RS, Reliance, Inc. Common Stock
+NFE, NFE
+SPWR, SPWR
+SPCE, Virgin Galactic Holdings, Inc. Common Stock
+MBT, MBT
+PFPT, PFPT
+REG, REG
+ACM, AECOM Common Stock
+AIZ, Assurant, Inc. Common Stock
+RL, Ralph Lauren Corporation Common Stock
+ARW, Arrow Electronics, Inc. Common Stock
+SYNH, SYNH
+ZION, ZION
+BB, BlackBerry Limited Common Stock
+GGB, Gerdau S.A. Common Stock
+RNR, RenaissanceRe Holdings Ltd. Common Stock
+WOOF, WOOF
+G, Genpact Limited Common Stock
+CLF, Cleveland
+SITE, SiteOne Landscape Supply, Inc. Common Stock
+MLCO, MLCO
+VER, VER
+RHI, Robert Half Inc. Common Stock
+NLSN, NLSN
+NCLH, Norwegian Cruise Line Holdings Ltd. Ordinary Shares
+SRPT, SRPT
+UGI, UGI Corporation Common Stock
+BL, BL
+NKLA, NKLA
+ALV, Autoliv, Inc. Common Stock
+TTEK, TTEK
+RDFN, RDFN
+WWD, WWD
+USFD, US Foods Holding Corp. Common Stock
+MIDD, MIDD
+QTWO, Q2 Holdings, Inc. Common Stock
+LPL, LG Display Co, Ltd AMERICAN DEPOSITORY SHARES
+XLRN, XLRN
+MANH, MANH
+LITE, LITE
+DCI, Donaldson Company, Inc. Common Stock
+RGA, Reinsurance Group of America, Incorporated Common Stock
+UTHR, UTHR
+SHC, SHC
+DXC, DXC Technology Company Common Stock 
+ADT, ADT Inc. Common Stock
+KNX, Knight
+ARCC, ARCC
+COG, COG
+YY, YY
+AFG, American Financial Group, Inc. Common Stock
+LECO, LECO
+AVAL, Grupo Aval Acciones y Valores S.A. ADR (Each representing 20 preferred shares)
+CHNG, CHNG
+PII, Polaris Inc. Common Stock
+GRUB, GRUB
+PSO, Pearson, Plc Common Stock
+IRTC, IRTC
+VOYA, Voya Financial, Inc. Common Stock
+CASY, CASY
+EEFT, EEFT
+GLPG, GLPG
+VNO, Vornado Realty Trust Common Stock
+UA, Under Armour, Inc. Class C Common Stock
+KIM, Kimco Realty Corporation (HC) Common Stock
+EXPI, EXPI
+H, Hyatt Hotels Corporation Class A Common Stock
+WAL, Western Alliance Bancorporation Common Stock (DE)
+BLD, TopBuild Corp. Common Stock
+SC, SC
+FLIR, FLIR
+KSS, Kohl's Corporation Common Stock
+CWEN, Clearway Energy, Inc. Class C Common Stock
+SEE, Sealed Air Corporation Common Stock
+BC, Brunswick Corporation Common Stock
+BSMX, BSMX
+PACB, PACB
+NNN, NNN REIT, Inc. Common Stock
+IOVA, IOVA
+BERY, BERY
+ALLK, ALLK
+CLR, CLR
+PVH, PVH Corp. Common Stock
+ICL, ICL Group Ltd. Ordinary Shares
+AMWL, American Well Corporation Class A Common Stock
+ITT, ITT Inc. Common Stock 
+RBA, RB Global, Inc. Common Stock
+RCM, RCM
+LHCG, LHCG
+RGLD, RGLD
+PFGC, Performance Food Group Company Common Stock
+EXEL, EXEL
+PLNT, Planet Fitness, Inc. Common Stock
+CUBE, CubeSmart Common Shares
+LFUS, LFUS
+TGTX, TGTX
+HII, Huntington Ingalls Industries, Inc. Common Stock
+JBL, Jabil Inc. Common Stock
+NTNX, NTNX
+SSL, Sasol Ltd. American Depositary Shares
+OMF, OneMain Holdings, Inc. Common Stock
+ALK, Alaska Air Group, Inc. Common Stock
+AN, AutoNation, Inc. Common Stock
+DQ, DAQO New Energy Corp. American Depositary Shares, each representing five ordinary shares
+FRT, Federal Realty Investment Trust Common Stock
+ONEM, ONEM
+HALO, HALO
+CEA, CEA
+KRC, Kilroy Realty Corporation Common Stock
+BE, Bloom Energy Corporation Class A Common Stock
+CPRI, Capri Holdings Limited Ordinary Shares
+NCNO, NCNO
+SDGR, SDGR
+TMX, TMX
+CAE, CAE Inc. Ordinary Shares
+PAA, PAA
+WMS, Advanced Drainage Systems, Inc. Common Stock
+HRC, HRC
+TRGP, Targa Resources, Inc. Common Stock
+HQY, HQY
+VRT, Vertiv Holdings, LLC Class A Common Stock
+DCT, DCT
+IRDM, IRDM
+PSXP, PSXP
+POST, Post Holdings, Inc. Common Stock
+ARES, Ares Management Corporation Class A Common Stock
+CD, CD
+PB, Prosperity Bancshares, Inc. Common Stock
+AXTA, Axalta Coating Systems Ltd. Common Shares
+OSK, Oshkosh Corporation (Holding Company)Common Stock
+ARRY, ARRY
+REXR, Rexford Industrial Realty, Inc. Common Stock
+NEO, NEO
+GMED, Globus Medical, Inc. Class A Common Stock
+AZEK, The AZEK Company Inc. Class A Common Stock
+MRO, MRO
+CACI, CACI International, Inc. Class A Common Stock
+MAT, MAT
+TPL, Texas Pacific Land Corporation Common Stock
+TPTX, TPTX
+ALGM, ALGM
+PAAS, Pan American Silver Corp. Common Stock
+MSA, MSA Safety Incorporated Common Stock
+HOG, Harley
+HTA, HTA
+PHI, PLDT Inc. Sponsored ADR
+TOL, Toll Brothers, Inc. Common Stock
+WES, Western Midstream Partners, LP Common Units Representing Limited Partner Interests
+SRCL, SRCL
+TCF, TCF
+CYBR, CYBR
+TKR, Timken Company (The) Common Stock
+JEF, Jefferies Financial Group Inc. Common Stock
+OGE, OGE Energy Corp Common Stock
+PSTG, Pure Storage, Inc. Class A Common Stock
+BRKS, BRKS
+WF, Woori Financial Group Inc. American Depositary Shares (each representing three (3) shares of Common Stock)
+ANGI, ANGI
+SLAB, SLAB
+HUN, Huntsman Corporation Common Stock
+FCNCA, FCNCA
+ASAN, Asana, Inc. Class A Common Stock
+NEP, NEP
+REYN, REYN
+APA, APA
+OLLI, OLLI
+CNXC, CNXC
+TNDM, TNDM
+COLM, COLM
+YETI, YETI Holdings, Inc. Common Stock
+DKS, Dick's Sporting Goods Inc Common Stock
+FAF, First American Corporation (New) Common Stock
+CDK, CDK
+CFR, Cullen/Frost Bankers, Inc. Common Stock
+JHG, Janus Henderson Group plc Ordinary Shares
+MTZ, MasTec, Inc. Common Stock
+SON, Sonoco Products Company Common Stock
+NVRO, NVRO
+LSI, LSI
+FRPT, FRPT
+HLF, Herbalife Ltd. Common Shares
+DOOO, DOOO
+APPS, APPS
+THO, Thor Industries, Inc. Common Stock
+CLGX, CLGX
+ESLT, ESLT
+CLOV, CLOV
+PBCT, PBCT
+INSP, Inspire Medical Systems, Inc. Common Stock
+ORA, Ormat Technologies, Inc. Common Stock
+TPX, TPX
+FSV, FSV
+HAE, Haemonetics Corporation Common Stock
+MDLA, MDLA
+HNP, HNP
+LSCC, LSCC
+PRGO, Perrigo Company plc Ordinary Shares
+FROG, FROG
+JWN, JWN
+TIMB, TIM S.A. American Depositary Shares (Each representing 5 Common Shares) 
+SAIC, SAIC
+LEG, Leggett & Platt, Incorporated Common Stock
+FCEL, FCEL
+LSTR, LSTR
+IART, IART
+VRNS, VRNS
+NVST, Envista Holdings Corporation Common Stock
+PSTH, PSTH
+WSC, WSC
+BEAM, BEAM
+FFIN, FFIN
+NATI, NATI
+BJ, BJ's Wholesale Club Holdings, Inc. Common Stock
+ACH, ACH
+CCIV, CCIV
+PAC, Grupo Aeroportuario Del Pacifico, S.A. B. de C.V. Grupo Aeroportuario Del Pacifico, S.A. de C.V. (each representing 10 Series B shares)
+TX, Ternium S.A. Ternium S.A. American Depositary Shares (each representing ten shares, USD1.00 par value)
+SKX, Skechers U.S.A., Inc. Common Stock
+CACC, CACC
+ACC, ACC
+HELE, HELE
+CHH, Choice Hotels International, Inc. Common Stock
+CERT, CERT
+CRUS, CRUS
+VAC, Marriott Vacations Worldwide Corporation Common Stock
+VNT, Vontier Corporation Common Stock 
+FOUR, Shift4 Payments, Inc. Class A Common Stock
+DM, DM
+EBS, Emergent BioSolutions Inc. Common Stock
+BPMC, BPMC
+POWI, POWI
+SSB, SouthState Corporation Common Stock
+HUYA, HUYA Inc. American depositary shares, each  representing one Class A ordinary share
+BYD, Boyd Gaming Corporation Common Stock
+ORI, Old Republic International Corporation Common Stock
+WH, Wyndham Hotels & Resorts, Inc. Common Stock 
+BOKF, BOKF
+MDU, MDU Resources Group, Inc. Common Stock (Holding Company)
+STWD, STARWOOD PROPERTY TRUST, INC. Starwood Property Trust Inc.
+PNFP, PNFP
+BWXT, BWX Technologies, Inc. Common Stock
+ENIC, Enel Chile S.A. American Depositary Shares (Each representing 50 shares of Common Stock)
+RLAY, RLAY
+TXRH, TXRH
+EGP, EastGroup Properties, Inc. Common Stock
+TENB, TENB
+COR, Cencora, Inc. Common Stock
+RAMP, LiveRamp Holdings, Inc. Common Stock
+MP, MP Materials Corp. Common Stock
+SNV, Synovus Financial Corp. Common Stock
+FOLD, FOLD
+MAN, ManpowerGroup Common Stock
+VNET, VNET
+HBI, Hanesbrands Inc. Common Stock
+RBC, RBC Bearings Incorporated Common Stock
+FR, First Industrial Realty Trust, Inc. Common Stock
+POSH, POSH
+TEO, Telecom Argentina SA
+APPF, APPF
+SF, Stifel Financial Corporation Common Stock
+SMTC, SMTC
+TNET, TriNet Group, Inc. Common Stock
+ABCM, ABCM
+MSTR, MSTR
+AER, AerCap Holdings N.V. Ordinary Shares
+SAIL, SAIL
+THC, Tenet Healthcare Corporation Common Stock
+TFSL, TFSL
+EME, EMCOR Group, Inc. Common Stock
+PRI, Primerica, Inc. Common Stock
+FEYE, FEYE
+BTG, B2Gold Corp Common shares (Canada)
+NOVA, Sunnova Energy International Inc. Common Stock
+LESL, LESL
+DSGX, DSGX
+CVET, CVET
+PAG, Penske Automotive Group, Inc. Common Stock
+BLI, BLI
+NARI, NARI
+OMCL, OMCL
+KT, KT Corporation Common Stock
+MPLN, MPLN
+NOV, NOV Inc. Common Stock
+FOXF, FOXF
+ASH, Ashland Inc. Common Stock
+SBS, Companhia de saneamento Basico Do Estado De Sao Paulo 
+GIL, Gildan Activewear, Inc. Class A Sub. Vot. Common Stock
+PRLB, Proto Labs, Inc. Common stock
+UNM, Unum Group Common Stock
+SAGE, SAGE
+VIR, VIR
+INGR, Ingredion Incorporated Common Stock
+GTLS, Chart Industries, Inc. Common Stock
+ESNT, Essent Group Ltd. Common Shares
+ORCC, ORCC
+AMG, Affiliated Managers Group, Inc. Common Stock
+NYCB, NYCB
+AY, AY
+BRX, Brixmor Property Group Inc. Common Stock
+SAIA, SAIA
+SEER, SEER
+RXN, RXN
+JMIA, Jumia Technologies AG American Depositary Shares, each representing two Ordinary Shares
+MEDP, MEDP
+HASI, HA Sustainable Infrastructure Capital, Inc. Common Stock
+UPWK, UPWK
+BPOP, BPOP
+FTI, TechnipFMC plc Ordinary Share
+GSHD, GSHD
+ALSN, Allison Transmission Holdings, Inc. Common Stock
+COHR, Coherent Corp. Common Stock
+VRNT, VRNT
+FLS, Flowserve Corporation Common Stock
+SWI, SWI
+EIDX, EIDX
+DEI, Douglas Emmett, Inc. Common Stock
+HCM, HCM
+PPC, PPC
+NEWR, NEWR
+SLM, SLM
+FL, Foot Locker, Inc.
+CROX, CROX
+EVBG, EVBG
+AUY, AUY
+QLYS, QLYS
+CUZ, Cousins Properties Incorporated Common Stock
+DRVN, DRVN
+ROOT, ROOT
+QRTEB, QRTEB
+CCJ, Cameco Corporation Common Stock
+GBCI, Glacier Bancorp, Inc. Common Stock
+QRTEA, QRTEA
+RSI, Rush Street Interactive, Inc. Class A Common Stock
+CCMP, CCMP
+KWR, Quaker Houghton Common Stock
+VERX, VERX
+HLI, Houlihan Lokey, Inc. Class A Common Stock
+HHC, HHC
+KMPR, Kemper Corporation
+ACIA, ACIA
+ESGR, ESGR
+COTY, Coty Inc. Class A Common Stock
+TV, Grupo Televisa S.A.B. Common Stock
+AL, Air Lease Corporation Class A Common Stock
+TKC, Turkcell Iletisim Hizmetleri AS Common Stock
+BIGC, BIGC
+ASR, Grupo Aeroportuario del Sureste, S.A. de C.V. Common Stock
+GOCO, GOCO
+EXPO, EXPO
+JBLU, JBLU
+VIRT, VIRT
+CFX, CFX
+NTLA, NTLA
+LANC, LANC
+FTDR, FTDR
+BHVN, Biohaven Ltd. Common Shares 
+WK, Workiva Inc. Class A Common Stock
+ASGN, ASGN Incorporated Common Stock
+EXP, Eagle Materials Inc Common Stock
+TFII, TFI International Inc. Common Shares
+ALRM, ALRM
+NXST, NXST
+RPD, RPD
+VRM, VRM
+FLO, Flowers Foods, Inc. Common Stock
+MMS, Maximus, Inc. Common Stock
+NOVT, NOVT
+CW, Curtiss
+ACIW, ACIW
+HFC, HFC
+CRNC, CRNC
+CR, Crane Company Common Stock
+UPST, UPST
+WEN, WEN
+GPK, Graphic Packaging Holding Company
+OZK, OZK
+EVR, Evercore Inc. Class A Common Stock
+IIPR, Innovative Industrial Properties, Inc. Common Stock
+JOBS, JOBS
+ROLL, ROLL
+STAG, Stag Industrial, Inc. Common Stock
+ACHC, ACHC
+CELH, CELH
+ICUI, ICUI
+TRUP, TRUP
+UBSI, UBSI
+CLH, Clean Harbors, Inc. Common Stock
+SHAK, Shake Shack, Inc. Class A Common Stock
+ENSG, ENSG
+MSM, MSC Industrial Direct Company, Inc. Common Stock
+WING, WING
+VVV, Valvoline Inc. Common Stock
+CBPO, CBPO
+FIZZ, FIZZ
+NEOG, NEOG
+SNX, TD SYNNEX Corporation Common Stock
+WBS, Webster Financial Corporation Common Stock
+LAZ, Lazard, Inc. Common Stock
+NOMD, Nomad Foods Limited Ordinary Shares
+AEIS, AEIS
+RLI, RLI Corp. Common Stock (DE)
+NEU, NewMarket Corp Common Stock
+SRC, SRC
+GME, GameStop Corporation Common Stock
+ARNA, ARNA
+XEC, XEC
+EQT, EQT Corporation Common Stock
+CC, Chemours Company (The) Common Stock
+MGNI, MGNI
+ENV, ENV
+AMKR, AMKR
+AVIR, AVIR
+SSD, Simpson Manufacturing Company, Inc. Common Stock
+CCXI, CCXI
+TRIP, TRIP
+IDA, IDACORP, Inc. Common Stock
+OVV, Ovintiv Inc. (DE)
+MRCY, MRCY
+SWAV, SWAV
+VLY, VLY
+VMI, Valmont Industries, Inc. Common Stock
+KRNT, KRNT
+AYI, Acuity Inc. Common Stock
+SLG, SL Green Realty Corp Common Stock
+GWPH, GWPH
+LPSN, LPSN
+DAVA, Endava plc American Depositary Shares (each representing one Class A Ordinary Share)
+ALTR, ALTR
+NAV, NAV
+LPX, Louisiana
+KBR, KBR, Inc. Common Stock
+RYN, Rayonier Inc. REIT Common Stock
+UGP, Ultrapar Participacoes S.A. (New) American Depositary Shares (Each representing one Common Share)
+JCOM, JCOM
+KNSL, Kinsale Capital Group, Inc. Common Stock
+PGNY, PGNY
+WTS, Watts Water Technologies, Inc. Class A Common Stock
+ESI, Element Solutions Inc. Common Stock
+SHLX, SHLX
+FGEN, FGEN
+PRSP, PRSP
+ALLO, ALLO
+PTCT, PTCT
+PFSI, PennyMac Financial Services, Inc. Common Stock
+WWE, WWE
+GTES, Gates Industrial Corporation plc Ordinary Shares
+NCR, NCR
+HLNE, HLNE
+SGMS, SGMS
+ARD, ARD
+MTG, MGIC Investment Corporation Common Stock
+INSM, INSM
+DDD, 3D Systems Corporation Common Stock
+PK, Park Hotels & Resorts Inc. Common Stock 
+PINC, PINC
+SDC, SDC
+VICR, VICR
+THG, Hanover Insurance Group Inc
+MTSI, MTSI
+HR, Healthcare Realty Trust Incorporated Common Stock
+EH, EH
+CRI, Carter's, Inc. Common Stock
+UNF, Unifirst Corporation Common Stock
+CDNA, CDNA
+LPRO, LPRO
+STAA, STAA
+STMP, STMP
+WCC, WESCO International, Inc. Common Stock
+MSGS, Madison Square Garden Sports Corp. Class A Common Stock (New)
+MSP, MSP
+NEA, Nuveen AMT
+PNM, PNM
+XRX, XRX
+TREE, TREE
+DCP, DCP
+X, United States Steel Corporation Common Stock
+DIOD, DIOD
+SWTX, SWTX
+JBGS, JBG SMITH Properties Common Shares 
+APAM, Artisan Partners Asset Management Inc. Class A Common Stock
+FCN, FTI Consulting, Inc. Common Stock
+WYND, WYND
+EDIT, EDIT
+SLGN, Silgan Holdings Inc. Common Stock
+SNDR, Schneider National, Inc. Common Stock
+KBH, KB Home Common Stock
+QTS, QTS
+AXS, Axis Capital Holdings Limited Common Stock
+FSR, FSR
+HIW, Highwoods Properties, Inc. Common Stock
+DOYU, DOYU
+SPR, Spirit Aerosystems Holdings, Inc. Common Stock
+BAND, BAND
+APHA, APHA
+RETA, RETA
+ADC, Agree Realty Corporation Common Stock
+OLN, Olin Corporation Common Stock
+MANT, MANT
+VVNT, VVNT
+NRZ, NRZ
+LOPE, LOPE
+SLQT, SelectQuote, Inc. Common Stock
+TIGO, TIGO
+HXL, Hexcel Corporation Common Stock
+SAFE, Safehold Inc. New Common Stock 
+GRA, GRA
+INOV, Innovator ETFs Trust Innovator International Developed Power Buffer ETF  November
+AEO, American Eagle Outfitters, Inc. Common Stock
+HAIN, HAIN
+AJRD, AJRD
+BXMT, Blackstone Mortgage Trust, Inc. Common Stock
+CLDR, CLDR
+NVT, nVent Electric plc Ordinary Shares 
+GOEV, GOEV
+SIGI, SIGI
+M, Macy's Inc Common Stock
+PD, PagerDuty, Inc. Common Stock
+EGHT, EGHT
+ARVN, ARVN
+JAMF, JAMF
+JBT, JBT
+SWCH, SWCH
+AMBA, AMBA
+ENS, EnerSys Common Stock
+ITRI, ITRI
+RDN, Radian Group Inc. Common Stock
+REGI, REGI
+WDFC, WDFC
+TMHC, Taylor Morrison Home Corporation Common Stock
+GKOS, Glaukos Corporation Common Stock
+VLDR, VLDR
+CIT, CIT
+CZZ, CZZ
+RIDE, RIDE
+EYE, EYE
+VC, VC
+TRNO, Terreno Realty Corporation Common Stock
+IMAB, IMAB
+AVNT, Avient Corporation Common Stock
+AVT, AVT
+AM, Antero Midstream Corporation Common Stock
+PSN, Parsons Corporation Common Stock
+STL, STL
+TTEC, TTEC
+DAO, Youdao, Inc. American Depositary Shares, each representing one Class A Ordinary Share
+MOR, MOR
+STN, Stantec Inc Common Stock
+SPSC, SPSC
+SSRM, SSRM
+SEM, Select Medical Holdings Corporation Common Stock
+RXT, RXT
+BCPC, BCPC
+FORM, FORM
+SABR, SABR
+CNNE, Cannae Holdings, Inc. Common Stock
+AAON, AAON
+BNR, BNR
+WTFC, WTFC
+AWI, Armstrong World Industries Inc Common Stock
+CRON, CRON
+NFG, National Fuel Gas Company Common Stock
+DOC, Healthpeak Properties, Inc. Common Stock
+SVMK, SVMK
+CBU, Community Financial System, Inc. Common Stock
+PACW, PACW
+HE, Hawaiian Electric Industries, Inc. Common Stock
+IFS, Intercorp Financial Services Inc. Common Shares
+PSB, PSB
+GO, GO
+OGS, ONE Gas, Inc. Common Stock
+MTLS, MTLS
+POR, Portland General Electric Co Common Stock
+CSIQ, CSIQ
+BKH, Black Hills Corporation Common Stock
+CIGI, CIGI
+CBD, CBD
+FOCS, FOCS
+UFPI, UFPI
+AHCO, AHCO
+KTOS, KTOS
+VIAV, VIAV
+R, Ryder System, Inc. Common Stock
+BBBY, BBBY
+HOMB, Home BancShares, Inc. Common Stock
+OPCH, OPCH
+SYNA, SYNA
+RHP, Ryman Hospitality Properties, Inc. (REIT)
+AIMC, AIMC
+CARG, CARG
+IGT, International Game Technology Ordinary Shares
+BHF, BHF
+HPP, Hudson Pacific Properties, Inc. Common Stock
+SEB, Seaboard Corporation Common Stock
+MDC, MDC
+UMBF, UMBF
+AA, Alcoa Corporation Common Stock 
+AQUA, AQUA
+MUSA, Murphy USA Inc. Common Stock
+SOL, Emeren Group Ltd American Depositary Shares, each representing 10 shares
+SBRA, SBRA
+MTH, Meritage Homes Corporation Common Stock
+REZI, Resideo Technologies, Inc. Common Stock 
+NVG, Nuveen AMT
+WNS, WNS (Holdings) Limited Ordinary Shares
+LCII, LCI Industries
+ALKS, ALKS
+CRSR, CRSR
+LEGN, LEGN
+PCH, PCH
+UMPQ, UMPQ
+AMN, AMN Healthcare Services Inc
+BCO, Brinks Company (The) Common Stock
+ADV, ADV
+KYMR, KYMR
+GOOS, Canada Goose Holdings Inc. Subordinate Voting Shares
+ADS, ADS
+CNS, Cohen & Steers Inc Common Stock
+BAK, Braskem SA ADR
+IBP, Installed Building Products, Inc. Common Stock
+NSTG, NSTG
+SUMO, SUMO
+OSB, OSB
+PRLD, PRLD
+AB, AllianceBernstein Holding L.P.  Units
+APLS, APLS
+BKU, BankUnited, Inc. Common Stock
+BFT, BFT
+IMVT, IMVT
+TGNA, TEGNA Inc
+CNMD, CONMED Corporation Common Stock
+NIU, NIU
+CHX, CHX
+SPT, SPT
+PRG, PROG Holdings, Inc. Common Stock
+PPBI, PPBI
+ALE, Allete, Inc.
+EQC, EQC
+NJR, NewJersey Resources Corporation Common Stock
+UNVR, UNVR
+FNB, F.N.B. Corporation Common Stock
+FELE, FELE
+DNMR, DNMR
+BOH, Bank of Hawaii Corporation Common Stock
+CMD, CMD
+CWK, Cushman & Wakefield plc Ordinary Shares
+SPB, Spectrum Brands Holdings, Inc. Common Stock
+TRTN, TRTN
+KMT, Kennametal Inc. Common Stock
+CDLX, CDLX
+TCBI, TCBI
+VG, Venture Global, Inc. Class A common stock
+APG, APi Group Corporation Common Stock
+VSH, Vishay Intertechnology, Inc. Common Stock
+RCKT, RCKT
+SWX, Southwest Gas Holdings, Inc. Common Stock (DE)
+CBRL, CBRL
+ADNT, Adient plc Ordinary Shares 
+CPA, Copa Holdings, S.A. Class A Common Stock
+HI, Hillenbrand Inc Common Stock
+HWC, HWC
+ELP, Companhia Paranaense de Energia (COPEL) American Depositary Shares (each representing one Unit consisting one Common Share and four non
+AGIO, AGIO
+FHB, FHB
+ENR, Energizer Holdings, Inc. Common Stock
+SOGO, SOGO
+ACCD, ACCD
+BLKB, BLKB
+CYRX, CYRX
+MOMO, MOMO
+AIT, Applied Industrial Technologies, Inc. Common Stock
+CORT, CORT
+PZZA, PZZA
+TSEM, TSEM
+HMSY, HMSY
+LIVN, LIVN
+MMYT, MMYT
+CNO, CNO Financial Group, Inc. Common Stock
+NSP, Insperity, Inc. Common Stock
+SXT, Sensient Technologies Corporation Common Stock
+WTM, White Mountains Insurance Group, Ltd. Common Stock
+AVAV, AVAV
+MMSI, MMSI
+NAD, Nuveen Quality Municipal Income Fund Common Stock
+DORM, DORM
+VCYT, VCYT
+TRN, Trinity Industries, Inc. Common Stock
+SONO, SONO
+CWH, Camping World Holdings, Inc. Class A Common Stock
+DNP, DNP Select Income Fund, Inc. Common Stock
+SR, Spire Inc. Common Stock
+SAFM, SAFM
+YQ, YQ
+TWOU, TWOU
+FN, Fabrinet Ordinary Shares
+KEX, Kirby Corporation Common Stock
+VEON, VEON
+ALGT, ALGT
+PDCO, PDCO
+PS, PS
+LTHM, LTHM
+ROG, Rogers Corporation Common Stock
+ROCK, ROCK
+ABG, Asbury Automotive Group Inc Common Stock
+AGI, Alamos Gold Inc. Class A Common Shares
+BXS, BXS
+DAN, Dana Incorporated Common Stock 
+PCI, PCI
+BLUE, BLUE
+BIPC, Brookfield Infrastructure Corporation Brookfield Infrastructure Corporation
+AG, First Majestic Silver Corp. Ordinary Shares (Canada)
+JKS, JinkoSolar Holding Company Limited American Depositary Shares (each representing 4 Common Shares)
+BRFS, BRF S.A.
+ABCB, Ameris Bancorp Common Stock
+GATX, GATX Corporation Common Stock
+PHR, Phreesia, Inc. Common Stock
+SUN, Sunoco LP Common Units representing limited partner interests
+ARNC, ARNC
+MAXR, MAXR
+HRB, H&R Block, Inc. Common Stock
+NOAH, Noah Holdings Limited American Depositary Shares
+NNOX, NNOX
+GOLF, Acushnet Holdings Corp. Common Stock
+CCU, Compania Cervecerias Unidas, S.A. Common Stock
+BBU, Brookfield Business Partners L.P. Limited Partnership Units 
+ETRN, ETRN
+CWST, CWST
+EBC, EBC
+PSMT, PSMT
+VNE, VNE
+ALXO, ALXO
+FRHC, FRHC
+RRR, RRR
+ACA, Arcosa, Inc. Common Stock 
+MC, Moelis & Company Class A Common Stock
+NHI, National Health Investors, Inc. Common Stock
+COLB, COLB
+IGMS, IGMS
+ISBC, ISBC
+SIX, SIX
+NG, Novagold Resources Inc.
+ONB, ONB
+NGVT, Ingevity Corporation Common Stock 
+PJT, PJT Partners Inc. Class A Common Stock
+FHI, Federated Hermes, Inc. Common Stock
+HTH, Hilltop Holdings Inc.
+BECN, BECN
+NKTR, NKTR
+WERN, WERN
+AEL, AEL
+AWR, American States Water Company Common Stock
+ASB, Associated Banc
+UNIT, UNIT
+GEF, Greif Inc. Class A Common Stock
+JELD, JELD
+BRP, BRP
+OPK, OPK
+PCRX, PCRX
+APLE, Apple Hospitality REIT, Inc. Common Shares
+MCY, Mercury General Corporation Common Stock
+NUS, Nu Skin Enterprises, Inc. Common Stock
+TARO, TARO
+GBT, GBT
+MIME, MIME
+SFNC, SFNC
+OFC, OFC
+WRI, WRI
+CATY, CATY
+COMM, COMM
+EXLS, EXLS
+AGO, Assured Guaranty Ltd. Common Stock
+CVBF, CVBF
+NUVA, NUVA
+LAUR, LAUR
+BMI, Badger Meter, Inc. Common Stock
+GDOT, Green Dot Corporation Class A Common Stock, $0.001 par value
+MATX, Matson, Inc. Common Stock
+USM, United States Cellular Corporation Common Stock
+AUB, Atlantic Union Bankshares Corporation Common Stock
+IBTX, IBTX
+JJSF, JJSF
+OSTK, OSTK
+SHOO, SHOO
+LXP, LXP Industrial Trust Common Stock (Maryland REIT)
+CCOI, CCOI
+NSIT, NSIT
+FSKR, FSKR
+WOR, Worthington Enterprises, Inc. Common Shares
+BSTZ, BlackRock Science and Technology Term Trust Common Shares of Beneficial Interest
+FLR, Fluor Corporation Common Stock
+HGV, Hilton Grand Vacations Inc. Common Stock 
+RVMD, RVMD
+DY, Dycom Industries, Inc. Common Stock
+CAR, CAR
+GPI, Group 1 Automotive, Inc. Common Stock
+HL, Hecla Mining Company Common Stock
+TLRY, TLRY
+EAT, Brinker International, Inc. Common Stock
+CNX, CNX Resources Corporation Common Stock
+WD, Walker & Dunlop, Inc Common Stock
+MSGN, MSGN
+WKHS, WKHS
+AMRC, Ameresco, Inc. Class A Common Stock
+BOX, Box, Inc. Class A Common Stock
+EAF, GrafTech International Ltd. Common Stock
+CVLT, CVLT
+ONTO, Onto Innovation Inc. Common Stock
+PTVE, PTVE
+CSOD, CSOD
+NWE, NWE
+ATCO, ATCO
+GHC, Graham Holdings Company Common Stock
+AXSM, AXSM
+XNCR, XNCR
+IRBT, IRBT
+LGIH, LGIH
+MEOH, MEOH
+VSAT, VSAT
+EPR, EPR Properties Common Stock
+ESE, ESCO Technologies Inc. Common Stock
+HP, Helmerich & Payne, Inc. Common Stock
+KRTX, KRTX
+SNBR, SNBR
+SCL, Stepan Company Common Stock
+UCBI, UCBI
+B, Barrick Mining Corporation Common Shares
+CIXX, CIXX
+TDC, Teradata Corporation Common Stock
+UTZ, Utz Brands Inc Class A Common Stock 
+GRWG, GRWG
+ELY, ELY
+FUL, H. B. Fuller Company Common Stock
+XL, XL
+STAY, STAY
+COOP, COOP
+BZUN, BZUN
+CWT, California Water Service Group Common Stock
+TPH, Tri Pointe Homes, Inc. Common Stock
+SAVE, SAVE
+SUM, SUM
+MDRX, MDRX
+EXG, Eaton Vance Tax
+EVTC, Evertec, Inc. Common Stock
+PEB, Pebblebrook Hotel Trust Common Shares of Beneficial Interest
+TEX, Terex Corporation Common Stock
+ALVR, ALVR
+HYLN, Hyliion Holdings Corp. Class A Common Stock
+NNI, Nelnet, Inc. Common Stock
+SPXC, SPX Technologies, Inc. Common Stock
+IBOC, IBOC
+ITCI, ITCI
+GT, GT
+CBT, Cabot Corporation Common Stock
+ATRC, ATRC
+DCPH, DCPH
+PAX, PAX
+AVA, Avista Corporation Common Stock
+BVN, Buenaventura Mining Company Inc.
+DOOR, DOOR
+YALA, Yalla Group Limited American Depositary Shares, each representing one Class A Ordinary Share
+FIBK, FIBK
+ABM, ABM Industries Incorporated Common Stock
+SRNE, SRNE
+JOE, St. Joe Company (The) Common Stock
+BNL, Broadstone Net Lease, Inc. Common Stock
+HMY, Harmony Gold Mining Company Limited
+MXL, MXL
+SMPL, SMPL
+URBN, URBN
+PING, PING
+ESRT, Empire State Realty Trust, Inc. Class A Common Stock
+MAX, MediaAlpha, Inc. Class A Common Stock
+RCII, RCII
+BRC, Brady Corporation Common Stock
+ITGR, Integer Holdings Corporation Common Stock
+MED, MEDIFAST INC Common Stock
+SSTK, Shutterstock, Inc. Common Stock
+OUT, OUTFRONT Media Inc. Common Stock
+PRMW, PRMW
+CADE, Cadence Bank Common Stock
+CMC, Commercial Metals Company Common Stock
+KFY, Korn Ferry Common Stock
+INDB, INDB
+SINA, SINA
+ANAT, ANAT
+ADCT, ADC Therapeutics SA Common Shares
+AMRN, AMRN
+LILA, LILA
+PLMR, PLMR
+FUBO, fuboTV Inc. Common Stock
+RVLV, Revolve Group, Inc. Class A Common Stock
+RUSHA, RUSHA
+SFM, SFM
+LTRPB, LTRPB
+MIC, MIC
+NSA, National Storage Affiliates Trust Common Shares of Beneficial Interest
+KW, Kennedy
+WWW, Wolverine World Wide, Inc. Common Stock
+CMPR, CMPR
+PDCE, PDCE
+ODP, ODP
+TIGR, TIGR
+MANU, Manchester United Ltd. Class A Ordinary Shares
+AMRS, AMRS
+LILAK, LILAK
+RCUS, Arcus Biosciences, Inc. Common Stock
+CSQ, CSQ
+NNDM, NNDM
+AIN, Albany International Corporation Common Stock
+UTF, Cohen & Steers Infrastructure Fund, Inc Common Stock
+SHI, SHI
+BEAT, BEAT
+GCMG, GCMG
+GBDC, GBDC
+COKE, COKE
+QTRX, QTRX
+STOK, STOK
+AX, Axos Financial, Inc. Common Stock
+MGLN, MGLN
+PRPL, PRPL
+TPIC, TPIC
+CIM, Chimera Investment Corporation Common Stock
+LAC, Lithium Americas Corp. Common Shares
+RMO, RMO
+TROX, Tronox Holdings plc Ordinary Shares (UK)
+EQX, Equinox Gold Corp. Common Shares
+QFIN, QFIN
+FBC, FBC
+TAC, TransAlta Corporation Ordinary Shares
+FCFS, FCFS
+REAL, REAL
+AZUL, AZUL
+SHO, Sunstone Hotel Investors, Inc. Sunstone Hotel Investors, Inc. Common Shares
+BTRS, BTRS
+EAR, EAR
+HYFM, HYFM
+FULT, FULT
+MODV, MODV
+ENBL, ENBL
+KAR, OPENLANE, Inc. Common Stock
+ZYME, ZYME
+KTB, Kontoor Brands, Inc. Common Stock 
+MGEE, MGEE
+IOSP, IOSP
+SBGI, SBGI
+MSGE, Madison Square Garden Entertainment Corp. Class A Common Stock
+SEAS, SEAS
+PSEC, PSEC
+RUSHB, RUSHB
+RLJ, RLJ Lodging Trust Common Shares of Beneficial Interest $0.01 par value
+KLIC, KLIC
+LUNG, LUNG
+RMBS, RMBS
+SITM, SITM
+WSFS, WSFS
+TDS, Telephone and Data Systems, Inc. Common Shares
+OMAB, OMAB
+YELP, Yelp Inc. Common Stock
+EPAY, EPAY
+CENT, CENT
+PLXS, PLXS
+SFBS, ServisFirst Bancshares, Inc. Common Stock
+FUN, Six Flags Entertainment Corporation Common Stock New
+FLOW, Global X Funds Global X U.S. Cash Flow Kings 100 ETF
+HCSG, HCSG
+OM, OM
+VNOM, VNOM
+GB, Global Blue Group Holding AG Ordinary Shares
+JACK, JACK
+XPER, Xperi Inc. Common Stock 
+CNK, Cinemark Holdings Inc Cinemark Holdings, Inc. Common Stock
+ATI, ATI Inc. Common Stock
+ATKR, Atkore Inc. Common Stock
+CLNY, CLNY
+SWN, SWN
+LGND, LGND
+MGY, Magnolia Oil & Gas Corporation Class A Common Stock
+THS, Treehouse Foods, Inc. Common Stock
+NZF, Nuveen Municipal Credit Income Fund 
+TCP, TCP
+KURA, KURA
+MIK, MIK
+AVNS, Avanos Medical, Inc. Common Stock
+NUV, Nuveen Municipal Value Fund, Inc. Common Stock
+LBRT, Liberty Energy Inc. Class A common stock
+MTX, Minerals Technologies Inc. Common Stock
+TRQ, TRQ
+AXNX, AXNX
+SATS, SATS
+SANM, SANM
+SIM, Grupo Simec, S.A.B. de C.V. American Depositary Shares
+BNGO, BNGO
+THRM, THRM
+RRC, Range Resources Corporation Common Stock
+WGO, Winnebago Industries, Inc. Common Stock
+NTCT, NTCT
+FWRD, FWRD
+SHEN, SHEN
+CTRE, CareTrust REIT, Inc. Common Stock
+FBP, First BanCorp. New Common Stock
+IBA, IBA
+SITC, SITE Centers Corp. Common Stock
+IPOF, IPOF
+AFYA, AFYA
+FRME, FRME
+NVMI, NVMI
+MCRB, MCRB
+VRRM, VRRM
+WHD, Cactus, Inc. Class A Common Stock
+MAIN, Main Street Capital Corporation Common Stock
+HCAT, HCAT
+BCAT, BlackRock Capital Allocation Term Trust Common Shares of Beneficial Interest
+MLI, Mueller Industries, Inc. Common Stock
+IPOE, IPOE
+SJI, SJI
+CENTA, CENTA
+DOMO, DOMO
+MLHR, MLHR
+STRA, STRA
+WAFD, WAFD
+PRAX, PRAX
+RNST, Renasant Corporation Common Stock
+SSYS, SSYS
+AZRE, AZRE
+FSK, FS KKR Capital Corp. Common Stock
+NAC, Nuveen California Quality Municipal Income Fund
+CALX, Calix, Inc Common Stock
+EPRT, Essential Properties Realty Trust, Inc. Common Stock
+FSS, Federal Signal Corporation Common Stock
+NGM, NGM
+SKYW, SKYW
+WSBC, WSBC
+FIX, Comfort Systems USA, Inc. Common Stock
+MAC, Macerich Company (The) Common Stock
+TSE, Trinseo PLC Ordinary Shares 
+BANF, BANF
+SGMO, SGMO
+CMP, Compass Minerals Intl Inc Common Stock
+CLNE, CLNE
+NAVI, NAVI
+CDE, Coeur Mining, Inc. Common Stock
+HRI, Herc Holdings Inc. Common Stock 
+INT, INT
+IDCC, IDCC
+STTK, STTK
+BCC, Boise Cascade, L.L.C. Common Stock
+CUB, CUB
+MD, Pediatrix Medical Group, Inc. Common Stock
+OI, O
+YEXT, Yext, Inc. Common Stock
+HRMY, HRMY
+BDC, Belden Inc Common Stock
+ARCE, ARCE
+EHTH, EHTH
+FMBI, FMBI
+PQG, PQG
+FLWS, FLWS
+CRC, California Resources Corporation Common Stock
+SILK, SILK
+AMCX, AMCX
+FFBC, FFBC
+REPL, REPL
+TTGT, TTGT
+LZB, La
+MTOR, MTOR
+COHU, COHU
+HUBG, HUBG
+FTAI, FTAI
+OMI, Owens & Minor, Inc. Common Stock
+PDM, Piedmont Office Realty Trust, Inc. Class A Common Stock
+GDV, Gabelli Dividend & Income Trust Common Shares of Beneficial Interest
+ASO, ASO
+ADUS, ADUS
+ATGE, Adtalem Global Education Inc. Common Stock
+CTB, CTB
+FCPT, Four Corners Property Trust, Inc. Common Stock
+RPAI, RPAI
+MYGN, MYGN
+TR, Tootsie Roll Industries, Inc. Common Stock
+EGOV, EGOV
+PMVP, PMVP
+OR, OR Royalties Inc. Common Shares
+SKY, Champion Homes, Inc. Common Stock
+LOB, Live Oak Bancshares, Inc. Common Stock
+RPAY, RPAY
+MWA, MUELLER WATER PRODUCTS Common Stock
+PGRE, Paramount Group, Inc. Common Stock
+WBT, WBT
+CSWI, CSWI
+AVYA, AVYA
+PVG, PVG
+SAH, Sonic Automotive, Inc. Common Stock
+CSTL, CSTL
+INMD, INMD
+ACB, ACB
+ENLC, ENLC
+DFH, Dream Finders Homes, Inc. Class A Common Stock
+BUR, Burford Capital Limited Ordinary Shares
+EGO, Eldorado Gold Corporation Ordinary Shares
+EVA, EVA
+BLMN, BLMN
+TRMK, TRMK
+BDN, Brandywine Realty Trust Common Stock
+HTLF, HTLF
+SRRK, SRRK
+CAKE, CAKE
+BGS, B&G Foods, Inc. Common Stock
+SJW, SJW
+ADX, Adams Diversified Equity Fund Inc.
+CVA, CVA
+MUR, Murphy Oil Corporation Common Stock
+PRO, PROS Holdings, Inc. Common Stock
+INSG, INSG
+NMIH, NMIH
+VIE, VIE
+JPS, JPS
+PTY, Pimco Corporate & Income Opportunity Fund
+PBH, Prestige Consumer Healthcare Inc. Common Stock
+MNRO, MNRO
+RVNC, RVNC
+CSTM, Constellium SE Ordinary Shares (France)
+SIG, Signet Jewelers Limited Common Shares
+PRGS, PRGS
+BIG, BIG
+CVI, CVR Energy Inc. Common Stock
+ETY, Eaton Vance Tax
+MYOV, MYOV
+AUPH, AUPH
+GTH, GTH
+HLIO, Helios Technologies, Inc. Common Stock
+INFN, INFN
+NK, NK
+CSII, CSII
+CRVL, CRVL
+IPAR, IPAR
+PSNL, PSNL
+TOWN, TOWN
+VCEL, VCEL
+DEA, Easterly Government Properties, Inc. Common Stock
+VGR, VGR
+PRK, Park National Corporation Common Stock
+BLNK, BLNK
+DRNA, DRNA
+SBCF, SBCF
+ITCB, ITCB
+MFGP, MFGP
+RLGY, RLGY
+WRE, WRE
+TWNK, TWNK
+GSBD, Goldman Sachs BDC, Inc. Common Stock
+CALM, CALM
+CFFN, CFFN
+RGNX, RGNX
+SVC, SVC
+ALG, Alamo Group, Inc. Common Stock
+EPC, Edgewell Personal Care Company Common Stock
+BANR, BANR
+CATM, CATM
+CLBK, CLBK
+KRON, KRON
+YMAB, YMAB
+KN, Knowles Corporation Common Stock
+PIPR, Piper Sandler Companies Common Stock
+USNA, USANA Health Sciences, Inc. Common Stock
+MDGL, MDGL
+OLMA, OLMA
+ABR, Arbor Realty Trust Common Stock
+BTT, BlackRock Municipal 2030 Target Term Trust
+GCP, GCP
+ACMR, ACMR
+PUBM, PUBM
+SIMO, SIMO
+AMK, AMK
+CPK, Chesapeake Utilities Corporation Common Stock
+XHR, Xenia Hotels & Resorts, Inc. Common Stock
+CVCO, CVCO
+NRIX, NRIX
+AR, Antero Resources Corporation Common Stock
+EB, Eventbrite, Inc. Class A Common Stock
+ZUO, ZUO
+HMN, Horace Mann Educators Corporation Common Stock
+KRO, Kronos Worldwide Inc Common Stock
+PMT, PennyMac Mortgage Investment Trust Common Shares of Beneficial Interest
+TWO, Two Harbors Investment Corp
+MGRC, MGRC
+NWBI, NWBI
+PAGP, PAGP
+SMCI, SMCI
+PNTG, PNTG
+DRH, Diamondrock Hospitality Company Common Stock
+UFS, UFS
+EVT, Eaton Vance Tax Advantaged Dividend Income Fund Common Shares of Beneficial Interest
+HBM, Hudbay Minerals Inc. Ordinary Shares (Canada)
+UTG, Reaves Utility Income Fund Common Shares of Beneficial Interest
+UCTT, UCTT
+ZNTL, ZNTL
+DDS, Dillard's, Inc. Common Stock
+FBK, FB Financial Corporation Common Stock
+PRFT, PRFT
+RYTM, RYTM
+QURE, QURE
+AAT, American Assets Trust, Inc. Common Stock
+HTGC, Hercules Capital, Inc. Common Stock
+KAI, Kadant Inc Common Stock
+MTDR, Matador Resources Company Common Stock
+MFA, MFA Financial, Inc.
+RVT, Royce Small
+MAG, MAG Silver Corporation Ordinary Shares
+CMPS, CMPS
+MNR, Mach Natural Resources LP Common Units representing Limited Partner Interests
+PDI, PIMCO Dynamic Income Fund Common Stock
+GSAT, GSAT
+DCBO, DCBO
+SPNS, SPNS
+MARA, MARA
+MASS, MASS
+GLUU, GLUU
+OTTR, OTTR
+PGEN, PGEN
+TBIO, TBIO
+BSM, Black Stone Minerals, L.P. Common units representing limited partner interests
+VSTO, VSTO
+CCCC, CCCC
+FMTX, FMTX
+ROIC, ROIC
+VRTS, Virtus Investment Partners, Inc. Common Stock
+CCS, Century Communities, Inc. Common Stock
+GBIO, GBIO
+HLG, HLG
+PATK, PATK
+BV, BrightView Holdings, Inc. Common Stock
+DSL, DoubleLine Income Solutions Fund Common Shares of Beneficial Interests
+NS, NS
+RIG, Transocean Ltd (Switzerland) Common Stock
+USPH, U.S. Physical Therapy, Inc. Common Stock
+FLGT, FLGT
+NTB, Bank of N.T. Butterfield & Son Limited (The) Voting Ordinary Shares
+BOOT, Boot Barn Holdings, Inc. Common Stock
+NPO, Enpro Inc. Common Stock
+AMWD, AMWD
+SASR, SASR
+BKE, Buckle, Inc. (The) Common Stock
+CRS, Carpenter Technology Corporation Common Stock
+ARCT, ARCT
+ROAD, ROAD
+CGEM, CGEM
+HPK, HPK
+IRWD, IRWD
+OSIS, OSIS
+WW, WW
+ARI, Apollo Commercial Real Estate Finance, Inc
+BSIG, BSIG
+RQI, Cohen & Steers Quality Income Realty Fund Inc Common Shares
+DKL, Delek Logistics Partners, L.P. Common Units representing Limited Partner Interests
+UE, Urban Edge Properties Common Shares of Beneficial Interest
+CDXS, CDXS
+WABC, WABC
+WPF, WPF
+KEN, Kenon Holdings Ltd. Ordinary Shares
+STPK, STPK
+TUP, TUP
+ATSG, ATSG
+EURN, EURN
+GAB, Gabelli Equity Trust, Inc. (The) Common Stock
+IAG, Iamgold Corporation Ordinary Shares
+BCRX, BCRX
+PAYA, PAYA
+SYKE, SYKE
+GTN, Gray Media, Inc. Common Stock
+LNN, Lindsay Corporation Common Stock
+TY, Tri Continental Corporation Common Stock
+CNST, CNST
+PLAY, PLAY
+NKTX, NKTX
+HOME, HOME
+BALY, Bally's Corporation Common Stock
+CXP, CXP
+HRTX, HRTX
+KNTE, KNTE
+EVH, Evolent Health, Inc Class A Common Stock
+ENDP, ENDP
+MAXN, MAXN
+HKIB, HKIB
+BDJ, Blackrock Enhanced Equity Dividend Trust
+MEI, Methode Electronics, Inc. Common Stock
+SBTX, SBTX
+CPG, CPG
+HEP, HEP
+SCS, Steelcase Inc. Common Stock
+KALU, KALU
+MBUU, MBUU
+SUPN, SUPN
+VCTR, VCTR
+MMI, Marcus & Millichap, Inc. Common Stock
+SBH, Sally Beauty Holdings, Inc. (Name to be changed from Sally Holdings, Inc.) Common Stock
+MSC, Studio City International Holdings Limited American depositary shares, each representing four  Class A ordinary shares
+HTLD, HTLD
+CLB, Core Laboratories Inc. Common Stock
+GNW, Genworth Financial Inc Common Stock
+GVA, Granite Construction Incorporated Common Stock
+KAMN, KAMN
+LTC, LTC Properties, Inc. Common Stock
+WDR, WDR
+HSKA, HSKA
+KROS, KROS
+SGRY, SGRY
+CNR, Core Natural Resources, Inc. Common Stock
+DEN, DEN
+SBE, SBE
+VRTU, VRTU
+ARGO, ARGO
+BCAB, BCAB
+ICFI, ICFI
+LKFN, LKFN
+PRAA, PRAA
+GES, Guess?, Inc. Common Stock
+MHO, M/I Homes, Inc. Common Stock
+PAR, PAR Technology Corporation Common Stock
+ATRA, ATRA
+CEVA, CEVA
+HOPE, HOPE
+NBTB, NBTB
+NXGN, NXGN
+INO, INO
+OFLX, OFLX
+ANF, Abercrombie & Fitch Company Common Stock
+DK, Delek US Holdings, Inc. Common Stock
+GNL, Global Net Lease, Inc. Common Stock
+PFS, Provident Financial Services, Inc Common Stock
+ASTE, ASTE
+CORE, CORE
+CSGS, CSGS
+OCUL, OCUL
+TTMI, TTMI
+HIMX, HIMX
+PRIM, Primoris Services Corporation Common Stock
+BBN, BlackRock Taxable Municipal Bond Trust Common Shares of Beneficial Interest
+USA, Liberty All
+SYX, SYX
+UIS, Unisys Corporation New Common Stock
+VCRA, VCRA
+HHR, HHR
+NYMT, NYMT
+SLP, SLP
+XPEL, XPEL
+AROC, Archrock, Inc. Common Stock
+TBA, TBA
+MLAB, MLAB
+RTLR, RTLR
+TRS, TRS
+TBK, TBK
+ZEAL, ZEAL
+CBZ, CBIZ, Inc. Common Stock
+GOL, GOL
+SA, Seabridge Gold, Inc. Ordinary Shares (Canada)
+USAC, USA Compression Partners, LP Common Units Representing Limited Partner Interests
+AAWW, AAWW
+UPLD, UPLD
+HNI, HNI Corporation Common Stock
+JRVR, JRVR
+MRTN, MRTN
+AIV, Apartment Investment and Management Company Common Stock
+CEQP, CEQP
+ILPT, ILPT
+HY, Hyster
+EVV, Eaton Vance Limited Duration Income Fund Common Shares of Beneficial Interest
+CYTK, CYTK
+IMGN, IMGN
+TLND, TLND
+ALX, Alexander's, Inc. Common Stock
+FPF, First Trust Intermediate Duration Preferred & Income Fund Common Shares of Beneficial Interest
+HSC, HSC
+SI, SI
+EGBN, EGBN
+FORTY, FORTY
+LASR, LASR
+PRTC, PRTC
+QADA, QADA
+RIOT, RIOT
+DLX, Deluxe Corporation Common Stock
+KRG, Kite Realty Group Trust Common Stock
+TSLX, Sixth Street Specialty Lending, Inc. Common Stock
+EBIX, EBIX
+GNOG, GNOG
+PI, PI
+PRCH, PRCH
+SY, SY
+TVTX, TVTX
+VBTX, VBTX
+FFG, FFG
+BGCP, BGCP
+GRCL, GRCL
+KRYS, KRYS
+UNFI, United Natural Foods, Inc. Common Stock
+BTZ, BlackRock Credit Allocation Income Trust
+BRMK, BRMK
+CNXN, CNXN
+PGTI, PGTI
+RPTX, RPTX
+SG, Sweetgreen, Inc. Class A Common Stock
+CODI, D/B/A Compass Diversified Holdings Shares of Beneficial Interest
+TNC, Tennant Company Common Stock
+FRTA, FRTA
+ETV, Eaton Vance Corporation Eaton Vance Tax
+ETG, Eaton Vance Tax
+GMS, GMS Inc. Common Stock
+MTRN, Materion Corporation
+INBX, INBX
+HYT, Blackrock Corporate High Yield Fund, Inc. Common Stock
+PLT, PLT
+YPF, YPF Sociedad Anonima Common Stock
+AMTI, AMTI
+FARO, FARO
+MRSN, MRSN
+ATRI, ATRI
+BLFS, BLFS
+GEVO, GEVO
+ORGO, ORGO
+ACLS, ACLS
+EIGI, EIGI
+BATRA, BATRA
+CCX, CCX
+GHG, GreenTree Hospitality Group Ltd. American depositary shares, each representing one Class A ordinary share
+STC, Stewart Information Services Corporation Common Stock
+BWMX, Betterware de Mexico, S.A.P.I. de C.V. Ordinary Shares
+CLLS, CLLS
+GPRO, GPRO
+HURN, HURN
+LMNX, LMNX
+GFF, Griffon Corporation Common Stock
+MODN, MODN
+PACK, Ranpak Holdings Corp Class A Common Stock
+CHRS, CHRS
+BATRK, BATRK
+VERI, VERI
+EPAC, Enerpac Tool Group Corp. Common Stock
+FSM, Fortuna Mining Corp. Common Shares
+NWN, Northwest Natural Holding Company Common Stock
+BXMX, Nuveen S&P 500 Buy
+ADVM, ADVM
+ALEC, ALEC
+CVGW, CVGW
+FREQ, FREQ
+NMRK, NMRK
+AIR, AAR Corp. Common Stock
+BST, BlackRock Science and Technology Trust Common Shares of Beneficial Interest
+BPMP, BPMP
+CANG, Cango Inc. American Depositary Shares,  each representing two (2) Class A Ordinary Shares
+PBY, PBY
+GIII, GIII
+RDWR, RDWR
+AKR, Acadia Realty Trust Common Stock
+NFJ, Virtus Dividend, Interest & Premium Strategy Fund Common Shares of Beneficial Interest
+GWB, GWB
+IRT, Independence Realty Trust, Inc. Common Stock
+LADR, Ladder Capital Corp Class A Common Stock
+SWM, SWM
+FRG, FRG
+FTOC, FTOC
+MSEX, MSEX
+NGD, New Gold Inc.
+RILY, RILY
+GRTS, GRTS
+RAVN, RAVN
+PCVX, PCVX
+FST, FST
+JWS, JWS
+SAND, Sandstorm Gold Ltd. Ordinary Shares (Canada)
+MGNX, MGNX
+CASH, CASH
+FDMT, FDMT
+BUSE, BUSE
+GRVY, GRVY
+STRO, STRO
+WMK, Weis Markets, Inc. Common Stock
+ALGS, ALGS
+PLUS, PLUS
+INVA, INVA
+NVEE, NVEE
+OTRK, OTRK
+DGNR, DGNR
+FOE, FOE
+SKT, Tanger Inc. Common Stock
+WIRE, WIRE
+ESTA, ESTA
+GLNG, GLNG
+KNSA, KNSA
+AZZ, AZZ Inc.
+PBI, Pitney Bowes Inc. Common Stock
+ARCB, ARCB
+SCWX, SCWX
+TRHC, TRHC
+RMAX, RE/MAX Holdings, Inc. Class A Common Stock
+BROG, BROG
+NRC, NRC
+DIN, Dine Brands Global, Inc. Common Stock
+FCF, First Commonwealth Financial Corporation Common Stock
+FRO, Frontline Plc Ordinary Shares
+CLI, CLI
+CERS, CERS
+OMER, OMER
+ALEX, Alexander & Baldwin, Inc. Common Stock REIT Holding Company
+CYH, Community Health Systems, Inc. Common Stock
+GBX, Greenbrier Companies, Inc. (The) Common Stock
+SSP, SSP
+ICLK, ICLK
+LXRX, LXRX
+OCFC, OCFC
+RMR, RMR
+TCBK, TCBK
+LINX, LINX
+OXM, Oxford Industries, Inc. Common Stock
+RTP, RTP
+SILV, SILV
+IDEX, IDEX
+LX, LX
+OPI, OPI
+IH, iHuman Inc. American depositary shares, each representing five Class A ordinary shares
+NMZ, Nuveen Municipal High Income Opportunity Fund Common Stock, $0.01 par value, per share
+UVV, Universal Corporation Common Stock
+HCC, Warrior Met Coal, Inc. Common Stock
+JOUT, JOUT
+NTGR, NTGR
+STKL, STKL
+ERJ, Embraer S.A. Common Stock
+NEXA, Nexa Resources S.A. Common Shares
+NRK, Nuveen New York AMT
+RGR, Sturm, Ruger & Company, Inc. Common Stock
+ARQT, ARQT
+EOSE, EOSE
+ORIC, ORIC
+PTEN, PTEN
+QNST, QNST
+GTY, Getty Realty Corporation Common Stock
+STAR, STAR
+ATEC, ATEC
+ATNX, ATNX
+EFSC, EFSC
+EPZM, EPZM
+MTSC, MTSC
+TSHA, TSHA
+TBPH, TBPH
+PRPB, PRPB
+DRQ, DRQ
+ELF, e.l.f. Beauty, Inc. Common Stock
+BTAI, BTAI
+GRBK, Green Brick Partners, Inc. Common Stock
+ITOS, ITOS
+SAFT, SAFT
+ECOL, ECOL
+CHCT, Community Healthcare Trust Incorporated Common Stock
+EVRI, Everi Holdings Inc. Common Stock
+GSAH, GSAH
+TMP, Tompkins Financial Corporation Common Stock
+CRTO, CRTO
+AVO, AVO
+TRIL, TRIL
+VSTA, VSTA
+AJAX, AJAX
+ARCO, Arcos Dorados Holdings Inc. Class A Shares
+CLS, Celestica, Inc. Common Stock
+FDP, Fresh Del Monte Produce, Inc. Common Stock
+NFH, NFH
+TPGY, TPGY
+CHCO, CHCO
+EVER, EVER
+HEES, HEES
+ICHR, ICHR
+NMFC, NMFC
+NBLX, NBLX
+SHYF, SHYF
+APSG, APSG
+MCRI, MCRI
+OPRA, OPRA
+PHAT, PHAT
+SNEX, SNEX
+WPRT, WPRT
+ZUMZ, ZUMZ
+CTS, CTS Corporation Common Stock
+TGP, TGP
+GNMK, GNMK
+KPTI, KPTI
+STBA, STBA
+CRHC, CRHC
+VLRS, Controladora Vuela Compania de Aviacion, S.A.B. de C.V. American Depositary Shares, each representing ten (10) Ordinary Participation Certificates
+BIF, BIF
+CHY, CHY
+CNDT, CNDT
+EVOP, EVOP
+MYRG, MYRG
+QQQX, QQQX
+SBSI, Southside Bancshares, Inc. Common Stock
+SBLK, SBLK
+AXL, American Axle & Manufacturing Holdings, Inc. Common Stock
+CRK, Comstock Resources, Inc. Common Stock
+FINV, FinVolution Group American Depositary Shares
+LGVW, LGVW
+NBHC, National Bank Holdings Corporation Common Stock
+SRCE, SRCE
+AMSF, AMSF
+BPFH, BPFH
+BTWN, BTWN
+DMTK, DMTK
+MESO, MESO
+SGTX, SGTX
+STEP, STEP
+TELL, TELL
+IMAX, Imax Corporation Common Stock
+KOS, Kosmos Energy Ltd. Common Shares (DE)
+RAD, RAD
+FAX, abrdn Asia
+AKRO, AKRO
+HGEN, HGEN
+CHEF, CHEF
+CLNC, CLNC
+FOR, Forestar Group Inc Common Stock 
+NGA, NGA
+NHC, National HealthCare Corporation Common Stock
+AUDC, AUDC
+GGAL, GGAL
+LNTH, LNTH
+TVTY, TVTY
+ZGNX, ZGNX
+CMRE, Costamare Inc. Common Stock $0.0001 par value
+EOS, Eaton Vance Enhance Equity Income Fund II Common Stock
+NXRT, NexPoint Residential Trust, Inc. Common Stock
+HQH, abrdn Healthcare Investors Shares of Beneficial Interest
+AGYS, AGYS
+RNP, Cohen & Steers REIT and Preferred and Income Fund, Inc. Common Shares
+MEG, Montrose Environmental Group, Inc. Common Stock
+NXE, Nexgen Energy Ltd. Common Shares
+AGC, AGC
+DHC, DHC
+FBNC, FBNC
+GOGO, GOGO
+ETW, Eaton Vance Corporation Eaton Vance Tax
+OII, Oceaneering International, Inc. Common Stock
+PRA, ProAssurance Corporation Common Stock
+SXI, Standex International Corporation Common Stock
+SVM, Silvercorp Metals Inc. Common Shares
+CGEN, CGEN
+IESC, IESC
+INGN, INGN
+VITL, VITL
+RWT, Redwood Trust, Inc. Common Stock
+TGH, TGH
+ANNX, ANNX
+BRKL, BRKL
+CENX, CENX
+CMCO, CMCO
+VECO, VECO
+LRN, Stride, Inc. Common Stock
+ORLA, Orla Mining Ltd. Common Shares
+MVIS, MVIS
+TCMD, TCMD
+SM, SM Energy Company Common Stock
+ARKO, ARKO
+BJRI, BJRI
+RDUS, RDUS
+RDNT, RDNT
+SIBN, SIBN
+GEO, Geo Group Inc (The) REIT
+OEC, Orion S.A. Common Shares
+KFRC, Kforce, Inc. Common Stock
+MATW, MATW
+OSPN, OSPN
+QADB, QADB
+SWBI, SWBI
+ACEL, Accel Entertainment, Inc. 
+AWF, Alliancebernstein Global High Income Fund
+FFC, Flaherty & Crumrine Preferred and Income Securities Fund Incorporated
+KRA, KRA
+AACQ, AACQ
+TBBK, TBBK
+CHI, CHI
+CCF, CCF
+PLOW, Douglas Dynamics, Inc. Common Stock
+KREF, KKR Real Estate Finance Trust Inc. Common Stock
+SCU, SCU
+OSUR, OSUR
+PBF, PBF Energy Inc. Class A Common Stock
+PFC, PFC
+AIO, Virtus Artificial Intelligence & Technology Opportunities Fund Common Shares of Beneficial Interest
+PETQ, PETQ
+VIVO, VIVO
+RBBN, RBBN
+DENN, DENN
+IPOD, IPOD
+BHE, Benchmark Electronics, Inc. Common Stock
+MDXG, MDXG
+APOG, APOG
+HZO, MarineMax, Inc.  (FL) Common Stock
+DBD, Diebold Nixdorf Incorporated Common stock
+OFG, OFG Bancorp Common Stock
+CRY, CRY
+YI, YI
+BHLB, Berkshire Hills Bancorp, Inc. Common Stock
+LE, LE
+CAMT, CAMT
+WOW, WideOpenWest, Inc. Common Stock
+SYBT, SYBT
+ICPT, ICPT
+RNA, RNA
+MORF, MORF
+TCRR, TCRR
+CRIS, CRIS
+SGH, SGH
+GHLD, Guild Holdings Company Class A Common Stock
+MYI, Blackrock MuniYield Quality Fund III, Inc Common Stock
+IHRT, IHRT
+KRNY, KRNY
+IMOS, IMOS
+PTGX, PTGX
+BRBR, BellRing Brands, Inc. Common Stock 
+FPH, Five Point Holdings, LLC Class A Common Shares
+AOD, abrdn Total Dynamic Dividend Fund Common Shares of Beneficial Interest
+EXTR, EXTR
+ENTA, ENTA
+EIM, Eaton Vance Municipal Bond Fund Common Shares of Beneficial Interest, $.01 par value
+PRVB, PRVB
+SNDX, SNDX
+CARA, CARA
+HA, HA
+PRS, Prudential Financial, Inc. 5.625% Junior Subordinated Notes due 2058
+JPC, Nuveen Preferred & Income Opportunities Fund
+FFWM, First Foundation Inc. Common Stock
+EIG, Employers Holdings Inc Common Stock
+SPH, Suburban Propane Partners, L.P. Common Stock
+SMP, Standard Motor Products, Inc. Common Stock
+CLM, Cornerstone Strategic Investment Fund, Inc. Common Shares
+CSR, D/B/A Centerspace Common Stock
+GLDD, GLDD
+ECPG, ECPG
+CRTX, CRTX
+TPRE, TPRE
+WLL, WLL
+DHT, DHT Holdings, Inc.
+BDTX, BDTX
+PLRX, PLRX
+PLCE, PLCE
+GAM, General American Investors, Inc. Common Stock
+GRPN, GRPN
+HMI, HMI
+QUOT, QUOT
+INN, Summit Hotel Properties, Inc. Common Stock
+PLYA, PLYA
+LMAT, LMAT
+RNLX, RNLX
+HFWA, HFWA
+DYN, DYN
+SCHL, SCHL
+CARS, Cars.com Inc. Common Stock 
+CIIC, CIIC
+PML, Pimco Municipal Income Fund II Common Shares of Beneficial Interest
+GABC, GABC
+NP, NP
+DRD, DRDGOLD Limited American Depositary Shares
+AGRO, Adecoagro S.A. Common Shares
+PHAR, PHAR
+LC, LendingClub Corporation Common Stock
+AHH, Armada Hoffler Properties, Inc. Common Stock
+NTUS, NTUS
+WNC, Wabash National Corporation Common Stock
+NESR, NESR
+VGAC, VGAC
+PASG, PASG
+UHT, Universal Health Realty Income Trust Common Stock
+HIBB, HIBB
+BKD, Brookdale Senior Living Inc. Common Stock
+BANC, Banc of California, Inc. Common Stock
+QTT, QTT
+MGPI, MGPI
+JBSS, JBSS
+DNOW, DNOW Inc. Common Stock
+ACTC, ACTC
+CKH, CKH
+AMPH, AMPH
+CMBM, CMBM
+SRG, Seritage Growth Properties Class A Common Stock
+GOF, Guggenheim Strategic Opportunities Fund Common Shares of Beneficial Interest
+PTNR, PTNR
+GRC, Gorman
+IIIV, IIIV
+CET, Central Securities Corporation Common Stock
+IMKTA, IMKTA
+MRUS, MRUS
+TCX, TCX
+LIND, LIND
+PRDO, PRDO
+LEAP, LEAP
+MDP, MDP
+BQ, Boqii Holding Limited American Depositary Shares (each representing one hundred fifty (150) Class A Ordinary Shares)
+BOAC, BOAC
+BEST, BEST
+JQC, Nuveen Credit Strategies Income Fund Shares of Beneficial Interest
+BHK, Blackrock Core Bond Trust
+VMO, Invesco Municipal Opportunity Trust Common Stock
+MBIN, MBIN
+TEN, Tsakos Energy Navigation Ltd Common Shares
+HNGR, HNGR
+GSKY, GSKY
+XENT, XENT
+ENVA, Enova International, Inc. Common Stock
+SCHN, SCHN
+TPB, Turning Point Brands, Inc. Common Stock
+ADAP, ADAP
+CDMO, CDMO
+THQ, abrdn Healthcare Opportunities Fund Shares of Beneficial Interest
+PAE, PAE
+TRTX, TPG RE Finance Trust, Inc. Common Stock
+PAHC, PAHC
+LL, LL
+KIDS, KIDS
+CNOB, CNOB
+TDF, Templeton Dragon Fund, Inc. Common Stock
+BMA, Banco Macro S.A.  ADR (representing Ten Class B Common Shares)
+AGM, Federal Agricultural Mortgage Corporation Common Stock
+AFIN, AFIN
+HOLI, HOLI
+OFIX, OFIX
+VAPO, VAPO
+VET, Vermilion Energy Inc. Common (Canada)
+AVAN, AVAN
+ADTN, ADTN
+LORL, LORL
+KELYA, KELYA
+PUMP, ProPetro Holding Corp. Common Stock
+TPC, Tutor Perini Corporation Common Stock
+MGIC, MGIC
+FORR, FORR
+MNKD, MNKD
+CRMT, CRMT
+EMD, Western Asset Emerging Markets Debt Fund Inc Common Stock
+ANDE, ANDE
+RES, RPC, Inc. Common Stock
+VTOL, Bristow Group, Inc. Common Stock
+ACCO, Acco Brands Corporation Common Stock
+FBM, FBM
+CLCT, CLCT
+BCSF, Bain Capital Specialty Finance, Inc. Common Stock
+COLL, COLL
+TARS, TARS
+RBCAA, RBCAA
+NX, Quanex Building Products Corporation Common Stock
+UEIC, UEIC
+EBSB, EBSB
+VFF, VFF
+KDMN, KDMN
+ETAC, ETAC
+PRTY, PRTY
+KELYB, KELYB
+LOVE, LOVE
+KNL, KNL
+TWCT, TWCT
+AMEH, AMEH
+CALT, CALT
+KYN, Kayne Anderson Energy Infrastructure Fund, Inc.
+BCOR, Grayscale Funds Trust Grayscale Bitcoin Adopters ETF
+PDFS, PDFS
+CCO, Clear Channel Outdoor Holdings, Inc. Common Stock
+HEXO, HEXO
+ERII, ERII
+UAVS, AgEagle Aerial Systems, Inc. Common Stock
+NIE, Virtus Equity & Convertible Income Fund Common Shares of Beneficial Interest
+RA, Brookfield Real Assets Income Fund Inc. Common Stock
+GLT, GLT
+AVID, AVID
+AMSC, AMSC
+SFL, SFL Corporation Ltd
+CXW, CoreCivic, Inc. Common Stock
+PHK, Pimco High Income Fund
+OCSL, OCSL
+SRI, Stoneridge, Inc. Common Stock
+IGR, CBRE Global Real Estate Income Fund Common Shares of Beneficial Interest
+WETF, WETF
+GAN, GAN
+VYGG, VYGG
+WASH, WASH
+HMST, HMST
+AINV, AINV
+MITK, MITK
+STFC, STFC
+AGCB, AGCB
+VVI, VVI
+MYE, Myers Industries, Inc. Common Stock
+USCR, USCR
+OSW, OSW
+HSTM, HSTM
+GOSS, GOSS
+VREX, VREX
+ZOM, ZOM
+TIG, TIG
+GTHX, GTHX
+FANH, FANH
+HLIT, HLIT
+CII, BlackRock Enhanced Large Cap Core Fund, Inc. Common Stock
+MERC, MERC
+MMX, MMX
+TALO, Talos Energy, Inc. Common Stock
+PRVL, PRVL
+OAS, OAS
+AERI, AERI
+AOSL, AOSL
+AC, Associated Capital Group, Inc. Common Stock
+SWIR, SWIR
+ACRS, ACRS
+VXRT, VXRT
+TGS, Transportadora de Gas del Sur SA TGS Common Stock
+ODT, ODT
+RBAC, RBAC
+ZIOP, ZIOP
+VNDA, VNDA
+ALTM, ALTM
+CFII, CFII
+ECHO, ECHO
+TRVG, TRVG
+ARCH, ARCH
+CBB, CBB
+ESGC, ESGC
+UFCS, UFCS
+WRLD, WRLD
+NEX, NEX
+SPWH, SPWH
+CAN, CAN
+WLKP, Westlake Chemical Partners LP Common Units representing limited partner interests
+DESP, DESP
+RUBY, RUBY
+WIW, Western Asset Inflation
+GOGL, GOGL
+TSCAP, TSCAP
+MNRL, MNRL
+FHTX, FHTX
+RPT, Rithm Property Trust Inc. Common stock
+BTBT, BTBT
+PFBC, PFBC
+AXGN, AXGN
+PLAB, PLAB
+HBNC, HBNC
+QEP, QEP
+ATEN, A10 Networks, Inc. Common Stock
+ATRS, ATRS
+AMC, AMC Entertainment Holdings, Inc. Class A Common Stock
+PARR, Par Pacific Holdings, Inc.  Common Stock
+CURI, CURI
+GATO, GATO
+SLRC, SLRC
+BCOV, BCOV
+GIM, GIM
+BOOM, BOOM
+GOAC, GOAC
+KOP, Koppers Holdings Inc. Common Stock
+RADI, RADI
+AFMD, AFMD
+PLSE, PLSE
+DTIL, DTIL
+HTD, John Hancock Tax Advantaged Dividend Income Fund Common Shares of Beneficial Interest
+LDP, Cohen & Steers Limited Duration Preferred and Income Fund, Inc.
+ABTX, ABTX
+ERF, ERF
+VBIV, VBIV
+NWLI, NWLI
+GPRK, Geopark Ltd Common Shares
+BCX, BlackRock Resources Common Shares of Beneficial Interest
+BOMN, BOMN
+NGMS, NGMS
+ARR, ARMOUR Residential REIT, Inc.
+BEDU, Bright Scholar Education Holdings Limited American Depositary Shares, each  representing four Class A Ordinary Share
+BFS, Saul Centers, Inc. Common Stock
+SSPK, SSPK
+GRAY, GRAY
+GEL, Genesis Energy, L.P. Common Units
+CCD, CCD
+AMRX, AMRX
+NKX, Nuveen California AMT
+HZAC, HZAC
+IIM, Invesco Value Municipal Income Trust Common Stock
+NCBS, NCBS
+BDSX, BDSX
+NMCO, Nuveen Municipal Credit Opportunities Fund Common Shares
+HFRO, Highland Opportunities and Income Fund Common Shares of Beneficial Interest
+KODK, Eastman Kodak Company Common New
+SP, SP
+CEL, CEL
+SOHU, SOHU
+ATNI, ATNI
+EVLO, EVLO
+PFN, PIMCO Income Strategy Fund II
+CIR, CIR
+CAPL, CrossAmerica Partners LP Common Units representing limited partner interests
+USLM, USLM
+AFIB, AFIB
+COWN, COWN
+PAM, Pampa Energia S.A.
+BOE, Blackrock Enhanced Global Dividend Trust Common Shares of Beneficial Interest
+SII, Sprott Inc. Common Shares
+REVG, REV Group, Inc. Common Stock
+MOD, Modine Manufacturing Company Common Stock
+VRAY, VRAY
+AMBC, Ambac Financial Group, Inc. Common Stock
+VKQ, Invesco Municipal Trust Common Stock
+SNDL, SNDL
+TBI, TrueBlue, Inc. Common Stock
+GRSV, GRSV
+TREB, TREB
+EXK, Endeavour Silver Corporation Ordinary Shares (Canada)
+VGM, Invesco Trust for Investment Grade Municipals Common Stock (DE)
+CBTX, CBTX
+LOCO, LOCO
+CYD, China Yuchai International Limited Common Stock
+CUBI, Customers Bancorp, Inc Common Stock
+OBNK, OBNK
+FUV, FUV
+DUO, DUO
+GSBC, GSBC
+ATOM, ATOM
+FI, Fiserv, Inc. Common Stock
+ATEX, ATEX
+CLDX, CLDX
+AGX, Argan, Inc. Common Stock
+IMTX, IMTX
+ORBC, ORBC
+CTBI, CTBI
+STNG, Scorpio Tankers Inc. Common Shares
+HARP, HARP
+AAN, AAN
+ANAB, ANAB
+FBMS, FBMS
+NFBK, NFBK
+CDEV, CDEV
+HZON, HZON
+DMRC, DMRC
+APXT, APXT
+GPRE, GPRE
+DMYD, DMYD
+SFT, SFT
+WTRE, WisdomTree New Economy Real Estate Fund
+ANGO, ANGO
+CLVS, CLVS
+VTA, VTA
+IVA, IVA
+EFC, Ellington Financial Inc. Common Stock 
+PACE, PACE
+WINA, WINA
+CHUY, CHUY
+USAT, USAT
+DBI, Designer Brands Inc. Class A Common Stock
+LBAI, LBAI
+TCPC, TCPC
+CLW, Clearwater Paper Corporation Common Stock
+FPRX, FPRX
+SYRS, SYRS
+UVSP, UVSP
+TGI, Triumph Group, Inc. Common Stock
+PCN, Pimco Corporate & Income Strategy Fund Common Stock
+TRST, TRST
+ACIC, ACIC
+CPAC, Cementos Pacasmayo S.A.A. American Depositary Shares (Each representing five Common Shares)
+RUTH, RUTH
+IQI, Invesco Quality Municipal Income Trust Common Stock
+MWK, MWK
+PDT, John Hancock Premium Dividend Fund
+MGTX, MGTX
+HMHC, HMHC
+CMLF, CMLF
+NPK, National Presto Industries, Inc. Common Stock
+LCY, LCY
+HLX, Helix Energy Solutions Group, Inc. Common Stock
+SCSC, SCSC
+QELL, QELL
+BFK, BlackRock Municipal Income Trust
+SLCA, SLCA
+GDYN, GDYN
+HAAC, HAAC
+BPYU, BPYU
+EBON, EBON
+OPRX, OPRX
+RC, Ready Capital Corporation Common Stock
+MYD, Blackrock MuniYield Fund, Inc.  Common Stock
+SLN, SLN
+ESPR, ESPR
+CLSK, CLSK
+AQB, AQB
+ALBO, ALBO
+ETJ, Eaton Vance Risk
+BMTC, BMTC
+STRL, STRL
+DCO, Ducommun Incorporated Common Stock
+BOWX, BOWX
+ARLP, ARLP
+NID, NID
+CASA, CASA
+CMRX, CMRX
+RFP, RFP
+AMSWA, AMSWA
+AGEN, AGEN
+NBTX, NBTX
+BIT, BlackRock Multi
+TUFN, TUFN
+TRXC, TRXC
+NBB, Nuveen Taxable Municipal Income Fund Common Shares of Beneficial Interest
+ATHA, ATHA
+ARDX, ARDX
+LQDT, LQDT
+DBVT, DBVT
+SPTN, SPTN
+ABST, ABST
+QIWI, QIWI
+EOI, Eaton Vance Enhance Equity Income Fund Eaton Vance Enhanced Equity Income Fund Shares of Beneficial Interest
+TILE, TILE
+SQZ, SQZ
+UMH, UMH Properties, Inc. Common Stock
+HONE, HONE
+IVR, INVESCO MORTGAGE CAPITAL INC Common Stock
+TMDX, TMDX
+QCRH, QCRH
+LPG, Dorian LPG Ltd. Common Stock
+BY, Byline Bancorp, Inc. Common Stock
+GOOD, GOOD
+ARLO, Arlo Technologies, Inc. Common Stock
+NLS, NLS
+SVA, SVA
+VEC, VEC
+GMRE, Global Medical REIT Inc. Common Stock
+VSPR, VSPR
+GLP, Global Partners LP Common Units representing Limited Partner Interests
+ASIX, AdvanSix Inc. Common Stock 
+CBAT, CBAT
+MX, Magnachip Semiconductor Corporation Common Stock
+DFIN, Donnelley Financial Solutions, Inc. Common Stock 
+CAL, Caleres, Inc. Common Stock
+VVR, Invesco Senior Income Trust Common Stock (DE)
+AEGN, AEGN
+TSC, TSC
+FF, FutureFuel Corp.  Common shares
+CFB, CFB
+RIGL, RIGL
+KDNY, KDNY
+CGBD, CGBD
+CLII, CLII
+FRLN, FRLN
+VCV, Invesco California Value Municipal Income Trust Common Stock
+VERU, VERU
+BGY, Blackrock Enhanced International Dividend Trust
+TTCF, TTCF
+TRIT, TRIT
+TCS, TCS
+ONE, ONE
+SRDX, SRDX
+PBFX, PBFX
+BZH, Beazer Homes USA, Inc. Common Stock
+DMS, DMS
+PCPL, PCPL
+CAAP, Corporacion America Airports SA Common Shares
+ULH, ULH
+PETS, PETS
+CSV, Carriage Services, Inc. Common Stock
+AWH, AWH
+HIO, Western Asset High Income Opportunity Fund, Inc. Common Stock
+GP, GP
+EGRX, EGRX
+CTRN, CTRN
+BLX, Banco Latinoamericano de Comercio Exterior, S.A.
+ALTA, ALTA
+QTNT, QTNT
+CAI, CAI
+INZY, INZY
+PEBO, PEBO
+HSII, HSII
+BTO, John Hancock Financial Opportunities Fund Common Stock
+IHC, IHC
+HEC, HEC
+ASLE, ASLE
+DAC, Danaos Corporation Common Stock
+LOMA, Loma Negra Compania Industrial Argentina Sociedad Anonima ADS
+NPTN, NPTN
+HVT, Haverty Furniture Companies, Inc. Common Stock
+MUC, Blackrock MuniHoldings California Quality Fund, Inc.  Common Stock
+TLMD, TLMD
+NVGS, Navigator Holdings Ltd. Ordinary Shares (Marshall Islands)
+ZYXI, ZYXI
+PZN, PZN
+CURO, CURO
+MMD, NYLI MacKay DefinedTerm Muni Opportunities Fund Common Shares
+WLDN, WLDN
+ETH, Grayscale Ethereum Mini Trust (ETH) Common units of fractional undivided beneficial interest
+UTL, UNITIL Corporation Common Stock
+AVRO, AVRO
+NEW, NEW
+FMBH, FMBH
+MTEM, MTEM
+FIXX, FIXX
+BLBD, BLBD
+BBDC, Barings BDC, Inc. Common Stock
+CMTL, CMTL
+YORW, YORW
+MVF, Blackrock MuniVest Fund, Inc. Common Stock
+GHY, PGIM Global High Yield Fund, Inc.
+NXJ, Nuveen New Jersey Qualified Municipal Fund 
+AKTS, AKTS
+LDL, LDL
+THRY, THRY
+IDYA, IDYA
+KNDI, KNDI
+DGII, DGII
+SEAH, SEAH
+OXLC, OXLC
+SCVL, SCVL
+RCEL, RCEL
+CPS, Cooper
+AVK, Advent Convertible and Income Fund
+HTBK, HTBK
+CHW, CHW
+MRC, MRC Global Inc. Common Stock
+ONCR, ONCR
+DCOM, DCOM
+PRTS, PRTS
+BGB, Blackstone Strategic Credit 2027 Term Fund Common Shares of Beneficial Interest
+AKUS, AKUS
+SPPI, SPPI
+GGN, GAMCO Global Gold, Natural Resources & Income Trust
+ORTX, ORTX
+HWKN, HWKN
+UBA, UBA
+FNKO, FNKO
+SNPR, SNPR
+ECOM, ECOM
+RLMD, RLMD
+AMTB, Amerant Bancorp Inc. Class A Common Stock
+CASS, CASS
+HIX, Western Asset High Income Fund II Inc. Common Stock
+TPCO, TPCO
+SPNV, SPNV
+GCI, Gannett Co., Inc. Common Stock
+FTHM, FTHM
+IMXI, IMXI
+DVAX, DVAX
+FPAC, FPAC
+GTS, GTS
+WBAI, WBAI
+BME, Blackrock Health Sciences Trust
+BBAR, Banco BBVA Argentina S.A. ADS
+FSRV, FSRV
+BTAQU, BTAQU
+CPF, Central Pacific Financial Corp New
+WTTR, Select Water Solutions, Inc. Class A common stock
+WIMI, WIMI
+RMNI, RMNI
+CAC, CAC
+PSTX, PSTX
+FRSX, FRSX
+BLW, Blackrock Limited Duration Income Trust
+BCYC, BCYC
+FLXN, FLXN
+VUSE, Vident U.S. Equity Strategy ETF
+GCO, Genesco Inc. Common Stock
+MIRM, MIRM
+SENS, Senseonics Holdings, Inc. Common Stock
+CVM, Cel
+FMAC, FMAC
+MUI, MUI
+IMPX, IMPX
+THFF, THFF
+ETM, ETM
+GDEN, GDEN
+MMU, Western Asset Managed Municipals Fund, Inc. Common Stock
+CMO, CMO
+ALDX, ALDX
+GILT, GILT
+KNOP, KNOT Offshore Partners LP Common Units representing Limited Partner Interests
+OXFD, OXFD
+BXG, BXG
+LLNW, LLNW
+NLTX, NLTX
+XENE, XENE
+AVD, American Vanguard Corporation Common Stock ($0.10 Par Value)
+DFP, Flaherty & Crumrine Dynamic Preferred and Income Fund Inc. Common Stock
+PPR, PPR
+PLL, PLL
+IFN, India Fund, Inc. (The) Common Stock
+SSTI, SSTI
+SVAC, SVAC
+GPMT, Granite Point Mortgage Trust Inc. Common Stock
+BCEL, BCEL
+ANIK, ANIK
+MUA, Blackrock MuniAssets Fund, Inc Common Stock
+SMTS, SMTS
+WNW, WNW
+PROS, PROS
+TRMD, TRMD
+SRAC, SRAC
+MPX, Marine Products Corporation Common Stock
+LBC, LBC
+JPI, Nuveen Preferred Securities & Income Opportunities Fund Common Shares
+DIAX, Nuveen Dow 30SM Dynamic Overwrite Fund Common Shares of Beneficial Interest
+THBR, THBR
+EQD, EQD
+ACND, ACND
+MCFT, MCFT
+THR, Thermon Group Holdings, Inc. Common Stock
+CLDT, Chatham Lodging Trust (REIT) Common Shares of Beneficial Interest
+SLDB, SLDB
+COE, 51Talk Online Education Group American depositary shares, each representing 60 Class A ordinary shares
+YJ, YJ
+MFL, MFL
+SIGA, SIGA
+PRTA, PRTA
+WIFI, WIFI
+REV, REV
+BMRC, BMRC
+HCCI, HCCI
+NHF, NHF
+BFC, BFC
+EVN, Eaton Vance Municipal Income Trust Common Stock
+BDGE, BDGE
+QD, Qudian Inc. American Depositary Shares, each representing one Class A Ordinary Share
+GERN, GERN
+JIH, JIH
+IIAC, IIAC
+FUSE, FUSE
+PAND, PAND
+CATC, CATC
+HPS, John Hancock Preferred Income Fund III Preferred Income Fund III
+THCB, THCB
+ALT, ALT
+FFIC, FFIC
+NQP, Nuveen Pennsylvania Quality Municipal Income Fund Common Stock
+SURF, SURF
+CPE, CPE
+EFT, Eaton Vance Floating Rate Income Trust Common Shares of Beneficial Interest
+REX, REX American Resources Corporation
+PRTH, PRTH
+DNK, DNK
+NSSC, NSSC
+EQOS, EQOS
+UUUU, Energy Fuels Inc Ordinary Shares (Canada)
+VUZI, VUZI
+MYN, Blackrock MuniYield New York Quality Fund, Inc.Common Stock
+EPIX, EPIX
+TRUE, TRUE
+JFR, Nuveen Floating Rate Income Fund Common Stock
+FUSN, FUSN
+KRP, Kimbell Royalty Partners Common Units Representing Limited Partner Interests
+IIIN, Insteel Industries, Inc. Common Stock
+TG, Tredegar Corporation Common Stock
+BEEM, BEEM
+RYI, Ryerson Holding Corporation Common Stock
+ONEW, ONEW
+MQY, Blackrock MuniYield Quality Fund, Inc. Common Stock
+SOLO, SOLO
+LEO, BNY Mellon Strategic Municipals, Inc. Common Stock
+MSGM, MSGM
+HMLP, HMLP
+NCV, Virtus Convertible & Income Fund Common Shares of Beneficial Interest
+INAQ, INAQ
+IGD, Voya Global Equity Dividend and Premium Opportunity Fund
+BBSI, BBSI
+JHB, JHB
+MCS, Marcus Corporation (The) Common Stock
+OYST, OYST
+IEA, IEA
+UROV, UROV
+MCA, MCA
+VIOT, VIOT
+RAPT, RAPT
+FAII, FAII
+ALLT, ALLT
+THW, abrdn World Healthcare Fund Shares of Beneficial Interest
+MTL, MTL
+EXPC, EXPC
+SPRO, SPRO
+VOXX, VOXX
+SPRQ, SPRQ
+PROF, PROF
+VKI, Invesco Advantage Municipal Income Trust II Common Shares of Beneficial Interest (DE)
+FOSL, FOSL
+HIFS, HIFS
+FLDM, FLDM
+ASPN, Aspen Aerogels, Inc. Common Stock
+TITN, TITN
+BTAQ, BTAQ
+SPRB, SPRB
+MTW, Manitowoc Company, Inc. (The) Common Stock
+ISD, PGIM High Yield Bond Fund, Inc.
+IPV, IPV
+CRNX, CRNX
+AXDX, AXDX
+FSD, FSD
+FBRX, FBRX
+FSP, Franklin Street Properties Corp. Common Stock
+JNCE, JNCE
+CLAR, CLAR
+CDAK, CDAK
+AMYT, AMYT
+DSU, Blackrock Debt Strategies Fund, Inc. Common Stock
+VKTX, VKTX
+NTST, NetSTREIT Corp. Common Stock
+OPT, OPT
+HQL, abrdn Life Sciences Investors Shares of Beneficial Interest
+DPG, Duff & Phelps Utility and Infrastructure Fund Inc.
+UVE, UNIVERSAL INSURANCE HOLDINGS INC Common Stock
+UBP, UBP
+HPI, John Hancock Preferred Income Fund Common Shares of Beneficial Interest
+EAD, Allspring Income Opportunities Fund Common Shares
+AXTI, AXTI
+XBIT, XBIT
+EFR, Eaton Vance Senior Floating
+AMOT, AMOT
+RDIB, RDIB
+PEIX, PEIX
+ALRS, ALRS
+EBF, Ennis, Inc. Common Stock
+OMP, OMP
+CRF, Cornerstone Total Return Fund, Inc. (The) Common Stock
+WVE, WVE
+CAF, Morgan Stanley China A Share Fund Inc. Common Stock
+DHIL, DHIL
+AROW, AROW
+AKBA, AKBA
+CUTR, CUTR
+BIVI, BIVI
+WSBF, WSBF
+GBAB, Guggenheim Taxable Municipal Bond & Investment Grade Debt Trust Common Shares of Beneficial Interest
+PGC, PGC
+VHI, Valhi, Inc. Common Stock
+ZIXI, ZIXI
+FLNG, FLEX LNG Ltd. Ordinary Shares
+INSW, International Seaways, Inc. Common Stock 
+PPT, Putnam Premier Income Trust Common Stock
+RADA, RADA
+GBL, GBL
+DXPE, DXPE
+MRNS, MRNS
+MBWM, MBWM
+RMT, Royce Micro
+MCF, MCF
+CO, CO
+MLR, Miller Industries, Inc. Common Stock
+OPRT, OPRT
+ISEE, ISEE
+SRLP, SRLP
+NOG, Northern Oil and Gas, Inc. Common Stock
+MOV, Movado Group Inc. Common Stock
+CTT, CTT
+SPNE, SPNE
+CSTE, CSTE
+AMTBB, AMTBB
+ORPH, ORPH
+DNN, Denison Mines Corp Ordinary Shares (Canada)
+PKO, PKO
+LUXA, LUXA
+TA, TA
+FCAC, FCAC
+RYAM, Rayonier Advanced Materials Inc. Common Stock
+AWP, abrdn Global Premier Properties Fund Common Shares of Beneficial Interest
+DJCO, DJCO
+PDAC, PDAC
+MGI, MGI
+PMO, Putnam Municipal Opportunities Trust Common Stock
+STK, Columbia Seligman Premium Technology Growth Fund Inc
+KBAL, KBAL
+AMAL, AMAL
+ARAY, ARAY
+LAWS, LAWS
+LXFR, Luxfer Holdings PLC Ordinary Shares
+CRAI, CRAI
+LSEA, LSEA
+SXC, SunCoke Energy, Inc. Common Stock
+CNBKA, CNBKA
+URGN, URGN
+GLSI, GLSI
+JG, JG
+SOI, SOI
+BCEI, BCEI
+SMMT, SMMT
+AUTL, AUTL
+BUI, BlackRock Utility, Infrastructure & Power Opportunities Trust
+AGMH, AGMH
+VPG, Vishay Precision Group, Inc. Common Stock
+MTA, Metalla Royalty & Streaming Ltd. Common Shares
+VSEC, VSEC
+ENPC, ENPC
+DRRX, DRRX
+KTF, DWS Municipal Income Trust
+FREE, FREE
+NPA, NPA
+KE, KE
+XONE, BondBloxx ETF Trust BondBloxx Bloomberg One Year Target Duration US Treasury ETF
+SNR, SNR
+DMYI, DMYI
+FRA, Blackrock Floating Rate Income Strategies Fund Inc  Common Stock
+ERES, ERES
+NEWT, NEWT
+CNSL, CNSL
+ACIU, ACIU
+YAC, YAC
+CLFD, CLFD
+ATRO, ATRO
+BNFT, BNFT
+SAVA, SAVA
+TXMD, TXMD
+EHI, Western Asset Global High Income Fund Inc Common Stock
+MDVL, MDVL
+GLOG, GLOG
+KLDO, KLDO
+HCI, HCI Group, Inc. Common Stock
+CPSI, CPSI
+VBND, Vident U.S. Bond Strategy ETF
+TDW, Tidewater Inc. Common Stock
+FRPH, FRPH
+SFTW, SFTW
+BFZ, BlackRock California Municipal Income Trust
+NBR, Nabors Industries Ltd.
+APLT, APLT
+VNTR, VNTR
+PBYI, PBYI
+SBR, Sabine Royalty Trust Common Stock
+HCKT, HCKT
+NAN, Nuveen New York Quality Municipal Income Fund Common Stock
+ESTE, ESTE
+BFST, BFST
+GUT, Gabelli Utility Trust (The) Common Stock
+DEH, DEH
+SOAC, SOAC
+AEF, abrdn Emerging Markets ex
+IBCP, IBCP
+MSBI, MSBI
+CCAP, CCAP
+APEI, APEI
+MHN, Blackrock MuniHoldings New York Quality Fund, Inc. Common Stock
+ITRN, ITRN
+MIN, MFS Intermediate Income Trust Common Stock
+TWND, TWND
+MUJ, Blackrock MuniHoldings New Jersey Quality Fund, Inc. Common Stock
+NAT, Nordic American Tankers Limited Common Stock
+NH, NH
+UXIN, UXIN
+XOMA, XOMA
+MOFG, MOFG
+TWI, Titan International, Inc. (DE) Common Stock
+PFLT, PennantPark Floating Rate Capital Ltd. Common Stock
+RVP, Retractable Technologies, Inc. Common Stock
+GSS, GSS
+MIY, Blackrock MuniYield Michigan Quality Fund, Inc. Common Stock
+RSVA, RSVA
+INTZ, INTZ
+DMLP, DMLP
+CPLG, CPLG
+TRC, Tejon Ranch Co Common Stock
+EVI, EVI Industries, Inc.  Common Stock
+FLIC, FLIC
+PIAI, PIAI
+STON, STON
+DX, Dynex Capital, Inc. Common Stock
+CUE, CUE
+DGICA, DGICA
+SIFY, SIFY
+VRS, VRS
+CIO, City Office REIT, Inc. Common Stock
+ATLC, ATLC
+TPVG, TriplePoint Venture Growth BDC Corp. Common Stock
+GIK, GIK
+GMDA, GMDA
+CASI, CASI
+FIII, FIII
+OLP, One Liberty Properties, Inc. Common Stock
+JYNT, JYNT
+BDSI, BDSI
+XPOA, XPOA
+HBT, HBT
+REKR, REKR
+AENZ, AENZ
+KALA, KALA
+ASA, ASA  Gold and Precious Metals Limited
+CTSO, CTSO
+RFL, Rafael Holdings, Inc. Class B Common Stock
+ETNB, ETNB
+CCBG, CCBG
+IGAC, IGAC
+CRNT, CRNT
+DGNS, DGNS
+RGP, RGP
+ORC, Orchid Island Capital, Inc. Common Stock
+CLNN, CLNN
+GBLI, Global Indemnity Group, LLC Class A Common Stock (DE)
+IACA, IACA
+AVXL, AVXL
+EDD, Morgan Stanley Emerging Markets Domestic Debt Fund, Inc. Common Stock
+FCBC, FCBC
+AFB, AllianceBernstein National Municipal Income Fund Inc
+ACRE, Ares Commercial Real Estate Corporation Common Stock
+CBAY, CBAY
+ELLO, Ellomay Capital Ltd Ordinary Shares (Israel)
+OPY, Oppenheimer Holdings, Inc. Class A Common Stock (DE)
+HMTV, HMTV
+PMX, PIMCO Municipal Income Fund III Common Shares of Beneficial Interest
+NEV, NEV
+VRNA, VRNA
+DLTH, DLTH
+STIM, STIM
+SGU, Star Group L.P. Common Stock
+ETO, Eaton Vance Tax
+BYM, Blackrock Municipal Income Quality Trust Common Shares of Beneficial Interest
+USX, USX
+CAMP, CAMP
+TSIA, TSIA
+KIRK, KIRK
+FRX, FRX
+CONN, CONN
+PLM, PLM
+NTP, NTP
+SCPL, SCPL
+VHC, VirnetX Holding Corp Common Stock
+OGI, OGI
+NRGX, NRGX
+VACQ, VACQ
+LCTX, Lineage Cell Therapeutics, Inc. Common Stock
+FRGI, FRGI
+PMM, Putnam Managed Municipal Income Trust Common Stock
+HPF, John Hancock Pfd Income Fund II Pfd Income Fund II
+ARA, ARA
+DSKE, DSKE
+ANIP, ANIP
+MGTA, MGTA
+HOFT, HOFT
+LAND, LAND
+TFFP, TFFP
+LOOP, LOOP
+MUX, McEwen Mining Inc. Common Stock
+ETB, Eaton Vance Tax
+FMNB, FMNB
+UK, UK
+FTIV, FTIV
+AVDL, AVDL
+DSPG, DSPG
+CDZI, CDZI
+QH, QH
+MPAA, MPAA
+GLO, Clough Global Opportunities Fund Common Stock
+PKOH, PKOH
+CHPM, CHPM
+HOL, HOL
+HFFG, HFFG
+VIH, VIH
+BKT, BlackRock Income Trust Inc. (The)
+NDLS, NDLS
+FISI, FISI
+RRBI, RRBI
+DCRB, DCRB
+XXII, XXII
+RICK, RICK
+DSM, BNY Mellon Strategic Municipal Bond Fund, Inc. Common Stock
+SGC, SGC
+CCNE, CCNE
+TLSA, TLSA
+IGIC, IGIC
+MCBS, MCBS
+BYSI, BYSI
+NCZ, Virtus Convertible & Income Fund II Common Shares of Beneficial Interest
+MCR, MFS Charter Income Trust Common Stock
+SPKE, SPKE
+EGAN, EGAN
+CRDF, CRDF
+APTO, APTO
+BSRR, BSRR
+DGICB, DGICB
+NGL, NGL ENERGY PARTNERS LP Common Units representing Limited Partner Interests
+ATHX, ATHX
+GTYH, GTYH
+HESM, Hess Midstream LP Class A Representing Limited Partner Interests
+HEAR, HEAR
+HAFC, HAFC
+NISN, NISN
+HIMS, Hims & Hers Health, Inc. Class A Common Stock
+JAGX, JAGX
+KOPN, KOPN
+LSF, Laird Superfood, Inc. Common Stock
+SUNW, SUNW
+BWB, BWB
+IBIO, IBIO
+KLR, KLR
+CERE, CERE
+FULC, FULC
+HOOK, HOOK
+APTS, APTS
+SENEB, SENEB
+ATAC, ATAC
+GSM, GSM
+NSCO, NSCO
+APYX, APYX
+TACO, TACO
+GWRS, GWRS
+PEO, Adams Natural Resources Fund, Inc. Common Stock
+WTRH, WTRH
+PLYM, Plymouth Industrial REIT, Inc. Common Stock
+PERI, PERI
+NXTC, NXTC
+ALUS, ALUS
+CCAC, CCAC
+TCDA, TCDA
+IBEX, IBEX
+IDT, IDT Corporation Class B Common Stock
+OIA, Invesco Municipal Income Opportunities Trust Common Stock
+VSTM, VSTM
+CPRX, CPRX
+OIS, Oil States International, Inc. Common Stock
+TNK, Teekay Tankers Ltd.
+MMT, MFS Multimarket Income Trust Common Stock
+GXGX, GXGX
+SELB, SELB
+STIC, STIC
+LEGH, LEGH
+RRGB, RRGB
+AXU, AXU
+JRO, JRO
+INDT, INDT
+ASG, Liberty All
+JRI, Nuveen Real Asset Income and Growth Fund Common Shares of Beneficial Interest
+TEI, Templeton Emerging Markets Income Fund, Inc. Common Stock
+RICE, RICE
+PFL, PIMCO Income Strategy Fund Shares of Beneficial Interest
+RPLA, RPLA
+PMF, PIMCO Municipal Income Fund Common Stock
+STXS, Stereotaxis, Inc. Common Stock
+BLCT, BLCT
+MSB, Mesabi Trust Common Stock
+NODK, NODK
+AGLE, AGLE
+RTPZ, RTPZ
+RMM, RiverNorth Managed Duration Municipal Income Fund, Inc. Common Stock
+ACBI, ACBI
+IMMR, IMMR
+GNTY, Guaranty Bancshares, Inc. Common Stock
+BLE, BlackRock Municipal Income Trust II
+GNK, Genco Shipping & Trading Limited Ordinary Shares New (Marshall Islands)
+MBI, MBIA Inc. Common Stock
+VRTV, VRTV
+PUYI, PUYI
+SPFI, SPFI
+TINV, TINV
+CEPU, Central Puerto S.A. American Depositary Shares (each represents ten Common Shares)
+BXC, Bluelinx Holdings Inc. Common Stock
+UBX, UBX
+MEN, MEN
+TGB, Taseko Mines, Ltd. Common Stock
+IMUX, IMUX
+CPSR, Calamos ETF Trust Calamos S&P 500 Structured Alt Protection ETF 
+MTRX, MTRX
+TAST, TAST
+WSR, Whitestone REIT Common Shares
+INFU, InfuSystems Holdings, Inc. Common Stock
+ARTNA, ARTNA
+POWL, POWL
+GAIN, GAIN
+ECC, Eagle Point Credit Company Inc. Common Stock
+CCRN, CCRN
+RESN, RESN
+COGT, COGT
+INS, INS
+TISI, Team, Inc. Common Stock
+UFI, Unifi, Inc. New Common Stock
+BH, Biglari Holdings Inc. Class B Common Stock
+ITMR, ITMR
+CBMG, CBMG
+POWW, POWW
+LUNA, LUNA
+RBB, RBB
+IPHA, IPHA
+CTAC, CTAC
+RFI, Cohen & Steers Total Return Realty Fund, Inc. Common Stock
+JGH, Nuveen Global High Income Fund Common Shares of Beneficial Interest
+FOF, Cohen & Steers Closed
+OCGN, OCGN
+ACV, Virtus Diversified Income & Convertible Fund Common Shares of Beneficial Interest
+CFAC, CFAC
+LEJU, LEJU
+VTRU, VTRU
+HTBI, HTBI
+FFA, First Trust Enhanced Equity Income Fund
+CLPT, CLPT
+HYMC, HYMC
+RM, Regional Management Corp. Common Stock
+SOR, Source Capital, Inc. Cmn Shs of BI
+FC, Franklin Covey Company Common Stock
+EQBK, Equity Bancshares, Inc. Class A Common Stock
+EIGR, EIGR
+HYI, Western Asset High Yield Defined Opportunity Fund Inc. Common Stock
+DZSI, DZSI
+SENEA, SENEA
+NBEV, NBEV
+ICAD, ICAD
+BHB, Bar Harbor Bankshares, Inc. Common Stock
+MYJ, MYJ
+WSG, WSG
+YRD, Yiren Digital Ltd. American Depositary Shares, each representing two ordinary shares
+NGVC, Natural Grocers by Vitamin Cottage, Inc. Common Stock
+FLNT, FLNT
+TGLS, Tecnoglass Inc. Ordinary Shares
+TRVN, TRVN
+BRY, BRY
+UFPT, UFPT
+SPLP, SPLP
+PNNT, PennantPark Investment Corporation Common Stock
+WTBA, WTBA
+OOMA, Ooma, Inc. Common Stock
+LCUT, LCUT
+ABUS, ABUS
+GNUS, GNUS
+ERC, Allspring Multi
+PLPC, PLPC
+CABA, CABA
+IVC, IVC
+CHN, China Fund, Inc. (The) Common Stock
+CSWC, CSWC
+OACB, OACB
+PCQ, PIMCO California Municipal Income Fund Common Stock
+NVEC, NVEC
+PROG, PROG
+VYGR, VYGR
+MBIO, MBIO
+UEC, Uranium Energy Corp. Common Stock
+OESX, OESX
+TEKK, TEKK
+NEXT, NEXT
+VMD, VMD
+EBTC, EBTC
+VIAO, VIAO
+AMCI, AMCI
+IPI, Intrepid Potash, Inc Common Stock
+MEIP, MEIP
+FBIO, FBIO
+CRSA, CRSA
+REDU, REDU
+ASAQ, ASAQ
+STWO, STWO
+BBCP, BBCP
+HUIZ, HUIZ
+CLA, CLA
+AMPE, AMPE
+CODX, CODX
+LTRPA, LTRPA
+ARDC, Ares Dynamic Credit Allocation Fund, Inc. Common Shares
+LNDC, LNDC
+WTI, W&T Offshore, Inc. Common Stock
+CSTR, CSTR
+CNCE, CNCE
+BTU, Peabody Energy Corporation Common Stock 
+HPX, HPX
+RBNC, RBNC
+LIVX, LIVX
+FDUS, FDUS
+FIV, FIV
+EMF, Templeton Emerging Markets Fund Common Stock
+RGS, RGS
+JE, JE
+PSAC, PSAC
+DL, DL
+EMPW, EMPW
+MCB, Metropolitan Bank Holding Corp. Common Stock
+VRCA, VRCA
+MVT, Blackrock MuniVest Fund II, Inc.  Common Stock
+BW, Babcock & Wilcox Enterprises, Inc. Common Stock
+KSMT, KSMT
+CZNC, CZNC
+NMY, NMY
+PTSI, PTSI
+BIOX, BIOX
+FPI, Farmland Partners Inc. Common Stock
+GPM, GPM
+SRT, SRT
+ACEV, ACEV
+CMPI, CMPI
+RLGT, Radiant Logistics, Inc. Common Stock
+SILC, SILC
+PSF, Cohen & Steers Select Preferred and Income Fund, Inc. Common Stock
+MQT, Blackrock MuniYield Quality Fund II, Inc. Common Stock
+OCX, OCX
+ONDS, ONDS
+EEX, Emerald Holding, Inc. Common Stock
+INBK, INBK
+RDHL, RDHL
+DFPH, DFPH
+SV, SV
+VLGEA, VLGEA
+UTMD, UTMD
+NATR, NATR
+GF, New Germany Fund, Inc. (The) Common Stock
+EOT, Eaton Vance Municipal Income Trust EATON VANCE NATIONAL MUNICIPAL OPPORTUNITIES TRUST
+NOVS, NOVS
+SFST, SFST
+CMCM, Cheetah Mobile Inc. American Depositary Shares, each representing fifty (50) Class A Ordinary Shares
+VYNE, VYNE
+NCNA, NCNA
+MYC, MYC
+NWPX, NWPX
+LMRK, LMRK
+STXB, STXB
+ALPN, ALPN
+OSBC, OSBC
+SMBK, SmartFinancial, Inc. Common Stock
+RVI, RVI
+FCT, First Trust Senior Floating Rate Income Fund II Common Shares of Beneficial Interest
+MTNB, Matinas Biopharma Holdings, Inc. Common Stock
+SONA, SONA
+KMDA, KMDA
+GLTO, GLTO
+ROBO, Exchange Traded Concepts Trust ROBO Global Robotics and Automation Index ETF
+CERC, CERC
+CSPR, CSPR
+ALTG, Alta Equipment Group Inc. Class A Common Stock
+ESCA, ESCA
+USAS, Americas Gold and Silver Corporation Common Shares, no par value
+NCA, Nuveen California Municipal Value Fund
+LCAP, Principal Exchange
+CTMX, CTMX
+SCVX, SCVX
+CRESY, CRESY
+KWEB, KraneShares Trust KraneShares CSI China Internet ETF
+AMNB, AMNB
+ASPL, ASPL
+FLY, FLY
+VTGN, VTGN
+TMQ, Trilogy Metals Inc. Common Stock
+MCBC, MCBC
+CIA, Citizens, Inc. Class A Common Stock ($1.00 Par)
+CEIX, CEIX
+BGH, Barings Global Short Duration High Yield Fund Common Shares of Beneficial Interests
+RCS, PIMCO Strategic Income Fund, Inc.
+PRTK, PRTK
+FLMN, FLMN
+VPV, Invesco Pennsylvania Value Municipal Income Trust Common Stock (DE)
+NUM, NUM
+HT, HT
+CSSE, CSSE
+CDXC, CDXC
+NSH, NSH
+TLYS, Tilly's, Inc. Common Stock
+PLG, Platinum Group Metals Ltd. Ordinary Shares (Canada)
+GLAD, GLAD
+DBDR, DBDR
+HAYN, HAYN
+LPI, LPI
+WIA, Western Asset Inflation
+BLU, BLU
+MUE, Blackrock MuniHoldings Quality Fund II, Inc. Common Stock
+SBG, SBG
+EMX, EMX Royalty Corporation Common Shares (Canada)
+SMBC, SMBC
+ACAC, ACAC
+AONE, AONE
+LMNR, LMNR
+TYG, Tortoise Energy Infrastructure Corporation Common Stock
+KIO, KKR Income Opportunities Fund Common Shares
+CARE, CARE
+MIXT, MIXT
+DBL, DoubleLine Opportunistic Credit Fund Common Shares of Beneficial Interest
+JFU, JFU
+IIF, Morgan Stanley India Investment Fund, Inc. Common Stock
+ARBG, ARBG
+IRCP, IRCP
+NOA, North American Construction Group Ltd. Common Shares (no par)
+KMF, KMF
+VALU, VALU
+CIVB, CIVB
+CLXT, CLXT
+AQMS, AQMS
+LITB, LightInTheBox Holding Co., Ltd. American Depositary Shares, each representing twelve ordinary shares
+UCL, UCL
+SSSS, SSSS
+DFHT, DFHT
+QMCO, QMCO
+PCK, Pimco California Municipal Income Fund II Common Shares of Beneficial Interest
+PFIS, PFIS
+GRTX, GRTX
+PKE, Park Aerospace Corp. Common Stock
+VINC, VINC
+SMMF, SMMF
+BKN, BlackRock Investment Quality Municipal Trust Inc. (The)
+UEPS, UEPS
+FEI, FEI
+YRCW, YRCW
+NBH, Neuberger Berman Municipal Fund Inc. Common Stock
+KALV, KALV
+LND, Brasilagro Brazilian Agric Real Estate Co Sponsored ADR (Brazil)
+GLRE, GLRE
+XNET, XNET
+LOGC, LOGC
+KOR, KOR
+HRTG, Heritage Insurance Holdings, Inc. Common Stock
+EVM, Eaton Vance California Municipal Bond Fund Common Shares of Beneficial Interest, $.01 par value
+LFTR, LFTR
+OIIM, OIIM
+NUO, NUO
+FTFT, FTFT
+PDS, Precision Drilling Corporation Common Stock
+PBFS, PBFS
+FNLC, FNLC
+NCMI, NCMI
+ACET, ACET
+ITIC, ITIC
+SMSI, SMSI
+MHI, Pioneer Municipal High Income Fund, Inc.
+NXP, Nuveen Select Tax Free Income Portfolio Common Stock
+QLI, QLI
+LYTS, LYTS
+VRA, VRA
+ACTG, ACTG
+FDBC, FDBC
+CLMT, CLMT
+UONE, UONE
+FTF, Franklin Limited Duration Income Trust Common Shares of Beneficial Interest
+GPL, GPL
+IRMD, IRMD
+RDVT, RDVT
+NPV, Nuveen Virginia Quality Municipal Income Fund Common Stock
+LCI, LCI
+HCHC, HCHC
+ITI, ITI
+NXQ, NXQ
+WHF, WHF
+MAV, Pioneer Municipal High Income Advantage Fund, Inc.
+OSMT, OSMT
+KUKE, Kuke Music Holding Limited American Depositary Shares (each representing ten (10) Class A Ordinary Shares)
+INMB, INMB
+TRNS, TRNS
+AOUT, AOUT
+BGT, BlackRock Floating Rate Income Trust
+CRMD, CRMD
+MCI, Barings Corporate Investors Common Stock
+PCYO, PCYO
+SVOKU, SVOKU
+TTOO, TTOO
+CVGI, CVGI
+WILC, WILC
+EGLE, Global X Funds Global X S&P 500 U.S. Revenue Leaders ETF
+POLA, POLA
+DSSI, DSSI
+GLDG, GoldMining Inc. Common Shares
+CVLG, Covenant Logistics Group, Inc. Class A Common Stock
+EVC, Entravision Communications Corporation Common Stock
+MEC, Mayville Engineering Company, Inc. Common Stock
+FMAO, FMAO
+TNXP, TNXP
+MFM, MFS Municipal Income Trust Common Stock
+BRG, BRG
+LRMR, LRMR
+FTSI, FTSI
+DUC, DUC
+PRQR, PRQR
+RCHG, RCHG
+FLXS, FLXS
+SQNS, Sequans Communications S.A. American Depositary Shares (each representing ten (10) Ordinary Shares)
+GAU, Galiano Gold Inc.
+TK, Teekay Corporation Ltd. Common Stock
+ATAX, ATAX
+VCVC, VCVC
+AT, AT
+NAK, Northern Dynasty Minerals, Ltd. Common Stock
+CTO, CTO Realty Growth, Inc. Common Stock
+ONCT, ONCT
+MNOV, MNOV
+CNTG, CNTG
+PHT, Pioneer High Income Fund, Inc.
+GDO, Western Asset Global Corporate Opportunity Fund Inc. Common Stock
+CEM, CEM
+GNSS, GNSS
+CINR, CINR
+MOGU, MOGU Inc. American Depositary Shares (each  representing 25 Class A Ordinary Shares)
+PHD, Pioneer Floating Rate Fund, Inc.
+TOUR, TOUR
+LEU, Centrus Energy Corp. Class A Common Stock
+CECE, CECE
+DMB, BNY Mellon Municipal Bond Infrastructure Fund, Inc. Common Stock
+SAR, Saratoga Investment Corp New
+NNBR, NNBR
+BGFV, BGFV
+BRT, BRT Apartments Corp. (MD) Common Stock
+TSI, TCW Strategic Income Fund, Inc. Common Stock
+OCA, OCA
+KXIN, KXIN
+IRS, IRSA Inversiones Y Representaciones S.A. Global Depositary Shares (Each representing ten shares of Common Stock)
+GFN, GFN
+CAS, Simplify Exchange Traded Funds Simplify China A Shares PLUS Income ETF
+IPA, IPA
+LMPX, LMPX
+FINS, Angel Oak Financial Strategies Income Term Trust Common Shares of Beneficial Interest
+SPXX, Nuveen S&P 500 Dynamic Overwrite Fund
+INFI, INFI
+EZPW, EZPW
+ANH, ANH
+PWFL, PWFL
+XERS, XERS
+CHS, CHS
+HBCP, HBCP
+KZR, KZR
+BWG, BrandywineGLOBAL Global Income Opportunities Fund Inc.
+MVBF, MVBF
+CATO, Cato Corporation (The) Class A Common Stock
+JOF, Japan Smaller Capitalization Fund Inc Common Stock
+SRSA, SRSA
+VTN, Invesco Trust for Investment Grade New York Municipals Common Stock
+MTT, MTT
+GWGH, GWGH
+AGRX, AGRX
+CCB, CCB
+THM, International Tower Hill Mines, Ltd. Ordinary Shares (Canada)
+SBT, SBT
+TMTS, TMTS
+LATN, LATN
+HSAQ, HSAQ
+RUHN, RUHN
+CGRO, Tidal Trust II CoreValues Alpha Greater China Growth ETF
+NUW, Nuveen AMT
+NEPT, NEPT
+CTIC, CTIC
+NMTR, NMTR
+ODC, Oil
+MARK, MARK
+MGU, MGU
+APTX, APTX
+PCSB, PCSB
+HRZN, HRZN
+SCOR, SCOR
+HOV, Hovnanian Enterprises, Inc. Class A Common Stock
+SPI, SPI
+AEYE, AEYE
+PAYS, PAYS
+CSLT, CSLT
+TBNK, TBNK
+HBMD, HBMD
+EVF, Eaton Vance Senior Income Trust Common Stock
+ETX, Eaton Vance Municipal Income 2028 Term Trust Common Shares of Beneficial Interest
+MTCR, MTCR
+BVH, BVH
+MG, Mistras Group Inc Common Stock
+AJX, AJX
+IMV, IMV
+JRS, Nuveen Real Estate Income Fund Common Shares of Beneficial Interest
+ATTO, ATTO
+SHSP, SHSP
+SJ, SJ
+RACA, RACA
+PTN, PTN
+HTOO, HTOO
+CKPT, CKPT
+HBB, Hamilton Beach Brands Holding Company Class A Common Stock 
+UIHC, UIHC
+IMRA, Bitwise Funds Trust Bitwise MARA Option Income Strategy ETF
+BCTG, BCTG
+LGI, Lazard Global Total Return and Income Fund Common Stock
+CLVR, CLVR
+CHMA, CHMA
+GMLP, GMLP
+ASPU, ASPU
+SUNS, SUNS
+MSON, MSON
+AVEO, AVEO
+CTRA, Coterra Energy Inc. Common Stock
+SLGL, SLGL
+TMST, TMST
+NR, NR
+AAOI, AAOI
+BNED, Barnes & Noble Education, Inc Common Stock
+CMCT, CMCT
+SCPE, SCPE
+THCA, THCA
+FSBW, FSBW
+GSL, Global Ship Lease Inc New Class A Common Shares
+NATH, NATH
+NL, NL Industries, Inc. Common Stock
+WPG, WPG
+SIEN, SIEN
+OTIC, OTIC
+GIX, GIX
+MBII, MBII
+GHL, GHL
+DHY, Credit Suisse High Yield Bond Fund Common Stock
+VIST, Vista Energy S.A.B. de C.V. American Depositary Shares, each representing one series A share, with no par value
+ACNB, ACNB
+IGI, Western Asset Investment Grade Opportunity Trust Inc. Common Stock
+SPOK, SPOK
+PVBC, PVBC
+ID, ID
+MLP, Maui Land & Pineapple Company, Inc. Common Stock
+CVEO, Civeo Corporation (Canada) Common Shares
+DAKT, DAKT
+VVPR, VVPR
+MESA, MESA
+KVHI, KVHI
+FVE, FVE
+EVG, Eaton Vance Short Diversified Income Fund Eaton Vance Short Duration Diversified Income Fund Common Shares of Beneficial Interest
+GNRS, GNRS
+EDAP, EDAP
+NBSE, NBSE
+OBSV, OBSV
+BFI, BFI
+PFBI, PFBI
+FLC, Flaherty & Crumrine Total Return Fund Inc Common Stock
+BSET, BSET
+DFNS, DFNS
+PFHD, PFHD
+CVLB, CVLB
+PMVC, PMVC
+ALCO, ALCO
+PZC, PIMCO California Municipal Income Fund III Common Shares of Beneficial Interest
+INSI, INSI
+BGR, BlackRock Energy and Resources Trust
+MHD, Blackrock MuniHoldings Fund, Inc. Common Stock
+PTVCA, PTVCA
+OEG, OEG
+TSBK, TSBK
+FEN, FEN
+NHS, Neuberger Berman High Yield Strategies Fund
+ERYP, ERYP
+GTT, GTT
+EVFM, EVFM
+JCE, Nuveen Core Equity Alpha Fund Common Shares of Beneficial Interest
+TNAV, TNAV
+ADMA, ADMA
+VBF, Invesco Bond Fund Common Stock
+ELDN, ELDN
+MIST, MIST
+OCSI, OCSI
+SAII, SAII
+HZN, HZN
+IZEA, IZEA
+JCO, JCO
+KRMD, KRMD
+AFT, AFT
+FCBP, FCBP
+GPP, GPP
+TYME, TYME
+OCN, OCN
+IDRA, IDRA
+NHIC, NHIC
+DSAC, DSAC
+ETON, ETON
+EVGN, EVGN
+GPX, GPX
+SIC, SIC
+EOLS, EOLS
+ATLO, ATLO
+KF, Korea Fund, Inc. (The) New Common Stock
+GWAC, GWAC
+HROW, HROW
+STG, Sunlands Technology Group American Depositary Shares, representing Class A ordinary shares
+AIRG, AIRG
+RCKY, RCKY
+FUND, FUND
+NXR, NXR
+EXFO, EXFO
+ARYA, ARYA
+COFS, COFS
+SAMG, SAMG
+GCBC, GCBC
+SOLY, SOLY
+EOD, Allspring Global Dividend Opportunity Fund Common Shares of Beneficial Interest
+EMO, ClearBridge Energy Midstream Opportunity Fund Inc. Common Stock
+ENX, Eaton Vance New York Municipal Bond Fund Common Shares of Beneficial Interest, $.01 par value
+NBN, NBN
+GRX, The Gabelli Healthcare & Wellness Trust Common Shares of Beneficial Interest
+CNTY, CNTY
+TUSK, TUSK
+SCM, Stellus Capital Investment Corporation Common Stock
+CALA, CALA
+AXLA, AXLA
+IVH, IVH
+LAKE, LAKE
+PKBK, PKBK
+PFD, Flaherty & Crumrine Preferred and Income Fund Incorporated
+BSL, Blackstone Senior Floating Rate 2027 Term Fund Common Shares of Beneficial Interest
+DHF, BNY Mellon High Yield Strategies Fund Common Stock
+CLSD, CLSD
+CAAS, CAAS
+NRIM, NRIM
+IDN, IDN
+AKU, AKU
+TMDI, TMDI
+QUAD, Quad Graphics, Inc Class A Common Stock
+SNCR, SNCR
+EFL, EFL
+PIM, Putnam Master Intermediate Income Trust Common Stock
+FVCB, FVCB
+GNLN, GNLN
+ZTR, Virtus Total Return Fund Inc.
+DSX, Diana Shipping inc. common stock
+VNRX, VolitionRX Limited Common Stock
+PSTL, Postal Realty Trust, Inc. Class A Common Stock
+IHIT, IHIT
+OPTN, OPTN
+TELA, TELA
+SESN, SESN
+SCD, LMP Capital and Income Fund Inc. Common Stock
+HURC, HURC
+TWN, Taiwan Fund, Inc. (The) Common Stock
+MDNA, MDNA
+NKSH, NKSH
+FLUX, FLUX
+NML, Neuberger Berman Energy Infrastructure and Income Fund Inc. Common Stock
+CNF, CNFinance Holdings Limited American Depositary Shares, each representing  twenty (20) Ordinary Shares
+EHT, EHT
+BKCC, BKCC
+PTVCB, PTVCB
+GNFT, GNFT
+MHLD, MHLD
+NSL, NSL
+ABEO, ABEO
+FDEU, FDEU
+AGS, PlayAGS, Inc. Common Stock
+ORRF, ORRF
+NWFL, NWFL
+AIF, AIF
+MXF, Mexico Fund, Inc. (The) Common Stock
+YGMZ, YGMZ
+IMMP, IMMP
+FENC, FENC
+GGT, Gabelli Multi
+IDE, Voya Infrastructure, Industrials and Materials Fund Common Shares of Beneficial Interest
+BCBP, BCBP
+JTD, JTD
+GSV, GSV
+MDWT, MDWT
+AVNW, AVNW
+HYB, HYB
+UNTY, UNTY
+STRS, STRS
+GSMG, GSMG
+PANA, PANA
+ENG, ENG
+XCUR, XCUR
+MREO, MREO
+BELFB, BELFB
+BGIO, BGIO
+XGN, XGN
+TCI, Transcontinental Realty Investors, Inc. Common Stock
+AMRK, AMRK
+ONCS, ONCS
+SALT, SALT
+UTI, Universal Technical Institute Inc Common Stock
+FSDC, FSDC
+SECO, SECO
+YMTX, YMTX
+CVCY, CVCY
+NRO, Neuberger Berman Real Estate Securities Income Fund, Inc.
+CBNK, CBNK
+OPP, RiverNorth/DoubleLine Strategic Opportunity Fund, Inc. Common Stock
+JFIN, JFIN
+CTK, CTK
+KRKR, KRKR
+AYRO, AYRO
+LCNB, LCNB
+BORR, Borr Drilling Limited Common Shares
+MHH, Mastech Digital, Inc Common Stock
+GLQ, Clough Global Equity Fund Clough Global Equity Fund Common Shares of Beneficial Interest
+INUV, Inuvo, Inc.
+MKD, MKD
+ECF, Ellsworth Growth and Income Fund Ltd.
+KRUS, KRUS
+GNE, Genie Energy Ltd. Class B Common Stock Stock
+SBBP, SBBP
+ITRG, Integra Resources Corp. Common Shares
+RGCO, RGCO
+ISR, ISR
+SMED, SMED
+KIN, KIN
+CULP, Culp, Inc. Common Stock
+FIF, FIF
+YCBD, cbdMD, Inc. Common Stock
+BMTX, BMTX
+MPA, Blackrock MuniYield Pennsylvania Quality Fund Common Stock
+ASMB, ASMB
+MDCA, MDCA
+GORO, Gold Resource Corporation Common Stock
+PCOM, PCOM
+CWCO, CWCO
+PSTI, PSTI
+SCPH, SCPH
+DRTT, DRTT
+MYF, MYF
+MPB, MPB
+ESQ, ESQ
+WRAP, WRAP
+PCB, PCB
+FRBA, FRBA
+NOVN, NOVN
+BFRA, BFRA
+CMCL, Caledonia Mining Corporation Plc Common Shares
+CMLS, CMLS
+AQST, AQST
+ACP, abrdn Income Credit Strategies Fund Common Shares
+EMAN, EMAN
+NIQ, NIQ
+GENC, Gencor Industries, Inc. Common Stock
+CYBE, CYBE
+LEAF, LEAF
+FT, Franklin Universal Trust Common Stock
+OMEG, OMEG
+BNY, BlackRock New York Municipal Income Trust
+ISTR, ISTR
+MSD, Morgan Stanley Emerging Markets Debt Fund, Inc. Common Stock
+MLSS, Milestone Scientific, Inc. Common Stock
+FCAP, FCAP
+CIH, CIH
+SB, Safe Bulkers, Inc Common Stock ($0.001 par value)
+ROCH, ROCH
+GSIT, GSIT
+OSG, OSG
+DMF, BNY Mellon Municipal Income Inc. Common Stock
+GAIA, GAIA
+GLYC, GLYC
+NYMX, NYMX
+TLC, TLC
+SCPS, SCPS
+MRCC, MRCC
+GTE, Gran Tierra Energy Inc. Common Stock
+NEN, New England Realty Associates Limited Partnership Class A Depositary Receipts Evidencing Units of Limited Partnership
+NRP, Natural Resource Partners LP Limited Partnership
+PYPD, PYPD
+IIN, IIN
+NAZ, Nuveen Arizona Quality Municipal Income Fund Common Stock
+CIDM, CIDM
+SGAM, SGAM
+LAZY, LAZY
+GGM, Northern Lights Fund Trust II GGM Macro Alignment ETF
+CIX, CompX International Inc. Common Stock
+MLAC, MLAC
+WLFC, WLFC
+STRT, STRT
+SREV, SREV
+CBH, CBH
+TEAF, Tortoise Sustainable and Social Impact Term Fund Common shares of beneficial interest
+WMC, WMC
+GLOP, GLOP
+BCML, BCML
+BELFA, BELFA
+AVGR, AVGR
+APT, Alpha Pro Tech, Ltd. Common Stock
+GLEO, GLEO
+PRGX, PRGX
+RMBI, RMBI
+EYPT, EYPT
+BLSA, BLSA
+SLCT, SLCT
+ESSC, ESSC
+JHS, John Hancock Income Securities Trust Common Stock
+RRD, RRD
+DRIO, DRIO
+SWKH, SWKH
+AVCT, AVCT
+ORN, Orion Group Holdings, Inc. Common
+PICO, PICO
+CRBP, CRBP
+ALSK, ALSK
+SNFCA, SNFCA
+UAN, CVR Partners, LP Common Units representing Limited Partner Interests
+BGX, Blackstone Long Short Credit Income Fund Common Shares
+ZVO, ZVO
+THTX, THTX
+LIZI, LIZI
+SRRA, SRRA
+BHR, Braemar Hotels & Resorts Inc. Common Stock
+SGOC, SGOC
+IEC, IEC
+PEI, PEI
+TREC, TREC
+YSAC, YSAC
+NMMC, NMMC
+OXSQ, OXSQ
+SJT, San Juan Basin Royalty Trust Common Stock
+ASPS, ASPS
+JDD, JDD
+NMCI, NMCI
+FBIZ, FBIZ
+SHBI, SHBI
+MUS, MUS
+ZEUS, ZEUS
+III, III
+ACRX, ACRX
+CPLP, CPLP
+TTI, Tetra Technologies, Inc. Common Stock
+MUH, MUH
+OPTT, Ocean Power Technologies, Inc. Common Stock
+EYEN, EYEN
+BOCH, BOCH
+OVID, OVID
+CVLY, CVLY
+BTA, BlackRock Long
+MCMJ, MCMJ
+HBIO, HBIO
+VTVT, VTVT
+PVAC, PVAC
+TIPT, TIPT
+BBK, BBK
+WNEB, WNEB
+GHM, Graham Corporation Common Stock
+SRGA, SRGA
+OTLK, OTLK
+SUPV, Grupo Supervielle S.A. American Depositary Shares each Representing five Class B shares
+NC, NACCO Industries, Inc. Common Stock
+SD, SandRidge Energy, Inc. Common Stock
+BCV, Bancroft Fund, Ltd.
+GNPX, GNPX
+TEDU, TEDU
+EVBN, EVBN
+WRN, Western Copper and Gold Corporation Common Stock
+COMS, COMS
+AYLA, AYLA
+SLNO, SLNO
+PXLW, PXLW
+SMTX, SMTX
+ADMP, ADMP
+MHF, Western Asset Municipal High Income Fund, Inc. Common Stock
+WEA, Western Asset Bond Fund Share of Beneficial Interest
+PDLB, PDLB
+BCLI, BCLI
+XIN, Xinyuan Real Estate Co Ltd American Depositary Shares
+FMN, Federated Hermes Premier Municipal Income Fund
+FRBK, FRBK
+FSTR, FSTR
+FNWB, FNWB
+IVAC, IVAC
+LIQT, LIQT
+TNP, TNP
+WEYS, WEYS
+DMAC, DMAC
+JPT, JPT
+LINC, LINC
+HLXA, HLXA
+CIK, Credit Suisse Asset Management Income Fund, Inc. Common Stock
+ALRN, ALRN
+PWOD, PWOD
+TRCH, TRCH
+PCTI, PCTI
+PFO, Flaherty & Crumrine Preferred and Income Opportunity Fund Incorporated
+LOV, LOV
+XSPA, XSPA
+RDI, RDI
+ESSA, ESSA
+FGBI, FGBI
+DS, DS
+ENLV, ENLV
+BASI, BASI
+CHMG, CHMG
+GLG, GLG
+FURY, Fury Gold Mines Limited Common Shares
+CXE, MFS High Income Municipal Trust Common Stock
+CEE, The Central and Eastern Europe Fund, Inc. (The) Common Stock
+IFRX, IFRX
+ESXB, ESXB
+IGA, Voya Global Advantage and Premium Opportunity Fund Common Shares of Beneficial Interest
+DYAI, DYAI
+LEVL, LEVL
+BWFG, BWFG
+CRHM, CRHM
+NMM, Navios Maritime Partners LP Common Units Representing Limited Partner Interests
+EXTN, EXTN
+ISUN, ISUN
+TH, TH
+LUMO, LUMO
+EML, EML
+TCFC, TCFC
+ELOX, ELOX
+PBT, Permian Basin Royalty Trust Common Stock
+BRID, BRID
+CHMI, Cherry Hill Mortgage Investment Corporation Common Stock
+FCCY, FCCY
+BPRN, BPRN
+URG, Ur Energy Inc Common Shares (Canada)
+PAVM, PAVM
+HTBX, HTBX
+MICT, MICT
+STND, STND
+RIV, RiverNorth Opportunities Fund, Inc. Common Stock
+AZYO, AZYO
+GNCA, GNCA
+ASUR, ASUR
+SCYX, SCYX
+CCM, Concord Medical Services Holdings Limited American Depositary Shares (Each represents thirty (30) Class A ordinary shares)
+RNET, RNET
+ELVT, ELVT
+CSBR, CSBR
+DMO, Western Asset Mortgage Opportunity Fund Inc. Common Stock
+CDR, CDR
+STCN, STCN
+PIRS, PIRS
+IMNM, IMNM
+MYFW, MYFW
+ROCC, ROCC
+EARN, Ellington Credit Company Common Shares of Beneficial Interest
+CAPA, CAPA
+TCON, TCON
+MOTN, MOTN
+HIE, HIE
+NBA, NBA
+NNY, Nuveen New York Municipal Value Fund Common Stock
+ARL, American Realty Investors, Inc. Common Stock
+JHI, John Hancock Investors Trust Common Stock
+EDN, Empresa Distribuidora Y Comercializadora Norte S.A. (Edenor) American Depositary Shares
+ENOB, ENOB
+VMM, VMM
+IHD, Voya Emerging Markets High Income Dividend Equity Fund Common Shares
+PLX, Protalix BioTherapeutics, Inc. (DE) Common Stock
+BREZ, BREZ
+BWEN, BWEN
+XELA, XELA
+LMNL, LMNL
+CBIO, CBIO
+BWAC, BWAC
+PHGE, BiomX Inc. COmmon Stock
+WATT, WATT
+LJPC, LJPC
+INSE, INSE
+EDTXU, EDTXU
+MCN, XAI Madison Equity Premium Income Fund Common Shares
+PFSW, PFSW
+INVE, INVE
+NTG, NTG
+PTK, PTK
+NUZE, NUZE
+AUBN, AUBN
+TSQ, Townsquare Media, Inc. Class A Common Stock
+TDAC, TDAC
+PAI, Western Asset Investment Grade Income Fund Inc.
+LYRA, LYRA
+EQ, EQ
+CFRX, CFRX
+HGLB, Highland Global Allocation Fund Common Stock
+PRPH, PRPH
+DLA, DLA
+CELC, CELC
+LPTX, LPTX
+DPW, DPW
+CTRM, CTRM
+ORMP, ORMP
+MGF, MFS Government Markets Income Trust Common Stock
+BSGM, BSGM
+APVO, APVO
+USDP, USDP
+ENZ, ENZ
+MNP, MNP
+LPCN, LPCN
+ELA, Envela Corporation Common Stock
+MRLN, MRLN
+FSFG, FSFG
+MACU, MACU
+FLL, FLL
+COCP, COCP
+VEL, Velocity Financial, Inc. Common Stock
+RDCM, RDCM
+CFFI, CFFI
+MDWD, MDWD
+SFE, SFE
+SYBX, SYBX
+JYAC, JYAC
+RGT, Royce Global Trust, Inc. Common Stock
+AHT, Ashford Hospitality Trust Inc Common Stock
+HEQ, John Hancock Diversified Income Fund Common Shares of Beneficial Interest
+FTK, Flotek Industries, Inc. Common Stock
+VMAC, VMAC
+BBF, BBF
+EMKR, EMKR
+SEEL, SEEL
+EBMT, EBMT
+MFNC, MFNC
+ORGS, ORGS
+HYRE, HYRE
+TRX, TRX Gold Corporation Common Stock
+NERV, NERV
+CGO, CGO
+BGSF, BGSF, Inc. Common Stock
+AYTU, AYTU
+XFOR, XFOR
+PTMN, PTMN
+BSVN, BSVN
+MOGO, MOGO
+JSD, JSD
+ALYA, ALYA
+MMAC, MMAC
+PMBC, PMBC
+FCCO, FCCO
+LKCO, LKCO
+HQI, HQI
+NMT, Nuveen Massachusetts Quality Municipal Income Fund Common Stock
+RMI, RiverNorth Opportunistic Municipal Income Fund, Inc. Common Stock
+CBAN, Colony Bankcorp, Inc. Common Stock
+JTA, JTA
+VERY, VERY
+INOD, INOD
+AGD, abrdn Global Dynamic Dividend Fund Common Shares of Beneficial Interest
+OTRA, OTRA
+FTEK, FTEK
+SIOX, SIOX
+CPST, Calamos ETF Trust Calamos S&P 500 Structured Alt Protection ETF  September
+MTBC, MTBC
+XAN, XAN
+MNSB, MNSB
+NKG, NKG
+LTRX, LTRX
+ADMS, ADMS
+RENN, RENN
+FAM, FAM
+BFIN, BFIN
+VGI, Virtus Global Multi
+ATOS, ATOS
+EGY, VAALCO Energy, Inc.  Common Stock
+ICBK, ICBK
+ONTX, ONTX
+RMTI, RMTI
+OVLY, OVLY
+DHX, DHI Group, Inc. Common Stock
+NIM, Nuveen Select Maturities Municipal Fund Common Stock
+BAF, BAF
+PME, PME
+REFR, REFR
+NBAC, NBAC
+LFVN, LFVN
+EDF, Virtus Stone Harbor Emerging Markets Income Fund Common Shares of Beneficial Interest
+PROV, PROV
+APRN, APRN
+NTZ, Natuzzi, S.p.A.
+AHAC, AHAC
+HWBK, HWBK
+BANX, BANX
+XYF, X Financial American Depositary Shares, each representing six Class A Ordinary Shares
+YTRA, YTRA
+DLHC, DLHC
+OFED, OFED
+SGA, SGA
+DCF, DCF
+MLVF, MLVF
+PLBC, PLBC
+CXDO, CXDO
+NTIC, NTIC
+KSM, KSM
+PCM, PCM Fund, Inc. Common Stock
+VBLT, VBLT
+SBI, Western Asset Intermediate Muni Fund Inc Common Stock
+MPV, Barings Participation Investors Common Stock
+PEBK, PEBK
+AMHC, AMHC
+UBFO, UBFO
+HIL, HIL
+TMPM, TMPM
+AAIC, AAIC
+METC, METC
+PANL, PANL
+SBFG, SBFG
+GDP, GDP
+FNCB, FNCB
+FFNW, FFNW
+CEMI, CEMI
+RZLT, RZLT
+PHAS, PHAS
+JEQ, abrdn Japan Equity Fund, Inc. Common Stock
+HOFV, HOFV
+CMU, MFS Municipal Income Trust Common Stock
+LQDA, LQDA
+MFIN, MFIN
+AP, Ampco
+SUP, Superior Industries International, Inc. Common Stock (DE)
+ZAGG, ZAGG
+IAF, abrdn Australia Equity Fund, Inc. Common Stock
+WWR, Westwater Resources, Inc. Common Stock
+PNI, Pimco New York Municipal Income Fund II Common Shares of Beneficial Interest
+MBCN, MBCN
+BATL, Battalion Oil Corporation Common Stock
+CTR, CTR
+NYC, American Strategic Investment Co. Class A Common Stock
+VMAR, VMAR
+EDUC, EDUC
+PDEX, PDEX
+ADOC, ADOC
+CHRA, CHRA
+QK, QK
+LMB, LMB
+ATCX, ATCX
+MITT, AG Mortgage Investment Trust, Inc. Common Stock
+CHFW, CHFW
+FRAF, FRAF
+GDL, GDL Fund, The Common Shares of Beneficial Interest
+GALT, GALT
+SPE, Special Opportunities Fund, Inc Common Stock
+MRBK, MRBK
+ETTX, ETTX
+GCV, Gabelli Convertible and Income Securities Fund, Inc. (The) Common Stock
+MFT, MFT
+AGTC, AGTC
+MNTX, MNTX
+WYY, WidePoint Corporation Common Stock
+APM, APM
+OBCI, OBCI
+SWZ, Total Return Securities Fund Common Stock
+DARE, DARE
+FPL, FPL
+TWIN, TWIN
+GGZ, Gabelli Global Small and Mid Cap Value Trust (The) Common Shares of Beneficial Interest
+GRNQ, GRNQ
+PINE, Alpine Income Property Trust, Inc. Common Stock
+APRE, APRE
+ECOR, ECOR
+FONR, FONR
+HNW, Pioneer Diversified High Income Fund, Inc.
+CALB, CALB
+SANW, SANW
+CZWI, CZWI
+PBPB, PBPB
+GEN, GEN
+CFMS, CFMS
+AIH, AIH
+BSBK, BSBK
+RVSB, RVSB
+CLIR, CLIR
+OPBK, OPBK
+GEOS, GEOS
+UNB, UNB
+EFF, EFF
+ERH, Allspring Utilities and High Income Fund Common Shares
+QUMU, QUMU
+DEX, DEX
+VVOS, VVOS
+TARA, TARA
+CAPR, CAPR
+CLPR, Clipper Realty Inc. Common Stock
+PTRS, PTRS
+NGS, Natural Gas Services Group, Inc. Common Stock
+OCUP, OCUP
+CYAD, CYAD
+STKS, STKS
+EXPR, EXPR
+CIZN, CIZN
+FVAM, FVAM
+TZOO, TZOO
+NMRD, NMRD
+FAT, FAT
+ESGG, FlexShares STOXX Global ESG Select Index Fund
+SFUN, SFUN
+FUNC, FUNC
+OVBC, OVBC
+SIEB, SIEB
+CHAQ, CHAQ
+LXEH, LXEH
+WEI, WEI
+CYCN, CYCN
+XTNT, Xtant Medical Holdings, Inc. Common Stock
+APEN, APEN
+LARK, LARK
+CRVS, CRVS
+ATNM, Actinium Pharmaceuticals, Inc. (Delaware) Common Stock
+JAX, JAX
+LSAQ, LSAQ
+AKTX, AKTX
+CFBK, CFBK
+PGP, Pimco Global StocksPlus & Income Fund Common Shares of Beneficial Interest
+MRAM, MRAM
+PED, Pedevco Corp. Common Stock
+RNDB, RNDB
+FENG, Phoenix New Media Limited American Depositary Shares, each representing 48 Class A ordinary shares.
+ASC, Ardmore Shipping Corporation Common Stock
+BRBS, Blue Ridge Bankshares, Inc. Common Stock
+IAE, Voya Asia Pacific High Dividend Equity Income Fund ING Asia Pacific High Dividend Equity Income Fund Common Shares of Beneficial Interest
+PCYG, PCYG
+RMRM, RMRM
+BWAY, BWAY
+CORR, CORR
+CPSH, CPSH
+CDTX, CDTX
+AE, AE
+ZSAN, ZSAN
+ANIX, ANIX
+BSD, BSD
+JEMD, JEMD
+ISSC, ISSC
+XAIR, XAIR
+BRPA, BRPA
+METX, METX
+SAL, SAL
+JLS, Nuveen Mortgage and Income Fund
+ULBI, ULBI
+STSA, STSA
+MCHX, MCHX
+LXU, LSB Industries, Inc. Common Stock
+KFS, Kingsway Financial Services, Inc. Common Stock (DE)
+AGFS, AGFS
+LPTH, LPTH
+FCRD, FCRD
+ASYS, ASYS
+BOXL, BOXL
+SEED, SEED
+ONCY, ONCY
+EPM, Evolution Petroleum Corporation, Inc. Common Stock
+OPOF, OPOF
+CWBR, CWBR
+ZYNE, ZYNE
+ATXI, ATXI
+MN, MN
+HGBL, HGBL
+XFLT, XAI Octagon Floating Rate & Alternative Income Trust Common Shares of Beneficial Interest
+CBFV, CBFV
+FSLF, FSLF
+SZC, SZC
+GASS, GASS
+NMI, Nuveen Municipal Income Fund, Inc. Common Stock
+ASM, Avino Silver & Gold Mines Ltd. Common Shares (Canada)
+ACU, Acme United Corporation. Common Stock
+CTG, CTG
+NEON, NEON
+VCIF, VCIF
+VNCE, Vince Holding Corp. Common Stock
+WHG, Westwood Holdings Group Inc Common Stock
+AUMN, AUMN
+LIVK, LIVK
+NXC, Nuveen California Select Tax
+LMST, LMST
+CMT, Core Molding Technologies Inc Common Stock
+GNT, GAMCO Natural Resources, Gold & Income Trust
+OCG, OCG
+NWHM, NWHM
+SSBI, SSBI
+FARM, FARM
+MACK, MACK
+CPSS, CPSS
+MAGS, Roundhill Magnificent Seven ETF
+AVCO, AVCO
+NRBO, NRBO
+DTF, DTF Tax
+RBKB, RBKB
+NCTY, NCTY
+OGEN, Oragenics Inc. Common Stock
+ADES, ADES
+ZDGE, Zedge, Inc. Class B Common Stock 
+FEIM, FEIM
+ITAC, ITAC
+KZIA, KZIA
+GLU, Gabelli Global Utility Common Shares of Beneficial Ownership
+AREC, AREC
+SVBI, SVBI
+MRKR, MRKR
+BHSE, BHSE
+CEV, Eaton Vance California Municipal Income Trust Shares of Beneficial Interest
+EXD, EXD
+PBIP, PBIP
+VERO, VERO
+BIOL, BIOL
+SVRA, SVRA
+USAK, USAK
+DCTH, DCTH
+TRIB, TRIB
+GMBL, GMBL
+PETZ, PETZ
+ONVO, ONVO
+AMTX, AMTX
+WKEY, WKEY
+CLGN, CLGN
+LTRN, LTRN
+LWAY, LWAY
+VGZ, Vista Gold Corp Common Stock
+DLNG, Dynagas LNG Partners LP Common Units
+PNF, PIMCO New York Municipal Income Fund Common Stock
+ELYS, ELYS
+PAIC, PAIC
+ATNF, ATNF
+GRIN, GRIN
+OFS, OFS
+ARAV, ARAV
+ITRM, ITRM
+RIVE, RIVE
+QLGN, QLGN
+SACH, Sachem Capital Corp. Common Shares
+HBP, HBP
+RSF, RiverNorth Capital and Income Fund Common Stock
+WINT, WINT
+AWRE, AWRE
+SRL, Scully Royalty Ltd.
+WTER, WTER
+ZGYH, ZGYH
+AFI, AFI
+GLV, Clough Global Dividend and Income Fund Common Shares of beneficial interest
+BKSC, BKSC
+BSE, BSE
+NTIP, Network
+TACT, TACT
+MOHO, MOHO
+MITO, MITO
+CXH, MFS Investment Grade Municipal Trust Common Stock
+GBS, GBS
+EVOK, EVOK
+LAIX, LAIX
+VLT, Invesco High Income Trust II
+RLH, RLH
+VERB, VERB
+CLRB, CLRB
+NINE, Nine Energy Service, Inc. Common Stock
+EPSN, EPSN
+DVD, DVD
+AMST, AMST
+NCSM, NCSM
+EXN, EXN
+HMNF, HMNF
+BIOC, BIOC
+LUB, LUB
+VJET, VJET
+MCAC, MCAC
+ELMD, Electromed, Inc. Common Stock
+RGLS, RGLS
+RELL, RELL
+SMM, SMM
+OMEX, OMEX
+EDI, EDI
+NMS, Nuveen Minnesota Quality Municipal Income Fund 
+VRDN, VRDN
+FXNC, FXNC
+REI, Ring Energy, Inc. Common Stock
+NHA, NHA
+KTCC, KTCC
+SLS, SLS
+PGZ, Principal Real Estate Income Fund Common Shares of Beneficial Interest
+ALNA, ALNA
+NREF, NexPoint Real Estate Finance, Inc. Common Stock
+SFBC, SFBC
+ARC, ARC
+UBCP, UBCP
+BKEP, BKEP
+REPH, REPH
+NAII, NAII
+AIM, AIM
+FET, Forum Energy Technologies, Inc. Common Stock
+EKSO, EKSO
+REED, REED
+ISDR, ISDR
+ASLN, ASLN
+FSTX, FSTX
+BMRA, BMRA
+WSTG, WSTG
+RNWK, RNWK
+ADXS, ADXS
+TOMZ, TOMZ
+JMP, JMP
+INPX, INPX
+LFT, Lument Finance Trust, Inc. Common Stock
+VS, VS
+KERN, KERN
+SND, SND
+UBOH, UBOH
+TGA, TGA
+SYNL, SYNL
+LEE, LEE
+CXDC, CXDC
+FFBW, FFBW
+TPZ, Tortoise Essential Energy Fund
+EEA, The European Equity Fund, Inc. Common Stock
+LACQ, LACQ
+DGLY, DGLY
+PPBT, PPBT
+GLMD, GLMD
+AMRB, AMRB
+GROW, GROW
+RMBL, RMBL
+IHTA, IHTA
+DFFN, DFFN
+PPSI, PPSI
+FNHC, FNHC
+APDN, APDN
+CHEK, CHEK
+PESI, PESI
+PFX, PFX
+PNRG, PNRG
+EMCF, EMCF
+CLDB, CLDB
+ACST, ACST
+JHAA, JHAA
+APWC, APWC
+TC, TC
+LSBK, LSBK
+INTT, inTest Corporation Common Stock
+GFED, GFED
+KINS, KINS
+NDRA, NDRA
+GTEC, GTEC
+ASRT, ASRT
+PLXP, PLXP
+GENE, GENE
+UONEK, UONEK
+CRWS, CRWS
+USAU, USAU
+EVY, EVY
+CYRN, CYRN
+ALOT, ALOT
+USIO, USIO
+CCRC, CCRC
+AMPY, Amplify Energy Corp. Common Stock
+NBW, NBW
+BLPH, BLPH
+MNPR, MNPR
+GER, GER
+KSPN, KSPN
+GRNV, GRNV
+CWBC, CWBC
+DTEA, DTEA
+SOS, SOS Limited American Depositary Shares, one hundred and fifty (150) Class A Ordinary Shares
+MFD, MFD
+HEPA, HEPA
+FEO, FEO
+FPAY, FPAY
+GHSI, GHSI
+DDF, DDF
+GEG, GEG
+BFY, BFY
+ANVS, Annovis Bio, Inc. Common Stock
+DTSS, DTSS
+SYNC, SYNC
+BBW, Build
+ACOR, ACOR
+ACHV, ACHV
+AGE, AGE
+MZA, MZA
+RNGR, Ranger Energy Services, Inc. Class A Common Stock
+SGBX, SGBX
+FBSS, FBSS
+INTG, INTG
+GECC, GECC
+UFAB, UFAB
+MMLP, MMLP
+NEPH, NEPH
+PIXY, PIXY
+KMPH, KMPH
+PTE, PTE
+LNSR, LNSR
+CTXR, CTXR
+PCSA, PCSA
+ARKR, ARKR
+ICMB, ICMB
+AAU, AAU
+FCO, abrdn Global Income Fund, Inc. Common Stock
+USAP, USAP
+BBIG, BBIG
+SMHI, SEACOR Marine Holdings Inc. Common Stock 
+ARDS, ARDS
+TPHS, TPHS
+VCF, VCF
+BBI, BBI
+IMBI, IMBI
+TURN, TURN
+NICK, NICK
+IRIX, IRIX
+ADXN, ADXN
+IROQ, IROQ
+SBOW, SBOW
+DIT, AMCON Distributing Company Common Stock
+KRBP, KRBP
+RYB, RYB
+PHX, PHX Minerals Inc. Common Stock
+PFMT, PFMT
+SHIP, SHIP
+UTSI, UTSI
+JMM, Nuveen Multi
+JT, JT
+IKT, IKT
+KLXE, KLXE
+BVXV, BVXV
+OSS, OSS
+ALAC, ALAC
+MRM, MRM
+NBRV, NBRV
+IGC, IGC Pharma, Inc. Common Stock
+ANPC, ANPC
+MBRX, MBRX
+NETE, NETE
+RSSS, RSSS
+KBNT, KBNT
+UG, UG
+TOPS, TOP Ships, Inc. Common Stock
+RWLK, RWLK
+AIRT, AIRT
+PHUN, PHUN
+AIHS, AIHS
+VIRI, VIRI
+DWSN, DWSN
+JRSH, JRSH
+CODA, CODA
+HALL, HALL
+JP, JP
+HNNA, HNNA
+ATHE, ATHE
+SSKN, SSKN
+MIE, MIE
+VOLT, VOLT
+ARMP, Armata Pharmaceuticals, Inc. Common Stock
+GSUM, GSUM
+TESS, TESS
+UAMY, United States Antimony Corporation Common Stock
+AGBA, AGBA
+AZRX, AZRX
+PDSB, PDSB
+SRTS, SRTS
+NHTC, NHTC
+CNET, CNET
+NNA, NNA
+CPHC, CPHC
+HWCC, HWCC
+USWS, USWS
+HTY, HTY
+IRR, IRR
+NBO, NBO
+BRLI, BRLI
+BPT, BP Prudhoe Bay Royalty Trust Common Stock
+BXRX, BXRX
+BCDA, BCDA
+SONM, SONM
+BBGI, BBGI
+IMH, IMH
+OBAS, OBAS
+QLC, FlexShares Trust FlexShares US Quality Large Cap Index Fund
+AESE, AESE
+NAVB, NAVB
+ASRV, ASRV
+EDSA, EDSA
+SMLP, SMLP
+VFL, abrdn National Municipal Income Fund Common Stock
+EVK, EVK
+BYFC, BYFC
+PW, Power REIT (MD) Common Stock
+GOED, GOED
+CLPS, CLPS
+BLRX, BLRX
+ARPO, ARPO
+SIF, SIFCO Industries, Inc. Common Stock
+FEDU, Four Seasons Education (Cayman) Inc. American Depositary Shares, each ADS representing 10 ordinary shares
+MBOT, MBOT
+CCNC, CCNC
+MDGS, MDGS
+PBHC, PBHC
+AMBO, Ambow Education Holding Ltd. American Depository Shares (each representing twenty (20) Class A Ordinary Shares)
+BOTJ, BOTJ
+MGYR, MGYR
+LGL, LGL Group, Inc. (The) Common Stock
+VTNR, VTNR
+CHNR, CHNR
+LGHL, LGHL
+RFIL, RFIL
+BBP, Virtus LifeSci Biotech Products ETF
+NM, NM
+AXR, AMREP Corporation Common Stock
+VCNX, VCNX
+BBQ, BBQ
+DXYN, DXYN
+FMY, First Trust Motgage Income Fund Common Shares of Beneficial Interest
+PULM, PULM
+GIFI, GIFI
+BRQS, BRQS
+SMID, SMID
+AEHR, AEHR
+CSU, CSU
+NXN, Nuveen New York Select Tax
+EGF, EGF
+MAYS, MAYS
+CCLP, CCLP
+CDOR, CDOR
+FUSB, FUSB
+SNSS, SNSS
+CATB, CATB
+FSEA, FSEA
+RAIL, RAIL
+TRVI, TRVI
+ALJJ, ALJJ
+SNGX, SNGX
+IRL, IRL
+GRCY, GRCY
+STRM, STRM
+TANH, TANH
+BBC, Virtus LifeSci Biotech Clinical Trials ETF
+DOGZ, DOGZ
+ATV, ATV
+MNDO, MNDO
+YTEN, YTEN
+ZKIN, ZKIN
+JUPW, JUPW
+ATIF, ATIF
+CLRO, CLRO
+AKER, AKER
+VISL, VISL
+KFFB, KFFB
+ESP, Espey Mfg. & Electronics Corp. Common Stock
+QRHC, QRHC
+TBLT, TBLT
+INDO, Indonesia Energy Corporation Limited Ordinary Shares
+ICCC, ICCC
+OPGN, OPGN
+ENVB, ENVB
+HDSN, HDSN
+TATT, TATT
+CBMB, CBMB
+SLGG, SLGG
+HGSH, HGSH
+SRV, NXG Cushing Midstream Energy Fund Common Shares of Beneficial Interest
+DSWL, DSWL
+DXR, DXR
+PYN, PIMCO New York Municipal Income Fund III Common Shares of Beneficial Interest
+MDJH, MDJH
+PFIE, PFIE
+NCB, NCB
+CBLI, CBLI
+CLSN, CLSN
+ACER, ACER
+MYO, Myomo Inc. Common Stock
+PPIH, PPIH
+PT, PT
+HFEN, HFEN
+HFBL, HFBL
+AIRI, Air Industries Group Common Stock
+QUIK, QUIK
+ANDA, ANDA
+CRT, Cross Timbers Royalty Trust Common Stock
+LOAN, LOAN
+VBFC, VBFC
+CPIX, CPIX
+FRD, FRD
+ESG, FlexShares STOXX US ESG Select Index Fund
+MOTS, MOTS
+SINT, SINT
+CEN, CEN
+MSVB, MSVB
+IOR, Income Opportunity Realty Investors, Inc. Common Stock
+HAPP, HAPP
+AAME, AAME
+MTC, MTC
+SYN, SYN
+CNSP, CNSP
+SRAX, SRAX
+MEDS, MEDS
+SEAC, SEAC
+CSPI, CSPI
+CVU, CPI Aerostructures, Inc. Common Stock
+FGB, First Trust Specialty Finance and Financial Opportunities Fund
+CIF, MFS Intermediate High Income Fund Common Stock
+FMO, FMO
+SONN, SONN
+NTWK, NTWK
+NNVC, NanoViricides, Inc. Common Stock
+PCF, High Income Securities Fund Common Stock
+BHAT, BHAT
+EYEG, EYEG
+TTP, TTP
+CSCW, CSCW
+SYTA, SYTA
+OBLN, OBLN
+HX, HX
+BCOW, BCOW
+ICCH, ICCH
+RKDA, RKDA
+KTRA, KTRA
+CLBS, CLBS
+HCAP, HCAP
+FSI, Flexible Solutions International Inc. Common Stock (CDA)
+XPL, Solitario Resources Corp. Common Stock
+ZCMD, ZCMD
+ALIM, ALIM
+VOC, VOC Energy Trust Units of Beneficial Interest
+RVPH, RVPH
+CJJD, CJJD
+HCDI, HCDI
+PRPO, PRPO
+JCS, JCS
+ASTC, ASTC
+FWP, FWP
+EYES, EYES
+NHLD, NHLD
+CPTA, CPTA
+NXTD, NXTD
+AEZS, AEZS
+WTT, WTT
+ESEA, ESEA
+ADTX, ADTX
+DAIO, DAIO
+AUTO, AUTO
+SALM, SALM
+IID, IID
+MKGI, MKGI
+OCCI, OCCI
+HUGE, HUGE
+VIRC, VIRC
+HNRG, HNRG
+ABIO, ABIO
+NES, NES
+AIKI, AIKI
+MVO, MV Oil Trust Units of Beneficial Interests
+SYPR, SYPR
+GURE, GURE
+HPR, HPR
+MFV, MFV
+ESBK, ESBK
+BKTI, BK Technologies Corporation Common Stock
+AACG, AACG
+NBY, NovaBay Pharmaceuticals, Inc. Common Stock
+AHC, AHC
+NEOS, NEOS
+IO, IO
+CTHR, CTHR
+IPWR, IPWR
+SPRT, SPRT
+CRTD, CRTD
+LIXT, LIXT
+LIFE, LIFE
+RAND, RAND
+LODE, Comstock Inc. Common Stock
+IMRN, IMRN
+CGA, CGA
+EDTK, EDTK
+BHTG, BHTG
+AUVI, AUVI
+BDL, Flanigan's Enterprises, Inc. Common Stock
+PNBK, PNBK
+SXTC, SXTC
+MTEX, MTEX
+SOHO, SOHO
+OPNT, OPNT
+OTEL, OTEL
+NEWA, NEWA
+GVP, GVP
+PZG, Paramount Gold Nevada Corp. Common Stock
+PBLA, PBLA
+PRFX, PRFX
+JILL, J. Jill, Inc. Common Stock
+PRT, PermRock Royalty Trust Trust Units
+HVBC, HVBC
+LTBR, LTBR
+GIGM, GIGM
+IFMK, IFMK
+SELF, SELF
+HOTH, HOTH
+MLND, MLND
+GTIM, GTIM
+AEY, AEY
+NRT, North European Oil Royality Trust Common Stock
+OBLG, OBLG
+PTPI, PTPI
+TAYD, TAYD
+ANTE, ANTE
+CYCC, CYCC
+HSON, HSON
+SQFT, SQFT
+PVL, Permianville Royalty Trust Trust Units 
+CELP, CELP
+SUMR, SUMR
+PHCF, PHCF
+RIBT, RIBT
+SVVC, SVVC
+AAMC, AAMC
+CNNB, CNNB
+MDLY, MDLY
+KEQU, KEQU
+NYV, NYV
+PLAG, Planet Green Holdings Corp. Common Stock
+CUBA, CUBA
+HTGM, HTGM
+JCTCF, JCTCF
+SCX, SCX
+TRMT, TRMT
+BKYI, BKYI
+WVVI, WVVI
+CETX, CETX
+IPDN, IPDN
+NOM, Nuveen Missouri Quality Municipal Income Fund 
+LOAC, LOAC
+BZM, BZM
+CVV, CVV
+KIQ, KIQ
+OLB, OLB
+MHE, MHE
+HSTO, HSTO
+GRF, Eagle Capital Growth Fund, Inc. Common Stock
+GLBZ, GLBZ
+ADIL, ADIL
+AEMD, AEMD
+TENX, TENX
+VTSI, VTSI
+JAKK, JAKK
+CPHI, China Pharma Holdings, Inc. Common Stock
+RCMT, RCMT
+OSN, OSN
+CEI, CEI
+LYL, LYL
+MTP, MTP
+DXF, Eason Technology Limited American Depositary Shares (each representing sixty
+ENTX, ENTX
+CANF, Can
+CNFR, CNFR
+JVA, JVA
+SFET, SFET
+CHIC, CHIC
+PMD, PMD
+FFHL, FFHL
+PATI, PATI
+WISA, WISA
+MFH, MFH
+BTN, BTN
+LIVE, LIVE
+FAMI, FAMI
+INVO, INVO
+NVIV, NVIV
+NVCN, NVCN
+SGRP, SGRP
+CHCI, CHCI
+UNAM, UNAM
+OCC, OCC
+WVFC, WVFC
+INM, INM
+CYTH, CYTH
+PSHG, PSHG
+EVOL, EVOL
+SQBG, SQBG
+NDP, NDP
+MOXC, MOXC
+FORD, FORD
+BNSO, BNSO
+IMTE, IMTE
+VRME, VRME
+LMFA, LMFA
+AFGC, American Financial Group, Inc. 5.125% Subordinated Debentures due 2059
+DLPN, DLPN
+RMCF, RMCF
+WHLR, WHLR
+MIND, MIND
+XELB, XELB
+AHPI, AHPI
+NSEC, NSEC
+TAOP, TAOP
+PBTS, PBTS
+MSN, Emerson Radio Corporation Common Stock
+NSPR, NSPR
+BHV, BlackRock Virginia Municipal Bond Trust
+TLGT, TLGT
+ISNS, ISNS
+CHFS, CHFS
+BLCM, BLCM
+GYRO, GYRO
+PLIN, PLIN
+SLRX, SLRX
+KOSS, KOSS
+SNCA, SNCA
+CLEU, CLEU
+CTEK, CTEK
+SDPI, SDPI
+WHLM, WHLM
+DSS, DSS, Inc. Common Stock
+ELTK, ELTK
+GBNY, GBNY
+RBCN, RBCN
+EQS, Equus Total Return, Inc. Common Stock
+HUSN, HUSN
+BGI, Birks Group Inc. Common Stock
+SGLB, SGLB
+CVR, Chicago Rivet & Machine Co. Common Stock
+EARS, EARS
+JRJC, JRJC
+GRIL, GRIL
+BIMI, BIMI
+SGMA, SGMA
+COHN, Cohen & Company Inc.
+PXS, PXS
+YVR, YVR
+BSQR, BSQR
+IHT, InnSuites Hospitality Trust Shares of Beneficial Interest
+CARV, CARV
+AXAS, AXAS
+ICD, ICD
+RMED, RMED
+JOB, GEE Group Inc. Common Stock
+ITP, IT Tech Packaging, Inc. Common Stock
+MDIA, MDIA
+RETO, RETO
+TKAT, TKAT
+CPAH, CPAH
+LEXX, LEXX
+NJV, NJV
+IKNX, IKNX
+SVT, Servotronics, Inc. Common Stock
+SPCB, SPCB
+CYAN, CYAN
+TTNP, TTNP
+POAI, POAI
+CKX, CKX Lands, Inc. Common Stock
+THMO, THMO
+GGO, GGO
+IMAC, IMAC
+ELSE, ELSE
+SSNT, SSNT
+MRIN, MRIN
+WAFU, WAFU
+CREX, CREX
+ICON, ICON
+RAVE, RAVE
+AINC, AINC
+SINO, SINO
+HJLI, HJLI
+BPTH, BPTH
+SMIT, SMIT
+CREG, CREG
+NSYS, NSYS
+NAKD, NAKD
+BNTC, BNTC
+TAIT, TAIT
+NVFY, NVFY
+DUOT, DUOT
+PFIN, PFIN
+WORX, WORX
+ANCN, ANCN
+LKOR, FlexShares Trust FlexShares Credit
+STRR, STRR
+TRT, Trio
+FGF, FGF
+MYT, MYT
+XTLB, XTLB
+ARTL, ARTL
+SCKT, SCKT
+NTEC, NTEC
+GOVX, GOVX
+SNMP, SNMP
+SNOA, SNOA
+BRN, Barnwell Industries, Inc. Common Stock
+MXE, Mexico Equity and Income Fund, Inc. (The) Common Stock
+EFOI, EFOI
+BDR, BDR
+CGIX, CGIX
+HIHO, HIHO
+NPN, NPN
+DYNT, DYNT
+PHIO, PHIO
+XBIO, XBIO
+IDXG, IDXG
+NURO, NURO
+RCON, RCON
+STAF, STAF
+EAST, EAST
+MXC, Mexco Energy Corporation Common Stock
+BLIN, BLIN
+TGC, TGC
+ANY, ANY
+LEDS, LEDS
+USEG, USEG
+EDRY, EDRY
+AMS, American Shared Hospital Services Common Stock
+SNDE, SNDE
+DSE, DSE
+HUSA, Houston American Energy Corporation Common Stock
+TSRI, TSRI
+ISIG, ISIG
+MTSL, MTSL
+TMBR, TMBR
+ARTW, ARTW
+MYSZ, MYSZ
+UUU, Universal Security Instruments, Inc. Common Stock
+NAOV, NAOV
+OXBR, OXBR
+CLWT, CLWT
+ACY, ACY
+GBR, New Concept Energy, Inc Common Stock
+GLBS, GLBS
+RCG, RENN Fund, Inc Common Stock
+APOP, APOP
+HMG, HMG
+MDRR, MDRR
+AWX, Avalon Holdings Corporation Common Stock
+CTIB, CTIB
+PSTV, PSTV
+TYHT, TYHT
+OPHC, OptimumBank Holdings, Inc. Common Stock
+BOSC, BOSC
+SSY, SunLink Health Systems, Inc. Common Stock
+ENSV, ENSV
+JAN, JAN
+MOSY, MOSY
+NTN, NTN
+SNES, SNES
+KBSF, KBSF
+MTR, Mesa Royalty Trust Common Stock
+AEHL, AEHL
+MARPS, MARPS
+VIVE, VIVE
+TCCO, TCCO
+RHE, RHE
+DFVL, DFVL
+LLIT, LLIT
+DFVS, DFVS
+HSDT, HSDT

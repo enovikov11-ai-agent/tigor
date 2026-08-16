@@ -1,0 +1,74 @@
+IMAGE DESCRIPTIONS
+==================
+
+image1.jpg: A stylized shield icon with a gradient from purple/magenta to blue, divided vertically into two sections with a clean, modern design.
+
+image2.jpg: A QR code (Quick Response code) that can be scanned to access information or a URL.
+
+image3.jpg: Another QR code with a slightly different pattern.
+
+image4.jpg: A larger version of the shield icon, featuring a vibrant gradient from hot pink to blue with a split/divided design representing protection or security.
+
+image5.jpg: A leaderboard table showing AI model rankings with scores, including models like gemini-2.5-pro, o3, chatgpt-4o, gpt-4.5, and others from various organizations (Google, OpenAI, Alibaba, xAI, etc.) with their respective scores, confidence intervals, votes, and license information.
+
+image6.jpg: A QR code with a different pattern from the previous ones.
+
+image7.jpg: A graph showing "Training loss" vs "FLOPS" with multiple colored curves representing different parameter counts (75M to 10B), demonstrating the relationship between computational cost and model training loss.
+
+image8.jpg: A humorous meme featuring an elephant balancing on a ball at a beach, with text about "AGENTIC AI ECONOMY" at the top, "Reasoning LLMs" in the middle, and an ant at the bottom with a prompt about JSON formatting. This illustrates the contrast between powerful AI systems and practical implementation challenges.
+
+image9.jpg: A joke meme with text "If I won the lottery, I wouldn't tell anyone, but there would be signs" followed by a Windows file explorer screenshot showing "Local Disk (C:)" with "929 PB free of 930 PB" - humorously suggesting enormous storage capacity as a subtle sign of wealth.
+
+image10.jpg: A scientific chart titled "Loss vs Model and Dataset Size" showing the relationship between loss and tokens in dataset for different model parameter sizes (393.2K to 708M), with dotted trend lines on a log scale.
+
+image11.jpg: A Russian language meme showing a man in a scene with text about running a VM inside a VM so that a container can brake/stop while it brakes (a nested virtualization joke).
+
+image12.jpg: A humorous photo of a black cat with a danger warning label that reads "DANGER: DO NOT CONNECT THIS MACHINE TO THE INTERNET NO MATTER HOW MUCH IT ASKS" with an AI warning symbol, joking about the cat being an AI.
+
+image13.jpg: A QR code.
+
+image14.jpg: A meme with a calico cat and text "stop using ChatGPT" with the ChatGPT logo, followed by "i can also give you misinformation and i'm beautiful" - a humorous comparison.
+
+image15.jpg: A QR code.
+
+image16.jpg: An overhead view of a computer's interior showing a motherboard with multiple PCIe slots, RAM modules, cooling fans, a graphics card with RGB lighting, and cable management.
+
+image17.jpg: A QR code.
+
+image18.jpg: A QR code.
+
+image19.jpg: A benchmark comparison table showing performance metrics for various GPU configurations (RTX 4090, RTX 5090, Mac M3 Max, etc.) running different AI models (Phi-4, DeepSeek-R1, Qwen2.5, ChatGPT 4o, o1-mini) with performance numbers.
+
+image20.jpg: A QR code.
+
+image21.jpg: A screenshot of what appears to be ChatGPT or Claude's interface greeting "Hello, Evgenii" with suggested prompts including "Show me a code snippet", "Give me ideas", and "Grammar check".
+
+image22.jpg: A photograph of a person sitting at a laptop with various stickers on it, taken in what appears to be a home office setting.
+
+image23.jpg: A small icon that appears to be a light blue/white snowflake or star-like symbol on a blue background.
+
+image24.jpg: The Telegram messenger app icon - a white paper airplane on a blue circular background.
+
+image25.jpg: The LinkedIn logo - the letters "in" in white on a blue square background.
+
+image26.jpg: A QR code.
+
+image27.jpg: A Twitter/X post from Sam Altman (@sama) with Russian text warning about checking children's phones for a deadly game app called "Blue Whale" (Синий кит) and to delete it and monitor to prevent access, with an image showing the DeepSeek app icon on a phone screen.
+
+image28.jpg: A screenshot of a YouTube playlist or course about "Neural Networks" by 3Blue1Brown, showing 8 videos about neural network topics including "But what is a neural network?", "Gradient descent", "Backpropagation", and "Large Language Models explained briefly".
+
+image29.jpg: The GitHub logo - a black cat silhouette (Octocat) on a white/transparent background.
+
+image30.jpg: An illustration showing four cats from behind, each with different AI company logos on their backs - appearing to represent different AI models/companies (including what looks like ChatGPT, Gemini, and others) in a playful, artistic style.
+
+image31.jpg: A QR code.
+
+image32.jpg: A Twitter/X post from alex fazio (@alxfazio) with text "if your AI girlfriend is not a LOCALLY running fine-tuned model, she's a prostitute" with an image showing a screen with "JOI" branding and "EMANATOR DETECTED" with a "CONNECT" button, referencing the AI character from Blade Runner 2049.
+
+image33.jpg: A close-up photograph of a black cat with large eyes looking directly at the camera, with text overlay saying "окак" (which appears to be Russian text).
+
+image34.jpg: A humorous text image about "DEBUGGING: THE CLASSIC MYSTERY GAME WHERE YOU ARE THE DETECTIVE, THE VICTIM, AND THE MURDERER!" with dice and a game piece illustration.
+
+image35.jpg: A close-up photo of a computer motherboard showing a Gigabyte MZ32-AR0 motherboard with a CPU in a green mounting bracket, RAM slots, and various components - appears to be a server or workstation-grade motherboard.
+
+image36.jpg: A photograph of a black cat lying on top of a large black computer case/server with a danger warning label, combining the warmth-seeking behavior of cats with high-performance computing equipment.
