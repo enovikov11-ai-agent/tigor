@@ -1,5 +1,6 @@
-<vm name="nixos-r8" cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/r8-rc3-vm-nvda-pods-su-BOOTX64.efi">
+<vm name="hermes" cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/r8-rc3-vm-nvda-pods-su-BOOTX64.efi">
   <mount src="/ssd/internet" dst="/ssd/internet" readonly="true"/>
   <mount src="/ssd/vm/containers" dst="/var/lib/containers"/>
-  <net dev="wg-hermes"><forward host="2222" guest="22"/></net>
+  <mount src="/ssd/vm/hermes" dst="/root/data"/>
+  <net dev="wg-hermes"><forward host="2222" guest="22"/><forward host="8000" guest="8000"/></net>
 </vm>

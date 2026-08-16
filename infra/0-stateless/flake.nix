@@ -212,7 +212,7 @@
           hostNvidia = (!vm) && nvidia;
           rtxPassthrough = (!vm) && (!nvidia);
           imageName =
-            (if vm then "vm" else "host")
+            (if vm then "vm-" else "host-")
             + revision
             + lib.optionalString nvidia "-nvda"
             + lib.optionalString containers "-pods"
