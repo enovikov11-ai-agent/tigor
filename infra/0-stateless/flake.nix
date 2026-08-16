@@ -169,97 +169,6 @@
       containers ? false, hypervisor ? false, vfio ? false, sudo ? false, password ? "",
       scalingFactor ? 1 }:
       let
-    commonModule = { vm, tools, gnome, nvidia, hypervisor, vfio, sudo, password, imageBaseName }:
-      { lib, pkgs, ... }: {
-        assertions = [{
-          assertion = !vfio || (!vm && hypervisor);
-          message = "vfio requires a physical hypervisor host";
-        }];
-
-        time.timeZone = "Europe/Belgrade";
-        i18n.defaultLocale = "en_US.UTF-8";
-
-        nixpkgs.config.allowUnfreePredicate = pkg: lib.hasPrefix "nvidia-" (lib.getName pkg);
-        nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-        networking.hostName = imageBaseName;
-        networking.firewall.enable = true;
-
-        services.openssh = {
-          enable = true;
-          generateHostKeys = true;
-          openFirewall = true;
-          settings = {
-            AuthenticationMethods = "publickey";
-            PasswordAuthentication = false;
-            KbdInteractiveAuthentication = false;
-            PermitEmptyPasswords = false;
-            X11Forwarding = false;
-            PermitRootLogin = "prohibit-password";
-            AllowUsers = [ "root" "nixos" ];
-          };
-        };
-
-        security.sudo = { enable = sudo; }
-          // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
-
-        users.mutableUsers = false;
-        users.users = {
-          root = { hashedPassword = password; openssh.authorizedKeys.keys = [ sshKey ]; };
-
-          nixos = {
-            isNormalUser = true;
-            hashedPassword = password;
-            extraGroups = lib.optionals sudo [ "wheel" ]
-              ++ lib.optionals hypervisor [ "kvm" "libvirtd" ]
-              ++ lib.optionals (gnome || nvidia) [ "video" "render" ];
-            openssh.authorizedKeys.keys = [ sshKey ];
-          };
-        };
-        users.groups.kvm.members = lib.optionals hypervisor [ "qemu-libvirtd" ];
-
-        system.stateVersion = "26.05";
-
-        environment.etc."nixos/flake.nix".source = ./flake.nix;
-
-        environment.systemPackages =
-          (with pkgs; [ curl git htop python3 tmux vim tree wireguard-tools jq ])
-          ++ lib.optionals tools (with pkgs; [ pciutils usbutils dmidecode ethtool ]);
-      };
-
-    vmModule = { vm, imageBaseName, gnome }:
-          ({ config, lib, modulesPath, pkgs, ... }: lib.mkIf vm {
-          imports = [ (modulesPath + "/installer/netboot/netboot.nix") ];
-
-          boot.kernelModules = [ "virtiofs" ];
-          boot.uki.name = imageBaseName;
-          boot.uki.version = null;
-          boot.uki.settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
-
-          services.qemuGuest.enable = true;
-          services.spice-vdagentd.enable = gnome;
-          systemd.services.mount-virtiofs-shares = {
-            description = "Mount virtiofs path shares";
-            wantedBy = [ "multi-user.target" ];
-            after = [ "systemd-modules-load.service" ];
-            serviceConfig.Type = "oneshot";
-            path = with pkgs; [ coreutils util-linux ];
-            script = ''
-              shopt -s nullglob
-              for tagFile in /sys/fs/virtiofs/*/tag; do
-                IFS= read -r path < "$tagFile"
-                mkdir -p -- "$path"
-                mount -t virtiofs -- "$path" "$path"
-              done
-            '';
-          };
-          services.displayManager.autoLogin = lib.mkIf gnome {
-            enable = true;
-            user = "nixos";
-          };
-
-          });
-
         imageTags =
           lib.optionals gnome [ "gui" ]
           ++ lib.optionals containers [ "pod" ]
@@ -269,138 +178,217 @@
           + lib.optionalString (imageTags != [ ])
             "-${lib.concatStringsSep "-" imageTags}"
           + "-${revision}";
-        efiName = imageBaseName + lib.optionalString (!vm) "-BOOTX64";
+        ukiName = imageBaseName + lib.optionalString (!vm) "-BOOTX64";
       in
       lib.nixosSystem {
         inherit system;
 
         modules =
-          [ (commonModule {
-              inherit vm tools gnome nvidia hypervisor vfio sudo password imageBaseName;
-            }) ]
-          ++ lib.optional vm "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+          [
+            ({ config, lib, pkgs, modulesPath, ... }: {
+              assertions = [{
+                assertion = !vfio || (!vm && hypervisor);
+                message = "vfio requires a physical hypervisor host";
+              }];
+
+              imports =
+                lib.optional vm (modulesPath + "/profiles/qemu-guest.nix")
+                ++ [ (modulesPath + "/installer/netboot/netboot.nix") ]
+                ++ lib.optional (!vm) (modulesPath + "/profiles/minimal.nix");
+
+              time.timeZone = "Europe/Belgrade";
+              i18n.defaultLocale = "en_US.UTF-8";
+
+              nixpkgs.config.allowUnfreePredicate = pkg: lib.hasPrefix "nvidia-" (lib.getName pkg);
+              nix.settings = {
+                experimental-features = [ "nix-command" "flakes" ];
+                max-jobs = lib.mkIf (!vm) 4;
+                cores = lib.mkIf (!vm) 32;
+              };
+
+              networking = {
+                hostName = imageBaseName;
+                hostId = lib.mkIf (!vm) "06e694f9";
+                firewall.enable = true;
+                nftables.enable = lib.mkIf (!vm) true;
+                networkmanager.enable = lib.mkIf (!vm) false;
+              };
+
+              services.openssh = {
+                enable = true;
+                generateHostKeys = true;
+                openFirewall = true;
+                settings = {
+                  AuthenticationMethods = "publickey";
+                  PasswordAuthentication = false;
+                  KbdInteractiveAuthentication = false;
+                  PermitEmptyPasswords = false;
+                  X11Forwarding = false;
+                  PermitRootLogin = "prohibit-password";
+                  AllowUsers = [ "root" "nixos" ];
+                };
+              };
+
+              security.sudo = { enable = sudo; }
+                // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
+
+              users.mutableUsers = false;
+              users.users = {
+                root = { hashedPassword = password; openssh.authorizedKeys.keys = [ sshKey ]; };
+
+                nixos = {
+                  isNormalUser = true;
+                  hashedPassword = password;
+                  extraGroups = lib.optionals sudo [ "wheel" ]
+                    ++ lib.optionals hypervisor [ "kvm" "libvirtd" ]
+                    ++ lib.optionals (gnome || nvidia) [ "video" "render" ];
+                  openssh.authorizedKeys.keys = [ sshKey ];
+                };
+              };
+              users.groups.kvm.members = lib.optionals hypervisor [ "qemu-libvirtd" ];
+
+              boot = {
+                supportedFilesystems = lib.optionals (!vm) [ "zfs" ];
+
+                # NVIDIA GeForce GT 710
+                initrd.kernelModules = lib.optionals (!vm) (
+                  lib.optionals vfio [ "vfio_pci" "vfio" "vfio_iommu_type1" ]
+                  ++ lib.optionals (gnome && !nvidia) [ "nouveau" ]
+                );
+                kernelModules =
+                  lib.optionals vm [ "virtiofs" ]
+                  ++ lib.optionals (!vm && hypervisor) [ "kvm-amd" ];
+                kernelParams = lib.optionals (!vm) (
+                  [ "nohibernate" "modprobe.blacklist=ast" "transparent_hugepage=madvise" ]
+                  ++ lib.optionals hypervisor [
+                    "kvm_amd.sev=1"
+                    "kvm_amd.sev_es=1"
+                    "amd_iommu=on"
+                    "iommu=pt"
+                    "iommu.strict=1"
+                  ]
+                  ++ lib.optionals vfio [
+                    # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
+                    "vfio-pci.ids=10de:2bb1,10de:22e8"
+                  ]
+                );
+                blacklistedKernelModules = lib.optionals (!vm) [ "ast" ];
+                uki = {
+                  name = ukiName;
+                  version = null;
+                  settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
+                };
+                zfs.forceImportRoot = lib.mkIf (!vm) false;
+              };
+
+              services.udev.extraRules = lib.optionalString (!vm && hypervisor) ''
+                SUBSYSTEM=="misc", KERNEL=="sev", GROUP="kvm", MODE="0660"
+              '';
+              services.xserver.videoDrivers = lib.mkIf (!vm && gnome && !nvidia) [ "nouveau" ];
+
+              services.qemuGuest.enable = vm;
+              services.spice-vdagentd.enable = vm && gnome;
+              systemd.services.mount-virtiofs-shares = lib.mkIf vm {
+                description = "Mount virtiofs path shares";
+                wantedBy = [ "multi-user.target" ];
+                after = [ "systemd-modules-load.service" ];
+                serviceConfig.Type = "oneshot";
+                path = with pkgs; [ coreutils util-linux ];
+                script = ''
+                  shopt -s nullglob
+                  for tagFile in /sys/fs/virtiofs/*/tag; do
+                    IFS= read -r path < "$tagFile"
+                    mkdir -p -- "$path"
+                    mount -t virtiofs -- "$path" "$path"
+                  done
+                '';
+              };
+              services.displayManager.autoLogin = lib.mkIf (vm && gnome) {
+                enable = true;
+                user = "nixos";
+              };
+
+              programs.virt-manager.enable = !vm && hypervisor;
+
+              virtualisation.libvirtd = lib.mkIf (!vm && hypervisor) {
+                enable = true;
+                onBoot = "ignore";
+                onShutdown = "shutdown";
+                firewallBackend = "nftables";
+                qemu = {
+                  package = pkgs.qemu_kvm;
+
+                  runAsRoot = false;
+
+                  verbatimConfig = ''
+                    namespaces = []
+                    seccomp_sandbox = 1
+                    spice_auto_unix_socket = 1
+                    vnc_auto_unix_socket = 1
+                  '';
+
+                  vhostUserPackages = [ pkgs.virtiofsd ];
+                };
+              };
+
+              systemd.services.virt-secret-init-encryption = lib.mkIf (!vm && hypervisor) {
+                serviceConfig = {
+                  StateDirectory = "libvirt/secrets";
+                  StateDirectoryMode = "0700";
+                  ExecStart = lib.mkForce [
+                    ""
+                    (pkgs.writeShellScript "virt-secret-init-encryption" ''
+                      umask 0077
+                      ${pkgs.coreutils}/bin/chmod 0700 /var/lib/libvirt/secrets
+                      ${pkgs.coreutils}/bin/dd if=/dev/random status=none bs=32 count=1 | \
+                        ${pkgs.systemd}/bin/systemd-creds encrypt --with-key=tpm2-absent \
+                          --name=secrets-encryption-key \
+                          - /var/lib/libvirt/secrets/secrets-encryption-key
+                    '')
+                  ];
+                };
+              };
+
+              systemd.tmpfiles.rules = lib.optionals (!vm) [
+                "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer"
+              ];
+              systemd.targets.sleep.enable = lib.mkIf (!vm) false;
+              systemd.targets.suspend.enable = lib.mkIf (!vm) false;
+              systemd.targets.hibernate.enable = lib.mkIf (!vm) false;
+              systemd.targets.hybrid-sleep.enable = lib.mkIf (!vm) false;
+
+              environment.etc."nixos/flake.nix".source = ./flake.nix;
+              environment.systemPackages =
+                (with pkgs; [ curl git htop python3 tmux vim tree wireguard-tools jq ])
+                ++ lib.optionals tools (with pkgs; [ pciutils usbutils dmidecode ethtool ])
+                ++ lib.optionals (!vm) (with pkgs; [ zfs ])
+                ++ lib.optionals (!vm && tools) (with pkgs; [
+                  smartmontools
+                  nvme-cli
+                  lm_sensors
+                  hdparm
+                  ipmitool
+                  efibootmgr
+                ])
+                ++ lib.optionals (!vm && hypervisor) (with pkgs; [
+                  qemu_kvm
+                  libvirt
+                  openssl
+                  virt-manager
+                  passt
+                  virtiofsd
+                ]);
+              environment.shellAliases = lib.optionalAttrs (!vm) {
+                mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
+              };
+
+              system.stateVersion = "26.05";
+            })
+          ]
           ++ lib.optional gnome (gnomeModule { inherit extras scalingFactor; includeVMManager = hypervisor; })
           ++ lib.optional nvidia (nvidiaModule { inherit gnome; })
           ++ lib.optional containers containersModule
-          ++ lib.optional (containers && nvidia) nvidiaContainerToolkitModule
-          ++ [
-          ({ config, lib, pkgs, modulesPath, ... }: lib.mkIf (!vm) {
-
-          nix.settings.max-jobs = 4;
-          nix.settings.cores = 32;
-
-          services.udev.extraRules = lib.optionalString hypervisor ''
-            SUBSYSTEM=="misc", KERNEL=="sev", GROUP="kvm", MODE="0660"
-          '';
-
-          imports = [ (modulesPath + "/installer/netboot/netboot.nix") (modulesPath + "/profiles/minimal.nix") ];
-
-          networking.hostId = "06e694f9";
-          networking.nftables.enable = true;
-          networking.networkmanager.enable = false;
-
-          boot.supportedFilesystems = [ "zfs" ];
-
-          # NVIDIA GeForce GT 710
-          boot.initrd.kernelModules =
-            lib.optionals vfio [ "vfio_pci" "vfio" "vfio_iommu_type1" ]
-            ++ lib.optionals (gnome && !nvidia) [ "nouveau" ];
-          boot.kernelModules = lib.optionals hypervisor [ "kvm-amd" ];
-          boot.kernelParams = [ "nohibernate" "modprobe.blacklist=ast" "transparent_hugepage=madvise" ]
-            ++ lib.optionals hypervisor [
-              "kvm_amd.sev=1"
-              "kvm_amd.sev_es=1"
-              "amd_iommu=on"
-              "iommu=pt"
-              "iommu.strict=1"
-            ]
-            ++ lib.optionals vfio [
-              # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
-              "vfio-pci.ids=10de:2bb1,10de:22e8"
-            ];
-          boot.blacklistedKernelModules = [ "ast" ];
-
-          systemd.tmpfiles.rules = [ "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer" ];
-
-          boot.uki.name = efiName;
-          boot.uki.version = null;
-          boot.uki.settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
-
-          boot.zfs.forceImportRoot = false;
-
-          services.xserver.videoDrivers = lib.mkIf (gnome && !nvidia) [ "nouveau" ];
-
-          programs.virt-manager.enable = hypervisor;
-
-          virtualisation.libvirtd = lib.mkIf hypervisor {
-            enable = true;
-            onBoot = "ignore";
-            onShutdown = "shutdown";
-            firewallBackend = "nftables";
-            qemu = {
-              package = pkgs.qemu_kvm;
-
-              runAsRoot = false;
-
-              verbatimConfig = ''
-                namespaces = []
-                seccomp_sandbox = 1
-                spice_auto_unix_socket = 1
-                vnc_auto_unix_socket = 1
-              '';
-
-              vhostUserPackages = [ pkgs.virtiofsd ];
-            };
-          };
-
-          systemd.services.virt-secret-init-encryption = lib.mkIf hypervisor {
-            serviceConfig = {
-              StateDirectory = "libvirt/secrets";
-              StateDirectoryMode = "0700";
-              ExecStart = lib.mkForce [
-                ""
-                (pkgs.writeShellScript "virt-secret-init-encryption" ''
-                  umask 0077
-                  ${pkgs.coreutils}/bin/chmod 0700 /var/lib/libvirt/secrets
-                  ${pkgs.coreutils}/bin/dd if=/dev/random status=none bs=32 count=1 | \
-                    ${pkgs.systemd}/bin/systemd-creds encrypt --with-key=tpm2-absent \
-                      --name=secrets-encryption-key \
-                      - /var/lib/libvirt/secrets/secrets-encryption-key
-                '')
-              ];
-            };
-          };
-
-          environment.systemPackages =
-            (with pkgs; [ zfs ])
-            ++ lib.optionals tools (with pkgs; [
-              smartmontools
-              nvme-cli
-              lm_sensors
-              hdparm
-              ipmitool
-              efibootmgr
-            ])
-            ++ lib.optionals hypervisor (with pkgs; [
-              qemu_kvm
-              libvirt
-              openssl
-              virt-manager
-              passt
-              virtiofsd
-            ]);
-
-          environment.shellAliases = {
-            mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
-          };
-
-          systemd.targets.sleep.enable = false;
-          systemd.targets.suspend.enable = false;
-          systemd.targets.hibernate.enable = false;
-          systemd.targets.hybrid-sleep.enable = false;
-          })
-            (vmModule { inherit vm imageBaseName gnome; })
-        ];
+          ++ lib.optional (containers && nvidia) nvidiaContainerToolkitModule;
       };
   in
   {
