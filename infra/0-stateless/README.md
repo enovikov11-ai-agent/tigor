@@ -17,6 +17,7 @@ sync
 umount /root/mnt
 reboot now
 
+diff ~/flake.nix /etc/nixos/flake.nix
 cat /etc/nixos/flake.nix > flake.nix
 nix build .#vm
 nixos-rebuild switch --flake .#host
