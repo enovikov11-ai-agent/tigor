@@ -30,15 +30,6 @@ apt install wireguard-tools
 wg-quick up ./wg0.conf
 ufw allow 2026/udp
 
-# Edit CONFIG_JSON in vm.py, then define and start the VM
-python3 vm.py
-
-`mounts` maps each host `src` to an independent guest `dst`; `readonly` defaults to true.
-`net.forwards` maps `host` to `guest` for TCP or UDP. A forward can also set `address` or `dev` to restrict the host listener.
-
-mount -t virtiofs /ssd/internet /ssd/internet
-mount -t virtiofs /var/lib/containers /var/lib/containers
-
 ip addr add 10.67.69.2/24 dev eth0
 ip route add 10.67.69.1/32 dev eth0
 
