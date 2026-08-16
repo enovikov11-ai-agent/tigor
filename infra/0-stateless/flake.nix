@@ -9,7 +9,7 @@
   outputs = { self, nixpkgs, ... }:
   let
     # For release candidates use r5-rc1 format
-    revision = "r8-rc2";
+    revision = "r8-rc3";
 
     # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -161,23 +161,21 @@
       '';
     };
 
-    stateless = { vm ? false, gnome ? false, firefox ? false, vscode ? false,
-      nvidia ? false, containers ? false, hypervisor ? false, vfio ? false,
-      zfs ? false, sudo ? false, password ? "", scalingFactor ? 1 }:
+    stateless = { vm ? false, hypervisor ? false, nvidia ? false, containers ? false,
+      gnome ? false, scalingFactor ? 1, firefox ? false, vscodium ? false,
+      sudo ? false, password ? "!",
+    }:
       let
         imageTags =
-          lib.optionals vm [ "vm" ]
-          ++ lib.optionals gnome [ "gui" ]
-          ++ lib.optionals firefox [ "ff" ]
-          ++ lib.optionals vscode [ "vsc" ]
-          ++ lib.optionals nvidia [ "nv" ]
-          ++ lib.optionals containers [ "pod" ]
-          ++ lib.optionals hypervisor [ "hv" ]
-          ++ lib.optionals vfio [ "vf" ]
-          ++ lib.optionals zfs [ "zfs" ]
-          ++ lib.optionals sudo [ "su" ];
-        imageName = revision
-          + lib.optionalString (imageTags != [ ]) "-${lib.concatStringsSep "-" imageTags}";
+          lib.optionals vm [ "-vm" ]
+          ++ lib.optionals hypervisor [ "-host" ]
+          ++ lib.optionals nvidia [ "-nvda" ]
+          ++ lib.optionals containers [ "-pods" ]
+          ++ lib.optionals gnome [ "-gui" ]
+          ++ lib.optionals firefox [ "-ff" ]
+          ++ lib.optionals vscodium [ "-vs" ]
+          ++ lib.optionals sudo [ "-su" ];
+        imageName = revision + "${lib.concatStringsSep "" imageTags}";
         ukiName = "${imageName}-BOOTX64";
       in
       lib.nixosSystem {
@@ -186,11 +184,6 @@
         modules =
           [
             ({ config, lib, pkgs, modulesPath, ... }: {
-              assertions = [{
-                assertion = !vfio || hypervisor;
-                message = "vfio requires hypervisor support";
-              }];
-
               imports = [
                 (modulesPath + "/installer/netboot/netboot.nix")
                 (modulesPath + (if vm then "/profiles/qemu-guest.nix" else "/profiles/minimal.nix"))
@@ -208,7 +201,7 @@
 
               networking = {
                 hostName = imageName;
-                hostId = lib.mkIf zfs "06e694f9";
+                hostId = lib.mkIf !vm "06e694f9";
                 firewall.enable = true;
                 nftables.enable = true;
                 networkmanager.enable = true;
@@ -248,11 +241,11 @@
               users.groups.kvm.members = lib.optionals hypervisor [ "qemu-libvirtd" ];
 
               boot = {
-                supportedFilesystems = lib.optionals zfs [ "zfs" ];
+                supportedFilesystems = lib.optionals !vm [ "zfs" ];
 
-                # NVIDIA GeForce GT 710
                 initrd.kernelModules =
-                  lib.optionals vfio [ "vfio_pci" "vfio" "vfio_iommu_type1" ]
+                  lib.optionals !vm [ "vfio_pci" "vfio" "vfio_iommu_type1" ]
+                  # NVIDIA GeForce GT 710
                   ++ lib.optionals (gnome && !nvidia) [ "nouveau" ];
                 kernelModules =
                   lib.optionals vm [ "virtiofs" ]
@@ -265,7 +258,7 @@
                     "iommu=pt"
                     "iommu.strict=1"
                   ]
-                  ++ lib.optionals vfio [
+                  ++ lib.optionals !vm [
                     # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
                     "vfio-pci.ids=10de:2bb1,10de:22e8"
                   ];
@@ -275,7 +268,7 @@
                   version = null;
                   settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
                 };
-                zfs.forceImportRoot = lib.mkIf zfs false;
+                zfs.forceImportRoot = lib.mkIf !vm false;
               };
 
               services.udev.extraRules = lib.optionalString hypervisor ''
@@ -378,8 +371,8 @@
                   ipmitool
                   efibootmgr
                 ])
-                ++ lib.optionals vscode (with pkgs; [ vscodium ])
-                ++ lib.optionals zfs (with pkgs; [ zfs ])
+                ++ lib.optionals vscodium (with pkgs; [ vscodium ])
+                ++ lib.optionals !vm (with pkgs; [ zfs ])
                 ++ lib.optionals hypervisor (with pkgs; [
                   qemu_kvm
                   libvirt
@@ -388,8 +381,8 @@
                   passt
                   virtiofsd
                 ]);
-              environment.sessionVariables = lib.optionalAttrs vscode { NIXOS_OZONE_WL = "1"; };
-              environment.shellAliases = lib.optionalAttrs zfs {
+              environment.sessionVariables = lib.optionalAttrs vscodium { NIXOS_OZONE_WL = "1"; };
+              environment.shellAliases = lib.optionalAttrs !vm {
                 mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
               };
 
@@ -405,19 +398,19 @@
   {
     nixosConfigurations = {
       host = stateless {
-        gnome = true;
         hypervisor = true;
-        vfio = true;
-        zfs = true;
+        containers = true;
+        gnome = true;
+        scalingFactor = 2;
         sudo = true;
         password = mainPassword;
-        scalingFactor = 2;
       };
       vm = stateless {
         vm = true;
         nvidia = true;
         containers = true;
         sudo = true;
+        password = "";
       };
     };
 
