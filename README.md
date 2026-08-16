@@ -1,6 +1,5 @@
 # Tigor monorepo
 
-## Ideas
+##  Ideas
 
 Run minimax h3
-
