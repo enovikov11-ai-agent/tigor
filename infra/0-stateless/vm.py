@@ -16,7 +16,7 @@ CONFIG_JSON = r"""
   "name": null,
   "ui": true,
   "gpu": true,
-  "security": false,
+  "hardened": false,
   "mounts": [
     {
       "src": "/ssd/internet",
@@ -38,8 +38,7 @@ CONFIG_JSON = r"""
         "guest": 22
       }
     ]
-  },
-  "define": true
+  }
 }
 """
 
@@ -62,7 +61,6 @@ ROOT = """
     <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
     <disk type="file" device="disk"><driver name="qemu" type="qcow2" iommu="on"/><source/><target dev="vda" bus="virtio"/></disk>
     <interface type="user"><source/><model type="virtio"/><driver iommu="on"/><rom enabled="no"/><backend type="passt"/></interface>
-    <filesystem type="mount"><driver type="virtiofs"/><source/><target/><readonly/></filesystem>
     <input type="mouse" bus="ps2"/>
     <input type="keyboard" bus="ps2"/>
     <graphics type="spice" autoport="yes"><listen type="address"/><image compression="off"/><gl enable="no"/></graphics>
@@ -79,6 +77,10 @@ ROOT = """
     <rng model="virtio"><driver iommu="on"/><backend model="random">/dev/urandom</backend></rng>
   </devices>
   <launchSecurity type="sev"><policy>0x000f</policy><cbitpos>47</cbitpos><reducedPhysBits>1</reducedPhysBits></launchSecurity>
+  <templates>
+    <filesystem type="mount"><driver type="virtiofs"/><source/><target/><readonly/></filesystem>
+    <portForward><range/></portForward>
+  </templates>
 </domain>
 """
 
@@ -88,16 +90,23 @@ def generate_xml(config):
     disk = config.get("disk")
     mounts = config.get("mounts", [])
     net = config.get("net")
-    security = config.get("security", False)
+    hardened = config.get("hardened", False)
 
-    if security and mounts:
-        raise ValueError("security cannot be combined with mounts")
+    if hardened and mounts:
+        raise ValueError("hardened cannot be combined with mounts")
     if (kernel is None) == (disk is None):
         raise ValueError("exactly one of kernel or disk is required")
 
     name = config.get("name") or datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     root = ET.fromstring(ROOT)
     devices = root.find("devices")
+    templates = root.find("templates")
+
+    # Keep complete XML shapes in ROOT, clone them here, and remove <templates>
+    # before output. This is simpler and more readable than constructing nodes
+    # piecemeal in Python.
+    filesystem_template = templates.find("filesystem")
+    port_forward_template = templates.find("portForward")
 
     root.find("name").text = name
     root.find("memory").text = str(config["ram"])
@@ -130,7 +139,8 @@ def generate_xml(config):
             if proto not in ("tcp", "udp"):
                 raise ValueError(f"unsupported forwarding protocol: {proto}")
 
-            port_forward = ET.SubElement(interface, "portForward", proto=proto)
+            port_forward = deepcopy(port_forward_template)
+            port_forward.set("proto", proto)
             for attribute in ("address", "dev"):
                 if forwarding.get(attribute) is not None:
                     port_forward.set(attribute, str(forwarding[attribute]))
@@ -140,13 +150,12 @@ def generate_xml(config):
             if not (1 <= host_port <= 65535 and 1 <= guest_port <= 65535):
                 raise ValueError("forwarded ports must be between 1 and 65535")
 
-            attributes = {"start": str(host_port)}
+            port_range = port_forward.find("range")
+            port_range.set("start", str(host_port))
             if guest_port != host_port:
-                attributes["to"] = str(guest_port)
-            ET.SubElement(port_forward, "range", attributes)
+                port_range.set("to", str(guest_port))
+            interface.append(port_forward)
 
-    filesystem_template = devices.find("filesystem")
-    devices.remove(filesystem_template)
     for mount in mounts:
         filesystem = deepcopy(filesystem_template)
         filesystem.find("source").set("dir", mount["src"])
@@ -164,7 +173,7 @@ def generate_xml(config):
         for item in devices.findall("hostdev"):
             devices.remove(item)
 
-    if security:
+    if hardened:
         os = root.find("os")
         os.attrib.pop("firmware")
         memory_backing = root.find("memoryBacking")
@@ -178,6 +187,7 @@ def generate_xml(config):
         if not mounts:
             root.remove(memory_backing)
 
+    root.remove(templates)
     ET.indent(root, space="  ")
     return ET.tostring(root, encoding="unicode", xml_declaration=True)
 
@@ -185,13 +195,14 @@ def generate_xml(config):
 def main():
     config = json.loads(CONFIG_JSON)
     generated_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    config["name"] = config.get("name") or generated_name
     xml = generate_xml(config)
     path = Path(tempfile.gettempdir()) / f"{generated_name}.xml"
     path.write_text(xml, encoding="utf-8")
     print(path)
 
-    if config.get("define", True):
-        subprocess.run(["virsh", "define", str(path)], check=True)
+    subprocess.run(["virsh", "define", str(path)], check=True)
+    subprocess.run(["virsh", "start", config["name"]], check=True)
 
 
 if __name__ == "__main__":

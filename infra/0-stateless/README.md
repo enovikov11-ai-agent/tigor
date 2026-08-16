@@ -30,7 +30,7 @@ apt install wireguard-tools
 wg-quick up ./wg0.conf
 ufw allow 2026/udp
 
-# Edit CONFIG_JSON in vm.py, then define the VM
+# Edit CONFIG_JSON in vm.py, then define and start the VM
 python3 vm.py
 
 `mounts` maps each host `src` to an independent guest `dst`; `readonly` defaults to true.
