@@ -23,10 +23,10 @@ nixos-rebuild switch --flake .#host
 
 xsltproc vm.xsl vm.xml > /tmp/vm.xml
 virsh define /tmp/vm.xml
-virsh dumpxml nixos-r8
-virsh start nixos-r8
-virsh destroy nixos-r8
-virsh undefine nixos-r8 --nvram
+virsh dumpxml hermes-r10
+virsh start hermes-r10
+virsh destroy hermes-r10
+virsh undefine hermes-r10 --nvram
 
 apt install wireguard-tools
 wg-quick up ./wg0.conf
@@ -45,6 +45,7 @@ UMAF inspect
 
 ## Ideas
 
+Console/vsock
 Make host ssh not respond on wg0 :22
 Control plane
 Check --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
