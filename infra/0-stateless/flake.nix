@@ -209,6 +209,8 @@
           password ? "!",
         }:
         let
+          hostNvidia = (!vm) && nvidia;
+          rtxPassthrough = (!vm) && (!nvidia);
           imageName =
             (if vm then "vm" else "host")
             + revision
@@ -311,7 +313,7 @@
                   supportedFilesystems = lib.optionals (!vm) [ "zfs" ];
 
                   initrd.kernelModules =
-                    lib.optionals (!vm) [
+                    lib.optionals rtxPassthrough [
                       "vfio_pci"
                       "vfio"
                       "vfio_iommu_type1"
@@ -331,11 +333,14 @@
                     "iommu=pt"
                     "iommu.strict=1"
                   ]
-                  ++ lib.optionals (!vm) [
+                  ++ lib.optionals rtxPassthrough [
                     # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
                     "vfio-pci.ids=10de:2bb1,10de:22e8"
                   ];
-                  blacklistedKernelModules = [ "ast" ];
+                  blacklistedKernelModules =
+                    [ "ast" ]
+                    # NVIDIA's open driver supports the RTX PRO, not the GT 710.
+                    ++ lib.optionals hostNvidia [ "nouveau" ];
                   uki = {
                     name = ukiName;
                     version = null;
