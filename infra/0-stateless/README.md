@@ -12,7 +12,7 @@ mount /dev/sde1 /root/mnt
 df -h /root/mnt
 cd /root/mnt/EFI/BOOT/
 mv BOOTX64.efi "$(date '+%Y-%m-%d_%H-%M-%S')_BOOTX64.efi"
-cp /root/result/BOOTX64.efi /root/mnt/EFI/BOOT/
+cp /root/result/*-BOOTX64.efi /root/mnt/EFI/BOOT/BOOTX64.efi
 sync
 umount /root/mnt
 reboot now
@@ -30,7 +30,7 @@ apt install wireguard-tools
 wg-quick up ./wg0.conf
 ufw allow 2026/udp
 
-python3 vm.py --cpu 64 --ram 128 --kernel /ssd/vm/vm-pod-nv-r8-rc1.efi --net wg-hermes --ui --gpu --ssh 2222 --ro /ssd/internet --rw /ssd/vm/containers
+python3 vm.py --cpu 64 --ram 128 --kernel /ssd/vm/vm-pod-nv-r8-rc2.efi --net wg-hermes --ui --gpu --ssh 2222 --ro /ssd/internet --rw /ssd/vm/containers
 
 mount -t virtiofs /ssd/internet /ssd/internet
 mount -t virtiofs /ssd/vm/containers /var/lib/containers
