@@ -6,251 +6,326 @@
     nixpkgs.url = "github:NixOS/nixpkgs/fcb8fcd6bf2d0adecae5bd491afaaaf8311b758d";
   };
 
-  outputs = { self, nixpkgs, ... }:
-  let
-    # For release candidates use r5-rc1 format
-    revision = "r8-rc3";
+  outputs =
+    { self, nixpkgs, ... }:
+    let
+      # For release candidates use r5-rc1 format
+      revision = "r8-rc3";
 
-    # Public password hash is a tradeoff between usability and security, underlying is high entropy
-    sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
-    mainPassword = "$6$JsF575e4YV0MxwGU$aDy3BMHg/5lvWZoMvsAV0TL/BIcXMu3ps1DnOf3.o.hQ3IqT/sfCwKJHdMaaRy2exNAEUFxpxPbO966DE5cm./";
+      # Public password hash is a tradeoff between usability and security, underlying is high entropy
+      sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
+      mainPassword = "$6$JsF575e4YV0MxwGU$aDy3BMHg/5lvWZoMvsAV0TL/BIcXMu3ps1DnOf3.o.hQ3IqT/sfCwKJHdMaaRy2exNAEUFxpxPbO966DE5cm./";
 
-    lib = nixpkgs.lib;
-    system = "x86_64-linux";
+      lib = nixpkgs.lib;
+      system = "x86_64-linux";
 
-    gnomeModule = { scalingFactor, includeVMManager ? false }:
-      { lib, pkgs, ... }: {
-        hardware.graphics.enable = true;
+      gnomeModule =
+        {
+          scalingFactor,
+          includeVMManager ? false,
+        }:
+        { lib, pkgs, ... }: {
+          hardware.graphics.enable = true;
 
-        services.xserver.enable = true;
-        services.displayManager.gdm.enable = true;
-        services.desktopManager.gnome.enable = true;
+          services.xserver.enable = true;
+          services.displayManager.gdm.enable = true;
+          services.desktopManager.gnome.enable = true;
 
-        environment.gnome.excludePackages = with pkgs; [
-          gnome-backgrounds
-          gnome-bluetooth
-          gnome-color-manager
-          gnome-tour
-          gnome-user-docs
-          gnome-menus
-          orca
-        ];
+          environment.gnome.excludePackages = with pkgs; [
+            gnome-backgrounds
+            gnome-bluetooth
+            gnome-color-manager
+            gnome-tour
+            gnome-user-docs
+            gnome-menus
+            orca
+          ];
 
-        hardware.bluetooth.enable = false;
-        services.hardware.bolt.enable = false;
-        i18n.inputMethod.enable = false;
-        services.avahi.enable = false;
-        services.colord.enable = false;
-        services.dleyna.enable = false;
-        services.geoclue2.enable = false;
-        services.power-profiles-daemon.enable = false;
-        services.orca.enable = false;
-        services.upower.enable = lib.mkForce false;
-        services.gnome = {
-          core-apps.enable = false;
-          evolution-data-server.enable = lib.mkForce false;
-          gcr-ssh-agent.enable = false;
-          gnome-browser-connector.enable = false;
-          gnome-initial-setup.enable = false;
-          gnome-keyring.enable = false;
-          gnome-online-accounts.enable = false;
-          gnome-remote-desktop.enable = false;
-          gnome-user-share.enable = false;
-          localsearch.enable = false;
-          rygel.enable = false;
-          tinysparql.enable = false;
-        };
-
-        services.pipewire = { enable = true; alsa.enable = true; pulse.enable = true; };
-
-        programs.gnome-disks.enable = true;
-
-        environment.systemPackages = with pkgs; [ nautilus gnome-console ];
-
-        xdg.mime.defaultApplications = { "inode/directory" = [ "org.gnome.Nautilus.desktop" ]; };
-
-        programs.dconf.profiles = {
-          gdm.databases = [{
-            settings = {
-              "org/gnome/desktop/interface".scaling-factor = lib.gvariant.mkUint32 scalingFactor;
-              "org/gnome/settings-daemon/plugins/power" = {
-                sleep-inactive-ac-type = "nothing";
-                sleep-inactive-battery-type = "nothing";
-              };
-            };
-          }];
-
-          user.databases = [{
-            settings = {
-              "org/gnome/desktop/interface".scaling-factor = lib.gvariant.mkUint32 scalingFactor;
-              "org/gnome/desktop/session".idle-delay = lib.gvariant.mkUint32 0;
-              "org/gnome/settings-daemon/plugins/housekeeping".donation-reminder-enabled = false;
-              "org/gnome/settings-daemon/plugins/power" = {
-                sleep-inactive-ac-type = "nothing";
-                sleep-inactive-battery-type = "nothing";
-              };
-              "org/gnome/shell".favorite-apps = [
-                "org.gnome.Nautilus.desktop"
-                "org.gnome.Console.desktop"
-                "org.gnome.DiskUtility.desktop"
-              ] ++ lib.optionals includeVMManager [ "virt-manager.desktop" ];
-            };
-          }];
-        };
-      };
-
-    nvidiaModule = { gnome }:
-      { config, lib, pkgs, ... }:
-      let
-        nvidiaSmi = lib.getExe' config.hardware.nvidia.package "nvidia-smi";
-      in
-      {
-        hardware.graphics.enable = true;
-        services.xserver.videoDrivers = [ "nvidia" ];
-        hardware.nvidia = {
-          branch = "production";
-          modesetting.enable = gnome;
-          open = true;
-          nvidiaSettings = gnome;
-          nvidiaPersistenced = true;
-        };
-
-        systemd.services.nvidia-profile = {
-          description = "Configure NVIDIA GPU ECC and power profile";
-          wantedBy = [ "multi-user.target" ];
-          after = [ "nvidia-persistenced.service" ];
-          wants = [ "nvidia-persistenced.service" ];
-          serviceConfig = {
-            Type = "oneshot"; RemainAfterExit = true; Restart = "on-failure"; RestartSec = "2s";
+          hardware.bluetooth.enable = false;
+          services.hardware.bolt.enable = false;
+          i18n.inputMethod.enable = false;
+          services.avahi.enable = false;
+          services.colord.enable = false;
+          services.dleyna.enable = false;
+          services.geoclue2.enable = false;
+          services.power-profiles-daemon.enable = false;
+          services.orca.enable = false;
+          services.upower.enable = lib.mkForce false;
+          services.gnome = {
+            core-apps.enable = false;
+            evolution-data-server.enable = lib.mkForce false;
+            gcr-ssh-agent.enable = false;
+            gnome-browser-connector.enable = false;
+            gnome-initial-setup.enable = false;
+            gnome-keyring.enable = false;
+            gnome-online-accounts.enable = false;
+            gnome-remote-desktop.enable = false;
+            gnome-user-share.enable = false;
+            localsearch.enable = false;
+            rygel.enable = false;
+            tinysparql.enable = false;
           };
-          script = ''
-            current="$(${nvidiaSmi} --query-gpu=ecc.mode.current --format=csv,noheader 2>&1)" || {
-              echo "NVIDIA ECC status unavailable: $current"
-              current=
-            }
-            if [[ -n "$current" ]] &&
-               ${pkgs.gnugrep}/bin/grep -qv '^Enabled$' <<< "$current"; then
-              ${nvidiaSmi} --ecc-config=1 ||
-                echo "NVIDIA ECC is not configurable on this GPU in its current mode"
-            fi
-            ${nvidiaSmi} -pm 1 &&
-              ${nvidiaSmi} -pl 450 &&
-              ${nvidiaSmi} --lock-gpu-clocks=300,2400
-          '';
+
+          services.pipewire = {
+            enable = true;
+            alsa.enable = true;
+            pulse.enable = true;
+          };
+
+          programs.gnome-disks.enable = true;
+
+          environment.systemPackages = with pkgs; [
+            nautilus
+            gnome-console
+          ];
+
+          xdg.mime.defaultApplications = {
+            "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+          };
+
+          programs.dconf.profiles = {
+            gdm.databases = [
+              {
+                settings = {
+                  "org/gnome/desktop/interface".scaling-factor = lib.gvariant.mkUint32 scalingFactor;
+                  "org/gnome/settings-daemon/plugins/power" = {
+                    sleep-inactive-ac-type = "nothing";
+                    sleep-inactive-battery-type = "nothing";
+                  };
+                };
+              }
+            ];
+
+            user.databases = [
+              {
+                settings = {
+                  "org/gnome/desktop/interface".scaling-factor = lib.gvariant.mkUint32 scalingFactor;
+                  "org/gnome/desktop/session".idle-delay = lib.gvariant.mkUint32 0;
+                  "org/gnome/settings-daemon/plugins/housekeeping".donation-reminder-enabled = false;
+                  "org/gnome/settings-daemon/plugins/power" = {
+                    sleep-inactive-ac-type = "nothing";
+                    sleep-inactive-battery-type = "nothing";
+                  };
+                  "org/gnome/shell".favorite-apps = [
+                    "org.gnome.Nautilus.desktop"
+                    "org.gnome.Console.desktop"
+                    "org.gnome.DiskUtility.desktop"
+                  ]
+                  ++ lib.optionals includeVMManager [ "virt-manager.desktop" ];
+                };
+              }
+            ];
+          };
         };
 
+      nvidiaModule =
+        { gnome }:
+        {
+          config,
+          lib,
+          pkgs,
+          ...
+        }:
+        let
+          nvidiaSmi = lib.getExe' config.hardware.nvidia.package "nvidia-smi";
+        in
+        {
+          hardware.graphics.enable = true;
+          services.xserver.videoDrivers = [ "nvidia" ];
+          hardware.nvidia = {
+            branch = "production";
+            modesetting.enable = gnome;
+            open = true;
+            nvidiaSettings = gnome;
+            nvidiaPersistenced = true;
+          };
+
+          systemd.services.nvidia-profile = {
+            description = "Configure NVIDIA GPU ECC and power profile";
+            wantedBy = [ "multi-user.target" ];
+            after = [ "nvidia-persistenced.service" ];
+            wants = [ "nvidia-persistenced.service" ];
+            serviceConfig = {
+              Type = "oneshot";
+              RemainAfterExit = true;
+              Restart = "on-failure";
+              RestartSec = "2s";
+            };
+            script = ''
+              current="$(${nvidiaSmi} --query-gpu=ecc.mode.current --format=csv,noheader 2>&1)" || {
+                echo "NVIDIA ECC status unavailable: $current"
+                current=
+              }
+              if [[ -n "$current" ]] &&
+                 ${pkgs.gnugrep}/bin/grep -qv '^Enabled$' <<< "$current"; then
+                ${nvidiaSmi} --ecc-config=1 ||
+                  echo "NVIDIA ECC is not configurable on this GPU in its current mode"
+              fi
+              ${nvidiaSmi} -pm 1 &&
+                ${nvidiaSmi} -pl 450 &&
+                ${nvidiaSmi} --lock-gpu-clocks=300,2400
+            '';
+          };
+
+        };
+
+      containersModule = { pkgs, ... }: {
+        virtualisation.podman = {
+          enable = true;
+          extraRuntimes = [ pkgs.gvisor ];
+        };
+        environment.systemPackages = with pkgs; [
+          podman
+          podman-compose
+          gvisor
+        ];
       };
 
-    containersModule = { pkgs, ... }: {
-      virtualisation.podman = { enable = true; extraRuntimes = [ pkgs.gvisor ]; };
-      environment.systemPackages = with pkgs; [ podman podman-compose gvisor ];
-    };
+      nvidiaContainerToolkitModule = { lib, pkgs, ... }: {
+        hardware.nvidia-container-toolkit.enable = true;
 
-    nvidiaContainerToolkitModule = { lib, pkgs, ... }: {
-      hardware.nvidia-container-toolkit.enable = true;
+        environment.etc."nvidia-container-runtime/config.toml".text = ''
+          [nvidia-container-runtime-hook]
+          path = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime-hook"
 
-      environment.etc."nvidia-container-runtime/config.toml".text = ''
-        [nvidia-container-runtime-hook]
-        path = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime-hook"
+          [nvidia-ctk]
+          path = "${pkgs.nvidia-container-toolkit}/bin/nvidia-ctk"
 
-        [nvidia-ctk]
-        path = "${pkgs.nvidia-container-toolkit}/bin/nvidia-ctk"
+          [features]
+          disable-cuda-compat-lib-hook = true
+        '';
+      };
 
-        [features]
-        disable-cuda-compat-lib-hook = true
-      '';
-    };
+      stateless =
+        {
+          vm ? false,
+          hypervisor ? false,
+          nvidia ? false,
+          containers ? false,
+          gnome ? false,
+          scalingFactor ? 1,
+          firefox ? false,
+          vscodium ? false,
+          sudo ? false,
+          password ? "!",
+        }:
+        let
+          imageTags =
+            lib.optionals vm [ "-vm" ]
+            ++ lib.optionals hypervisor [ "-host" ]
+            ++ lib.optionals nvidia [ "-nvda" ]
+            ++ lib.optionals containers [ "-pods" ]
+            ++ lib.optionals gnome [ "-gui" ]
+            ++ lib.optionals firefox [ "-ff" ]
+            ++ lib.optionals vscodium [ "-vs" ]
+            ++ lib.optionals sudo [ "-su" ];
+          imageName = revision + "${lib.concatStringsSep "" imageTags}";
+          ukiName = "${imageName}-BOOTX64";
+        in
+        lib.nixosSystem {
+          inherit system;
 
-    stateless = { vm ? false, hypervisor ? false, nvidia ? false, containers ? false,
-      gnome ? false, scalingFactor ? 1, firefox ? false, vscodium ? false,
-      sudo ? false, password ? "!",
-    }:
-      let
-        imageTags =
-          lib.optionals vm [ "-vm" ]
-          ++ lib.optionals hypervisor [ "-host" ]
-          ++ lib.optionals nvidia [ "-nvda" ]
-          ++ lib.optionals containers [ "-pods" ]
-          ++ lib.optionals gnome [ "-gui" ]
-          ++ lib.optionals firefox [ "-ff" ]
-          ++ lib.optionals vscodium [ "-vs" ]
-          ++ lib.optionals sudo [ "-su" ];
-        imageName = revision + "${lib.concatStringsSep "" imageTags}";
-        ukiName = "${imageName}-BOOTX64";
-      in
-      lib.nixosSystem {
-        inherit system;
+          modules = [
+            (
+              {
+                config,
+                lib,
+                pkgs,
+                modulesPath,
+                ...
+              }:
+              {
+                imports = [
+                  (modulesPath + "/installer/netboot/netboot.nix")
+                  (modulesPath + (if vm then "/profiles/qemu-guest.nix" else "/profiles/minimal.nix"))
+                ];
 
-        modules =
-          [
-            ({ config, lib, pkgs, modulesPath, ... }: {
-              imports = [
-                (modulesPath + "/installer/netboot/netboot.nix")
-                (modulesPath + (if vm then "/profiles/qemu-guest.nix" else "/profiles/minimal.nix"))
-              ];
+                time.timeZone = "Europe/Belgrade";
+                i18n.defaultLocale = "en_US.UTF-8";
 
-              time.timeZone = "Europe/Belgrade";
-              i18n.defaultLocale = "en_US.UTF-8";
-
-              nixpkgs.config.allowUnfreePredicate = pkg: lib.hasPrefix "nvidia-" (lib.getName pkg);
-              nix.settings = {
-                experimental-features = [ "nix-command" "flakes" ];
-                max-jobs = 4;
-                cores = 32;
-              };
-
-              networking = {
-                hostName = imageName;
-                hostId = lib.mkIf !vm "06e694f9";
-                firewall.enable = true;
-                nftables.enable = true;
-                networkmanager.enable = true;
-              };
-
-              services.openssh = {
-                enable = true;
-                generateHostKeys = true;
-                openFirewall = true;
-                settings = {
-                  AuthenticationMethods = "publickey";
-                  PasswordAuthentication = false;
-                  KbdInteractiveAuthentication = false;
-                  PermitEmptyPasswords = false;
-                  X11Forwarding = false;
-                  PermitRootLogin = "prohibit-password";
-                  AllowUsers = [ "root" "nixos" ];
+                nixpkgs.config.allowUnfreePredicate = pkg: lib.hasPrefix "nvidia-" (lib.getName pkg);
+                nix.settings = {
+                  experimental-features = [
+                    "nix-command"
+                    "flakes"
+                  ];
+                  max-jobs = 4;
+                  cores = 32;
                 };
-              };
 
-              security.sudo = { enable = sudo; }
+                networking = {
+                  hostName = imageName;
+                  hostId = lib.mkIf (!vm) "06e694f9";
+                  firewall.enable = true;
+                  nftables.enable = true;
+                  networkmanager.enable = true;
+                };
+
+                services.openssh = {
+                  enable = true;
+                  generateHostKeys = true;
+                  openFirewall = true;
+                  settings = {
+                    AuthenticationMethods = "publickey";
+                    PasswordAuthentication = false;
+                    KbdInteractiveAuthentication = false;
+                    PermitEmptyPasswords = false;
+                    X11Forwarding = false;
+                    PermitRootLogin = "prohibit-password";
+                    AllowUsers = [
+                      "root"
+                      "nixos"
+                    ];
+                  };
+                };
+
+                security.sudo = {
+                  enable = sudo;
+                }
                 // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
 
-              users.mutableUsers = false;
-              users.users = {
-                root = { hashedPassword = password; openssh.authorizedKeys.keys = [ sshKey ]; };
+                users.mutableUsers = false;
+                users.users = {
+                  root = {
+                    hashedPassword = password;
+                    openssh.authorizedKeys.keys = [ sshKey ];
+                  };
 
-                nixos = {
-                  isNormalUser = true;
-                  hashedPassword = password;
-                  extraGroups = lib.optionals sudo [ "wheel" ]
-                    ++ lib.optionals hypervisor [ "kvm" "libvirtd" ]
-                    ++ lib.optionals (gnome || nvidia) [ "video" "render" ];
-                  openssh.authorizedKeys.keys = [ sshKey ];
+                  nixos = {
+                    isNormalUser = true;
+                    hashedPassword = password;
+                    extraGroups =
+                      lib.optionals sudo [ "wheel" ]
+                      ++ lib.optionals hypervisor [
+                        "kvm"
+                        "libvirtd"
+                      ]
+                      ++ lib.optionals (gnome || nvidia) [
+                        "video"
+                        "render"
+                      ];
+                    openssh.authorizedKeys.keys = [ sshKey ];
+                  };
                 };
-              };
-              users.groups.kvm.members = lib.optionals hypervisor [ "qemu-libvirtd" ];
+                users.groups.kvm.members = lib.optionals hypervisor [ "qemu-libvirtd" ];
 
-              boot = {
-                supportedFilesystems = lib.optionals !vm [ "zfs" ];
+                boot = {
+                  supportedFilesystems = lib.optionals (!vm) [ "zfs" ];
 
-                initrd.kernelModules =
-                  lib.optionals !vm [ "vfio_pci" "vfio" "vfio_iommu_type1" ]
-                  # NVIDIA GeForce GT 710
-                  ++ lib.optionals (gnome && !nvidia) [ "nouveau" ];
-                kernelModules =
-                  lib.optionals vm [ "virtiofs" ]
-                  ++ lib.optionals hypervisor [ "kvm-amd" ];
-                kernelParams = [ "nohibernate" "modprobe.blacklist=ast" "transparent_hugepage=madvise" ]
+                  initrd.kernelModules =
+                    lib.optionals (!vm) [
+                      "vfio_pci"
+                      "vfio"
+                      "vfio_iommu_type1"
+                    ]
+                    # NVIDIA GeForce GT 710
+                    ++ lib.optionals (gnome && !nvidia) [ "nouveau" ];
+                  kernelModules = lib.optionals vm [ "virtiofs" ] ++ lib.optionals hypervisor [ "kvm-amd" ];
+                  kernelParams = [
+                    "nohibernate"
+                    "modprobe.blacklist=ast"
+                    "transparent_hugepage=madvise"
+                  ]
                   ++ lib.optionals hypervisor [
                     "kvm_amd.sev=1"
                     "kvm_amd.sev_es=1"
@@ -258,165 +333,177 @@
                     "iommu=pt"
                     "iommu.strict=1"
                   ]
-                  ++ lib.optionals !vm [
+                  ++ lib.optionals (!vm) [
                     # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
                     "vfio-pci.ids=10de:2bb1,10de:22e8"
                   ];
-                blacklistedKernelModules = [ "ast" ];
-                uki = {
-                  name = ukiName;
-                  version = null;
-                  settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
+                  blacklistedKernelModules = [ "ast" ];
+                  uki = {
+                    name = ukiName;
+                    version = null;
+                    settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
+                  };
+                  zfs.forceImportRoot = lib.mkIf (!vm) false;
                 };
-                zfs.forceImportRoot = lib.mkIf !vm false;
-              };
 
-              services.udev.extraRules = lib.optionalString hypervisor ''
-                SUBSYSTEM=="misc", KERNEL=="sev", GROUP="kvm", MODE="0660"
-              '';
-              services.xserver.videoDrivers = lib.mkIf (gnome && !nvidia) [ "nouveau" ];
-
-              services.qemuGuest.enable = vm;
-              services.spice-vdagentd.enable = vm && gnome;
-              systemd.services.mount-virtiofs-shares = lib.mkIf vm {
-                description = "Mount virtiofs path shares";
-                wantedBy = [ "multi-user.target" ];
-                after = [ "systemd-modules-load.service" ];
-                serviceConfig.Type = "oneshot";
-                path = with pkgs; [ coreutils util-linux ];
-                script = ''
-                  shopt -s nullglob
-                  for tagFile in /sys/fs/virtiofs/*/tag; do
-                    IFS= read -r path < "$tagFile"
-                    mkdir -p -- "$path"
-                    mount -t virtiofs -- "$path" "$path"
-                  done
+                services.udev.extraRules = lib.optionalString hypervisor ''
+                  SUBSYSTEM=="misc", KERNEL=="sev", GROUP="kvm", MODE="0660"
                 '';
-              };
-              services.displayManager.autoLogin = lib.mkIf (vm && gnome) {
-                enable = true;
-                user = "nixos";
-              };
+                services.xserver.videoDrivers = lib.mkIf (gnome && !nvidia) [ "nouveau" ];
 
-              programs.firefox.enable = firefox;
-              programs.virt-manager.enable = hypervisor;
-
-              virtualisation.libvirtd = lib.mkIf hypervisor {
-                enable = true;
-                onBoot = "ignore";
-                onShutdown = "shutdown";
-                firewallBackend = "nftables";
-                qemu = {
-                  package = pkgs.qemu_kvm;
-
-                  runAsRoot = false;
-
-                  verbatimConfig = ''
-                    namespaces = []
-                    seccomp_sandbox = 1
-                    spice_auto_unix_socket = 1
-                    vnc_auto_unix_socket = 1
-                  '';
-
-                  vhostUserPackages = [ pkgs.virtiofsd ];
-                };
-              };
-
-              systemd.services.virt-secret-init-encryption = lib.mkIf hypervisor {
-                serviceConfig = {
-                  StateDirectory = "libvirt/secrets";
-                  StateDirectoryMode = "0700";
-                  ExecStart = lib.mkForce [
-                    ""
-                    (pkgs.writeShellScript "virt-secret-init-encryption" ''
-                      umask 0077
-                      ${pkgs.coreutils}/bin/chmod 0700 /var/lib/libvirt/secrets
-                      ${pkgs.coreutils}/bin/dd if=/dev/random status=none bs=32 count=1 | \
-                        ${pkgs.systemd}/bin/systemd-creds encrypt --with-key=tpm2-absent \
-                          --name=secrets-encryption-key \
-                          - /var/lib/libvirt/secrets/secrets-encryption-key
-                    '')
+                services.qemuGuest.enable = vm;
+                services.spice-vdagentd.enable = vm && gnome;
+                systemd.services.mount-virtiofs-shares = lib.mkIf vm {
+                  description = "Mount virtiofs path shares";
+                  wantedBy = [ "multi-user.target" ];
+                  after = [ "systemd-modules-load.service" ];
+                  serviceConfig.Type = "oneshot";
+                  path = with pkgs; [
+                    coreutils
+                    util-linux
                   ];
+                  script = ''
+                    shopt -s nullglob
+                    for tagFile in /sys/fs/virtiofs/*/tag; do
+                      IFS= read -r path < "$tagFile"
+                      mkdir -p -- "$path"
+                      mount -t virtiofs -- "$path" "$path"
+                    done
+                  '';
                 };
-              };
+                services.displayManager.autoLogin = lib.mkIf (vm && gnome) {
+                  enable = true;
+                  user = "nixos";
+                };
 
-              systemd.tmpfiles.rules = [
-                "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer"
-              ];
-              systemd.targets.sleep.enable = false;
-              systemd.targets.suspend.enable = false;
-              systemd.targets.hibernate.enable = false;
-              systemd.targets.hybrid-sleep.enable = false;
+                programs.firefox.enable = firefox;
+                programs.virt-manager.enable = hypervisor;
 
-              environment.etc."nixos/flake.nix".source = ./flake.nix;
-              environment.systemPackages =
-                (with pkgs; [
-                  curl
-                  git
-                  htop
-                  python3
-                  tmux
-                  vim
-                  tree
-                  wireguard-tools
-                  jq
-                  pciutils
-                  usbutils
-                  dmidecode
-                  ethtool
-                  smartmontools
-                  nvme-cli
-                  lm_sensors
-                  hdparm
-                  ipmitool
-                  efibootmgr
-                ])
-                ++ lib.optionals vscodium (with pkgs; [ vscodium ])
-                ++ lib.optionals !vm (with pkgs; [ zfs ])
-                ++ lib.optionals hypervisor (with pkgs; [
-                  qemu_kvm
-                  libvirt
-                  openssl
-                  virt-manager
-                  passt
-                  virtiofsd
-                ]);
-              environment.sessionVariables = lib.optionalAttrs vscodium { NIXOS_OZONE_WL = "1"; };
-              environment.shellAliases = lib.optionalAttrs !vm {
-                mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
-              };
+                virtualisation.libvirtd = lib.mkIf hypervisor {
+                  enable = true;
+                  onBoot = "ignore";
+                  onShutdown = "shutdown";
+                  firewallBackend = "nftables";
+                  qemu = {
+                    package = pkgs.qemu_kvm;
 
-              system.stateVersion = "26.05";
-            })
+                    runAsRoot = false;
+
+                    verbatimConfig = ''
+                      namespaces = []
+                      seccomp_sandbox = 1
+                      spice_auto_unix_socket = 1
+                      vnc_auto_unix_socket = 1
+                    '';
+
+                    vhostUserPackages = [ pkgs.virtiofsd ];
+                  };
+                };
+
+                systemd.services.virt-secret-init-encryption = lib.mkIf hypervisor {
+                  serviceConfig = {
+                    StateDirectory = "libvirt/secrets";
+                    StateDirectoryMode = "0700";
+                    ExecStart = lib.mkForce [
+                      ""
+                      (pkgs.writeShellScript "virt-secret-init-encryption" ''
+                        umask 0077
+                        ${pkgs.coreutils}/bin/chmod 0700 /var/lib/libvirt/secrets
+                        ${pkgs.coreutils}/bin/dd if=/dev/random status=none bs=32 count=1 | \
+                          ${pkgs.systemd}/bin/systemd-creds encrypt --with-key=tpm2-absent \
+                            --name=secrets-encryption-key \
+                            - /var/lib/libvirt/secrets/secrets-encryption-key
+                      '')
+                    ];
+                  };
+                };
+
+                systemd.tmpfiles.rules = [
+                  "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer"
+                ];
+                systemd.targets.sleep.enable = false;
+                systemd.targets.suspend.enable = false;
+                systemd.targets.hibernate.enable = false;
+                systemd.targets.hybrid-sleep.enable = false;
+
+                environment.etc."nixos/flake.nix".source = ./flake.nix;
+                environment.systemPackages =
+                  (with pkgs; [
+                    curl
+                    git
+                    htop
+                    python3
+                    tmux
+                    vim
+                    tree
+                    wireguard-tools
+                    jq
+                    pciutils
+                    usbutils
+                    dmidecode
+                    ethtool
+                    smartmontools
+                    nvme-cli
+                    lm_sensors
+                    hdparm
+                    ipmitool
+                    efibootmgr
+                  ])
+                  ++ lib.optionals vscodium (with pkgs; [ vscodium ])
+                  ++ lib.optionals (!vm) (with pkgs; [ zfs ])
+                  ++ lib.optionals hypervisor (
+                    with pkgs;
+                    [
+                      qemu_kvm
+                      libvirt
+                      openssl
+                      virt-manager
+                      passt
+                      virtiofsd
+                    ]
+                  );
+                environment.sessionVariables = lib.optionalAttrs vscodium { NIXOS_OZONE_WL = "1"; };
+                environment.shellAliases = lib.optionalAttrs (!vm) {
+                  mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
+                };
+
+                system.stateVersion = "26.05";
+              }
+            )
           ]
-          ++ lib.optional gnome (gnomeModule { inherit scalingFactor; includeVMManager = hypervisor; })
-          ++ lib.optional nvidia (nvidiaModule { inherit gnome; })
+          ++ lib.optional gnome (gnomeModule {
+            inherit scalingFactor;
+            includeVMManager = hypervisor;
+          })
+          ++ lib.optional nvidia (nvidiaModule {
+            inherit gnome;
+          })
           ++ lib.optional containers containersModule
           ++ lib.optional (containers && nvidia) nvidiaContainerToolkitModule;
+        };
+    in
+    {
+      nixosConfigurations = {
+        host = stateless {
+          hypervisor = true;
+          containers = true;
+          gnome = true;
+          scalingFactor = 2;
+          sudo = true;
+          password = mainPassword;
+        };
+        vm = stateless {
+          vm = true;
+          nvidia = true;
+          containers = true;
+          sudo = true;
+          password = "";
+        };
       };
-  in
-  {
-    nixosConfigurations = {
-      host = stateless {
-        hypervisor = true;
-        containers = true;
-        gnome = true;
-        scalingFactor = 2;
-        sudo = true;
-        password = mainPassword;
-      };
-      vm = stateless {
-        vm = true;
-        nvidia = true;
-        containers = true;
-        sudo = true;
-        password = "";
-      };
-    };
 
-    packages.${system} = {
-      host = self.nixosConfigurations.host.config.system.build.uki;
-      vm = self.nixosConfigurations.vm.config.system.build.uki;
+      packages.${system} = {
+        host = self.nixosConfigurations.host.config.system.build.uki;
+        vm = self.nixosConfigurations.vm.config.system.build.uki;
+      };
     };
-  };
 }
