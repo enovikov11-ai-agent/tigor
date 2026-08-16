@@ -448,6 +448,7 @@
                     hdparm
                     ipmitool
                     efibootmgr
+                    libxslt
                   ])
                   ++ lib.optionals vscodium (with pkgs; [ vscodium ])
                   ++ lib.optionals (!vm) (with pkgs; [ zfs ])

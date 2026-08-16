@@ -22,9 +22,12 @@ nix build .#vm
 
 nixos-rebuild switch --flake .#stateless
 
-virsh define /ssd/vm/nixos.xml
-virsh dumpxml nixos
-virsh undefine nixos --nvram
+xsltproc vm.xsl vm.xml > /tmp/vm.xml
+virsh define /tmp/vm.xml
+virsh dumpxml nixos-r8
+virsh start nixos-r8
+virsh destroy nixos-r8
+virsh undefine nixos-r8 --nvram
 
 apt install wireguard-tools
 wg-quick up ./wg0.conf

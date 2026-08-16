@@ -1,4 +1,4 @@
-<vm cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/r8-rc3-vm-nvda-pods-su-BOOTX64.efi">
+<vm name="nixos-r8" cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/r8-rc3-vm-nvda-pods-su-BOOTX64.efi">
   <mount src="/ssd/internet" dst="/ssd/internet" readonly="true"/>
   <mount src="/ssd/vm/containers" dst="/var/lib/containers"/>
   <net dev="wg-hermes"><forward host="2222" guest="22"/></net>
