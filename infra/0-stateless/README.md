@@ -12,7 +12,7 @@ mount /dev/sde1 /root/mnt
 df -h /root/mnt
 cd /root/mnt/EFI/BOOT/
 mv BOOTX64.efi "$(date '+%Y-%m-%d_%H-%M-%S')_BOOTX64.efi"
-cp /root/result/*-BOOTX64.efi /root/mnt/EFI/BOOT/BOOTX64.efi
+cp /root/result/host-*-BOOTX64.efi /root/mnt/EFI/BOOT/BOOTX64.efi
 sync
 umount /root/mnt
 reboot now
@@ -52,15 +52,15 @@ UMAF inspect
 
 ## Ideas
 
+Template production xml+xsl in one file (put VM xml to xslt)
 Enable firewall
 Console/vsock
 Control plane
-Template production xml+xsl in one file
+Pack SSH key, source it
 Make host ssh not respond on wg0 :22
 Check --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
 Check --no-map-gw --map-host-loopback present
 Better hash algo: mkpasswd -m yescrypt -R 11
 nvidia-smi conf-compute -q
 USB mouse passthrough to VM
-Pack SSH key
 Lightweight repo and nix build github:owner/repo
