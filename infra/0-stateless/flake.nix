@@ -279,14 +279,13 @@
                   interfaces.${netInterface} = {
                     useDHCP = lib.mkIf staticIP false;
                     ipv4.addresses = lib.mkIf staticIP [ staticIP ];
+                    routes = lib.mkIf staticIPGateway [
+                      {
+                        destination = staticIPGateway;
+                        via = staticIPGateway;
+                      }
+                    ];
                   };
-                  routes = lib.mkIf staticIPGateway [
-                    {
-                      destination = staticIPGateway;
-                      via = staticIPGateway;
-                      interface = netInterface;
-                    }
-                  ];
                 };
 
                 services.openssh = {
