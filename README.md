@@ -10,6 +10,7 @@ Run minimax h3
 
 ssh-keygen -R 192.168.1.28
 ssh root@192.168.1.28
+ssh -J root@192.168.1.28 root@127.0.0.1 -p 2222
 
 nix build
 mkdir /root/mnt
@@ -48,11 +49,7 @@ UMAF inspect
 
 ### Ideas
 
-Fix 2222 firewall
-Fix automount
-
-Nvidia 450W power limit
-Template generation
+Template generation/json input, folder path diff src dst
 Sysrq sillswitch for VM: echo o > /proc/sysrq-trigger
 Check it is --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
 Harden with --no-map-gw --map-host-loopback none

@@ -9,7 +9,7 @@
   outputs = { self, nixpkgs, ... }:
   let
     # For release candidates use r5-rc1 format
-    revision = "r8-rc1";
+    revision = "r8-rc2";
 
     # Public password hash is a tradeoff between usability and security, underlying is high entropy
     sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -137,6 +137,19 @@
                   echo "NVIDIA ECC is not configurable on this GPU in its current mode"
               fi
             '';
+          };
+        };
+
+        systemd.services."nvidia-power-limit" = {
+          description = "Set NVIDIA GPU stable profile";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "network-online.target" ];
+          wants = [ "network-online.target" ];
+          path = [ config.boot.kernelPackages.nvidia_x11 ];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+            ExecStart = "${pkgs.bash}/bin/bash -c 'nvidia-smi -pm 1 && nvidia-smi -pl 450 && nvidia-smi --lock-gpu-clocks=300,2400'";
           };
         };
       };
@@ -385,7 +398,7 @@
             path = with pkgs; [ coreutils util-linux ];
             script = ''
               shopt -s nullglob
-              for tagFile in /sys/fs/virtio_fs/*/tag; do
+              for tagFile in /sys/fs/virtiofs/*/tag; do
                 IFS= read -r path < "$tagFile"
                 mkdir -p -- "$path"
                 mount -t virtiofs -- "$path" "$path"
