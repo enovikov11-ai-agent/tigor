@@ -1,0 +1,9 @@
+python-telegram-bot==13.15
+humanize==4.8.0
+numpy==1.25.2
+openai==0.28.0
+tiktoken==0.5.1
+faiss-cpu==1.7.4
+tqdm==4.66.3
+lmdb==1.4.1
+yt_dlp==2023.9.24

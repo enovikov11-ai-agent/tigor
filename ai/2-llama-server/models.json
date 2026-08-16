@@ -1,0 +1,76 @@
+{
+    "qwen3-235b-q4-ctx4096-mmap-64T": {
+        "model_path": "/data/huggingface.co/unsloth/Qwen3-235B-A22B-GGUF/resolve/main/IQ4_XS/Qwen3-235B-A22B-IQ4_XS-00001-of-00003.gguf",
+        "n_ctx": 4096,
+        "use_mmap": true,
+        "use_mlock": false,
+        "n_threads": 64,
+        "aliases": [
+            "qwen3-235b-q4-ctx4096",
+            "qwen3-235b-q4",
+            "qwen3-235b",
+            "qwen3",
+            "qwen"
+        ]
+    },
+    "qwen3-235b-q8-ctx4096-mmap-64T": {
+        "model_path": "/data/huggingface.co/unsloth/Qwen3-235B-A22B-GGUF/resolve/main/Q8_0/Qwen3-235B-A22B-Q8_0-00001-of-00006.gguf",
+        "n_ctx": 4096,
+        "use_mmap": true,
+        "use_mlock": false,
+        "n_threads": 64,
+        "aliases": [
+            "qwen3-235b-q8-ctx4096",
+            "qwen3-235b-q8"
+        ]
+    },
+    "deepseek-r1-671b-q5-ctx4096-mmap-64T": {
+        "model_path": "/data/huggingface.co/unsloth/DeepSeek-R1-GGUF/resolve/main/DeepSeek-R1-Q5_K_M/DeepSeek-R1-Q5_K_M-00001-of-00010.gguf",
+        "n_ctx": 4096,
+        "use_mmap": true,
+        "use_mlock": false,
+        "n_threads": 64,
+        "aliases": [
+            "deepseek-r1-671b-q5-ctx4096",
+            "deepseek-r1-671b-q5",
+            "deepseek-r1-671b",
+            "deepseek-r1",
+            "deepseek"
+        ]
+    },
+    "deepseek-r1-671b-q8-ctx4096-mmap-64T": {
+        "model_path": "/data/huggingface.co/unsloth/DeepSeek-R1-GGUF/resolve/main/DeepSeek-R1-Q8_0/DeepSeek-R1.Q8_0-00001-of-00015.gguf",
+        "n_ctx": 4096,
+        "use_mmap": true,
+        "use_mlock": false,
+        "n_threads": 64,
+        "aliases": [
+            "deepseek-r1-671b-q8-ctx4096",
+            "deepseek-r1-671b-q8"
+        ]
+    },
+    "deepseek-r1-70b-q8-ctx4096-mmap-64T": {
+        "model_path": "/data/huggingface.co/unsloth/DeepSeek-R1-Distill-Llama-70B-GGUF/resolve/main/DeepSeek-R1-Distill-Llama-70B-Q8_0/DeepSeek-R1-Distill-Llama-70B-Q8_0-00001-of-00002.gguf",
+        "n_ctx": 4096,
+        "use_mmap": true,
+        "use_mlock": false,
+        "n_threads": 64,
+        "aliases": [
+            "deepseek-r1-70b-q8-ctx4096",
+            "deepseek-r1-70b-q8",
+            "deepseek-r1-70b"
+        ]
+    },
+    "deepseek-r1-32b-q8-ctx4096-mmap-64T": {
+        "model_path": "/data/huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-32B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-32B-Q8_0.gguf",
+        "n_ctx": 4096,
+        "use_mmap": true,
+        "use_mlock": false,
+        "n_threads": 64,
+        "aliases": [
+            "deepseek-r1-32b-q8-ctx4096",
+            "deepseek-r1-32b-q8",
+            "deepseek-r1-32b"
+        ]
+    }
+}

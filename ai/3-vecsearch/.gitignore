@@ -1,0 +1,11 @@
+__pycache__
+.ipynb_checkpoints
+cache.db
+chats
+my_venv
+.DS_Store
+openai_api_key.py
+tg_secrets.py
+query.log
+model
+.venv

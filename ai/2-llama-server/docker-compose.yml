@@ -1,0 +1,13 @@
+
+  tgr-ai:
+    build: ./prod/tgr-ai
+    restart: unless-stopped
+    container_name: tgr-ai
+    environment:
+      - TIGOR_TG_SECRET=${TIGOR_TG_SECRET}
+    volumes:
+      - /home/user:/data:ro
+      - /root/data-box/tgr-ai:/logs
+      - llama-sock:/var/run
+    security_opt:
+      - no-new-privileges:true
