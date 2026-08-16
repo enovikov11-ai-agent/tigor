@@ -103,7 +103,7 @@
         };
       };
 
-    guestNvidiaModule = { gnome }:
+    nvidiaModule = { gnome }:
       { config, lib, pkgs, ... }:
       let
         nvidiaSmi = lib.getExe' config.hardware.nvidia.package "nvidia-smi";
@@ -145,12 +145,12 @@
 
       };
 
-    guestContainersModule = { pkgs, ... }: {
+    containersModule = { pkgs, ... }: {
       virtualisation.podman = { enable = true; extraRuntimes = [ pkgs.gvisor ]; };
       environment.systemPackages = with pkgs; [ podman podman-compose gvisor ];
     };
 
-    guestNvidiaContainerToolkitModule = { lib, pkgs, ... }: {
+    nvidiaContainerToolkitModule = { lib, pkgs, ... }: {
       hardware.nvidia-container-toolkit.enable = true;
 
       environment.etc."nvidia-container-runtime/config.toml".text = ''
@@ -165,29 +165,55 @@
       '';
     };
 
-    commonModule = { tools }:
+    commonModule = { vm, tools, gnome, nvidia, hypervisor, vfio, sudo, password, imageBaseName }:
       { lib, pkgs, ... }: {
+        assertions = [{
+          assertion = !vfio || (!vm && hypervisor);
+          message = "vfio requires a physical hypervisor host";
+        }];
+
         time.timeZone = "Europe/Belgrade";
         i18n.defaultLocale = "en_US.UTF-8";
 
         nixpkgs.config.allowUnfreePredicate = pkg: lib.hasPrefix "nvidia-" (lib.getName pkg);
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+        networking.hostName = imageBaseName;
         networking.firewall.enable = true;
 
         services.openssh = {
           enable = true;
           generateHostKeys = true;
+          openFirewall = true;
           settings = {
             AuthenticationMethods = "publickey";
             PasswordAuthentication = false;
             KbdInteractiveAuthentication = false;
             PermitEmptyPasswords = false;
             X11Forwarding = false;
+            PermitRootLogin = "prohibit-password";
+            AllowUsers = [ "root" "nixos" ];
           };
         };
 
+        security.sudo = { enable = sudo; }
+          // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
+
         users.mutableUsers = false;
+        users.users = {
+          root = { hashedPassword = password; openssh.authorizedKeys.keys = [ sshKey ]; };
+
+          nixos = {
+            isNormalUser = true;
+            hashedPassword = password;
+            extraGroups = lib.optionals sudo [ "wheel" ]
+              ++ lib.optionals hypervisor [ "kvm" "libvirtd" ]
+              ++ lib.optionals (gnome || nvidia) [ "video" "render" ];
+            openssh.authorizedKeys.keys = [ sshKey ];
+          };
+        };
+        users.groups.kvm.members = lib.optionals hypervisor [ "qemu-libvirtd" ];
+
         system.stateVersion = "26.05";
 
         environment.etc."nixos/flake.nix".source = ./flake.nix;
@@ -197,11 +223,9 @@
           ++ lib.optionals tools (with pkgs; [ pciutils usbutils dmidecode ethtool ]);
       };
 
-    vmModule = { imageBaseName, gnome, nvidia, sudo, password }:
-          ({ config, lib, modulesPath, pkgs, ... }: {
+    vmModule = { vm, imageBaseName, gnome }:
+          ({ config, lib, modulesPath, pkgs, ... }: lib.mkIf vm {
           imports = [ (modulesPath + "/installer/netboot/netboot.nix") ];
-
-          networking.hostName = imageBaseName;
 
           boot.kernelModules = [ "virtiofs" ];
           boot.uki.name = imageBaseName;
@@ -230,73 +254,47 @@
             user = "nixos";
           };
 
-          services.openssh = {
-            openFirewall = true;
-            settings = {
-              PermitRootLogin = "prohibit-password";
-              AllowUsers = [ "root" "nixos" ];
-            };
-          };
-
-          security.sudo = { enable = sudo; }
-            // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
-
-          users.users = {
-            root = {
-              hashedPassword = password;
-              openssh.authorizedKeys.keys = [ sshKey ];
-            };
-
-            nixos = {
-              isNormalUser = true;
-              extraGroups =
-                lib.optionals sudo [ "wheel" ]
-                ++ lib.optionals (gnome || nvidia) [ "video" "render" ];
-              hashedPassword = password;
-              openssh.authorizedKeys.keys = [ sshKey ];
-            };
-          };
           });
 
-    stateless = { gnome, extras, tools, virtualization, sudo, password, scalingFactor ? 1 }:
+    stateless = { vm ? false, gnome ? false, extras ? false, tools ? false, nvidia ? false,
+      containers ? false, hypervisor ? false, vfio ? false, sudo ? false, password ? "",
+      scalingFactor ? 1 }:
+      let
+        imageTags =
+          lib.optionals gnome [ "gui" ]
+          ++ lib.optionals containers [ "pod" ]
+          ++ lib.optionals nvidia [ "nv" ];
+        imageBaseName =
+          (if vm then "vm" else "stateless")
+          + lib.optionalString (imageTags != [ ])
+            "-${lib.concatStringsSep "-" imageTags}"
+          + "-${revision}";
+        efiName = imageBaseName + lib.optionalString (!vm) "-BOOTX64";
+      in
       lib.nixosSystem {
         inherit system;
 
         modules =
-          [ (commonModule { inherit tools; }) ]
-          ++ lib.optional gnome (gnomeModule { inherit extras scalingFactor; includeVMManager = virtualization; })
+          [ (commonModule {
+              inherit vm tools gnome nvidia hypervisor vfio sudo password imageBaseName;
+            }) ]
+          ++ lib.optional vm "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+          ++ lib.optional gnome (gnomeModule { inherit extras scalingFactor; includeVMManager = hypervisor; })
+          ++ lib.optional nvidia (nvidiaModule { inherit gnome; })
+          ++ lib.optional containers containersModule
+          ++ lib.optional (containers && nvidia) nvidiaContainerToolkitModule
           ++ [
-          ({ config, lib, pkgs, modulesPath, ... }: {
+          ({ config, lib, pkgs, modulesPath, ... }: lib.mkIf (!vm) {
 
           nix.settings.max-jobs = 4;
           nix.settings.cores = 32;
 
-          services.openssh.settings = { PermitRootLogin = "prohibit-password"; AllowUsers = [ "root" "nixos" ]; };
-
-          security.sudo = { enable = sudo; }
-            // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
-
-          users.users = {
-            root = { hashedPassword = password; openssh.authorizedKeys.keys = [ sshKey ]; };
-
-            nixos = {
-              isNormalUser = true;
-              hashedPassword = password;
-              extraGroups = lib.optionals sudo [ "wheel" ]
-                ++ lib.optionals virtualization [ "kvm" "libvirtd" ]
-                ++ lib.optionals gnome [ "video" "render" ];
-              openssh.authorizedKeys.keys = [ sshKey ];
-            };
-          };
-          users.groups.kvm.members = lib.optionals virtualization [ "qemu-libvirtd" ];
-
-          services.udev.extraRules = lib.optionalString virtualization ''
+          services.udev.extraRules = lib.optionalString hypervisor ''
             SUBSYSTEM=="misc", KERNEL=="sev", GROUP="kvm", MODE="0660"
           '';
 
           imports = [ (modulesPath + "/installer/netboot/netboot.nix") (modulesPath + "/profiles/minimal.nix") ];
 
-          networking.hostName = "stateless-${revision}";
           networking.hostId = "06e694f9";
           networking.nftables.enable = true;
           networking.networkmanager.enable = false;
@@ -305,16 +303,18 @@
 
           # NVIDIA GeForce GT 710
           boot.initrd.kernelModules =
-            lib.optionals virtualization [ "vfio_pci" "vfio" "vfio_iommu_type1" ]
-            ++ lib.optionals gnome [ "nouveau" ];
-          boot.kernelModules = lib.optionals virtualization [ "kvm-amd" ];
+            lib.optionals vfio [ "vfio_pci" "vfio" "vfio_iommu_type1" ]
+            ++ lib.optionals (gnome && !nvidia) [ "nouveau" ];
+          boot.kernelModules = lib.optionals hypervisor [ "kvm-amd" ];
           boot.kernelParams = [ "nohibernate" "modprobe.blacklist=ast" "transparent_hugepage=madvise" ]
-            ++ lib.optionals virtualization [
+            ++ lib.optionals hypervisor [
               "kvm_amd.sev=1"
               "kvm_amd.sev_es=1"
               "amd_iommu=on"
               "iommu=pt"
               "iommu.strict=1"
+            ]
+            ++ lib.optionals vfio [
               # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
               "vfio-pci.ids=10de:2bb1,10de:22e8"
             ];
@@ -322,17 +322,17 @@
 
           systemd.tmpfiles.rules = [ "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer" ];
 
-          boot.uki.name = "BOOTX64";
+          boot.uki.name = efiName;
           boot.uki.version = null;
           boot.uki.settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
 
           boot.zfs.forceImportRoot = false;
 
-          services.xserver.videoDrivers = lib.mkIf gnome [ "nouveau" ];
+          services.xserver.videoDrivers = lib.mkIf (gnome && !nvidia) [ "nouveau" ];
 
-          programs.virt-manager.enable = virtualization;
+          programs.virt-manager.enable = hypervisor;
 
-          virtualisation.libvirtd = lib.mkIf virtualization {
+          virtualisation.libvirtd = lib.mkIf hypervisor {
             enable = true;
             onBoot = "ignore";
             onShutdown = "shutdown";
@@ -353,7 +353,7 @@
             };
           };
 
-          systemd.services.virt-secret-init-encryption = lib.mkIf virtualization {
+          systemd.services.virt-secret-init-encryption = lib.mkIf hypervisor {
             serviceConfig = {
               StateDirectory = "libvirt/secrets";
               StateDirectoryMode = "0700";
@@ -381,7 +381,7 @@
               ipmitool
               efibootmgr
             ])
-            ++ lib.optionals virtualization (with pkgs; [
+            ++ lib.optionals hypervisor (with pkgs; [
               qemu_kvm
               libvirt
               openssl
@@ -399,37 +399,7 @@
           systemd.targets.hibernate.enable = false;
           systemd.targets.hybrid-sleep.enable = false;
           })
-        ];
-      };
-
-    vm = { gnome, extras, tools, nvidia, containers, sudo, password, scalingFactor ? 1 }:
-      let
-        imageTags =
-          lib.optionals gnome [ "gui" ]
-          ++ lib.optionals containers [ "pod" ]
-          ++ lib.optionals nvidia [ "nv" ];
-        imageBaseName =
-          "vm"
-          + lib.optionalString (imageTags != [ ])
-            "-${lib.concatStringsSep "-" imageTags}"
-          + "-${revision}";
-      in
-      lib.nixosSystem {
-        inherit system;
-
-        modules =
-          [
-            (commonModule { inherit tools; })
-            "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
-          ]
-          ++ lib.optional gnome (gnomeModule {
-            inherit extras scalingFactor;
-          })
-          ++ lib.optional nvidia (guestNvidiaModule { inherit gnome; })
-          ++ lib.optional containers guestContainersModule
-          ++ lib.optional (containers && nvidia) guestNvidiaContainerToolkitModule
-          ++ [
-            (vmModule { inherit imageBaseName gnome nvidia sudo password; })
+            (vmModule { inherit vm imageBaseName gnome; })
         ];
       };
   in
@@ -437,21 +407,19 @@
     nixosConfigurations = {
       stateless = stateless {
         gnome = true;
-        extras = false;
         tools = true;
-        virtualization = true;
+        hypervisor = true;
+        vfio = true;
         sudo = true;
         password = mainPassword;
         scalingFactor = 2;
       };
-      vm = vm {
-        gnome = false;
-        extras = false;
+      vm = stateless {
+        vm = true;
         tools = true;
         nvidia = true;
         containers = true;
         sudo = true;
-        password = "";
       };
     };
 
