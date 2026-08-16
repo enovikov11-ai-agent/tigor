@@ -10,10 +10,11 @@
     { self, nixpkgs, ... }:
     let
       # For release candidates use r5-rc1 format
-      revision = "r10";
+      revision = "r11";
 
       # Public password hash is a tradeoff between usability and security, underlying is high entropy
-      sshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
+      yubiSshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
+      hermesSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICIe5VqCNa+TeVMy/7ap/wEUwQV3yBUebCxyahARktVo root@agents-s-1vcpu-2gb-ams3";
       mainPassword = "$6$JsF575e4YV0MxwGU$aDy3BMHg/5lvWZoMvsAV0TL/BIcXMu3ps1DnOf3.o.hQ3IqT/sfCwKJHdMaaRy2exNAEUFxpxPbO966DE5cm./";
 
       lib = nixpkgs.lib;
@@ -207,6 +208,10 @@
           vscodium ? false,
           sudo ? false,
           password ? "!",
+          authorizedSshKeys ? [ yubiSshKey ],
+          netInterface ? "enp4s0",
+          staticIP ? null,
+          staticIPGateway ? null,
         }:
         let
           hostNvidia = (!vm) && nvidia;
@@ -268,9 +273,18 @@
                 networking = {
                   hostName = imageName;
                   hostId = lib.mkIf (!vm) "06e694f9";
-                  firewall.enable = !vm;
+                  firewall.enable = false;
                   nftables.enable = true;
                   networkmanager.enable = true;
+                  interfaces.${netInterface}.useDHCP = lib.mkIf staticIP false;
+                  interfaces.${netInterface}.ipv4.addresses = lib.mkIf staticIP [ staticIP ];
+                  routes = lib.mkIf staticIPGateway [
+                    {
+                      destination = staticIPGateway;
+                      via = staticIPGateway;
+                      interface = netInterface;
+                    }
+                  ];
                 };
 
                 services.openssh = {
@@ -300,7 +314,7 @@
                 users.users = {
                   root = {
                     hashedPassword = password;
-                    openssh.authorizedKeys.keys = [ sshKey ];
+                    openssh.authorizedKeys.keys = authorizedSshKeys;
                   };
 
                   nixos = {
@@ -316,7 +330,7 @@
                         "video"
                         "render"
                       ];
-                    openssh.authorizedKeys.keys = [ sshKey ];
+                    openssh.authorizedKeys.keys = authorizedSshKeys;
                   };
                 };
                 users.groups.kvm.members = lib.optionals (!vm) [ "qemu-libvirtd" ];
@@ -390,6 +404,18 @@
 
                 programs.firefox.enable = firefox;
                 programs.virt-manager.enable = (!vm);
+
+                systemd.services.autostart = lib.mkIf vm {
+                  description = "Run /root/data/autostart.sh";
+                  wantedBy = [ "multi-user.target" ];
+                  after = [ "mount-virtiofs-shares.service" ];
+                  requires = [ "mount-virtiofs-shares.service" ];
+                  serviceConfig = {
+                    Type = "oneshot";
+                    RemainAfterExit = true;
+                    ExecStart = [ "/root/data/autostart.sh" ];
+                  };
+                };
 
                 virtualisation.libvirtd = lib.mkIf (!vm) {
                   enable = true;
@@ -510,6 +536,10 @@
           containers = true;
           sudo = true;
           password = "";
+          authorizedSshKeys = [ yubiSshKey hermesSshKey ];
+          netInterface = "enp4s0";
+          staticIP = "10.67.69.2/24";
+          staticIPGateway = "10.67.69.1";
         };
       };
 

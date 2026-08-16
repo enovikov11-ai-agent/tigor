@@ -20,6 +20,7 @@ reboot now
 cat /etc/nixos/flake.nix > flake.nix
 nix build .#vm
 nixos-rebuild switch --flake .#host
+nixos-rebuild switch --flake .#vm --override flake.nix '{ modules = [{ networking.firewall.enable = true; }]; }'
 
 xsltproc vm.xsl vm.xml > /tmp/vm.xml
 virsh define /tmp/vm.xml
@@ -36,6 +37,8 @@ wg-quick up ./wg-hermes.conf
 ip addr add 10.67.69.2/24 dev eth0
 ip route add 10.67.69.1/32 dev eth0
 
+sshfs root@10.67.69.2:/ /mnt/vm -o IdentityFile=~/.ssh/id_ed25519,Port=2222,reconnect
+
 echo o > /proc/sysrq-trigger
 
 nft flush ruleset
@@ -48,6 +51,7 @@ UMAF inspect
 
 ## Ideas
 
+Enable firewall
 Console/vsock
 Control plane
 Template production xml+xsl in one file

@@ -38,6 +38,7 @@
             <model type="virtio"/>
             <driver iommu="on"/>
             <rom enabled="no"/>
+            <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
             <backend type="passt"/>
             <xsl:for-each select="forward">
               <portForward proto="tcp"><range start="{@host}" to="{@guest}"/></portForward>
