@@ -49,7 +49,10 @@ UMAF inspect
 
 ### Ideas
 
-Template generation/json input, folder path diff src dst
+Template nodes
+Template generation/json input
+Folder path diff src dst
+
 Sysrq sillswitch for VM: echo o > /proc/sysrq-trigger
 Check it is --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
 Harden with --no-map-gw --map-host-loopback none
