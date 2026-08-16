@@ -405,7 +405,7 @@
   in
   {
     nixosConfigurations = {
-      stateless = stateless {
+      host = stateless {
         gnome = true;
         tools = true;
         hypervisor = true;
@@ -424,7 +424,7 @@
     };
 
     packages.${system} = {
-      default = self.nixosConfigurations.stateless.config.system.build.uki;
+      host = self.nixosConfigurations.host.config.system.build.uki;
       vm = self.nixosConfigurations.vm.config.system.build.uki;
     };
   };
