@@ -18,7 +18,7 @@
     lib = nixpkgs.lib;
     system = "x86_64-linux";
 
-    gnomeModule = { scalingFactor, extras, includeVMManager ? false }:
+    gnomeModule = { scalingFactor, includeVMManager ? false }:
       { lib, pkgs, ... }: {
         hardware.graphics.enable = true;
 
@@ -64,12 +64,8 @@
         services.pipewire = { enable = true; alsa.enable = true; pulse.enable = true; };
 
         programs.gnome-disks.enable = true;
-        programs.firefox.enable = extras;
 
-        environment.systemPackages = (with pkgs; [ nautilus gnome-console ])
-          ++ lib.optionals extras (with pkgs; [ vscodium ]);
-
-        environment.sessionVariables = lib.optionalAttrs extras { NIXOS_OZONE_WL = "1"; };
+        environment.systemPackages = with pkgs; [ nautilus gnome-console ];
 
         xdg.mime.defaultApplications = { "inode/directory" = [ "org.gnome.Nautilus.desktop" ]; };
 
@@ -165,20 +161,24 @@
       '';
     };
 
-    stateless = { vm ? false, gnome ? false, extras ? false, tools ? false, nvidia ? false,
-      containers ? false, hypervisor ? false, vfio ? false, sudo ? false, password ? "",
-      scalingFactor ? 1 }:
+    stateless = { vm ? false, gnome ? false, firefox ? false, vscode ? false,
+      nvidia ? false, containers ? false, hypervisor ? false, vfio ? false,
+      zfs ? false, sudo ? false, password ? "", scalingFactor ? 1 }:
       let
         imageTags =
-          lib.optionals gnome [ "gui" ]
+          lib.optionals vm [ "vm" ]
+          ++ lib.optionals gnome [ "gui" ]
+          ++ lib.optionals firefox [ "ff" ]
+          ++ lib.optionals vscode [ "vsc" ]
+          ++ lib.optionals nvidia [ "nv" ]
           ++ lib.optionals containers [ "pod" ]
-          ++ lib.optionals nvidia [ "nv" ];
-        imageBaseName =
-          (if vm then "vm" else "stateless")
-          + lib.optionalString (imageTags != [ ])
-            "-${lib.concatStringsSep "-" imageTags}"
-          + "-${revision}";
-        ukiName = imageBaseName + lib.optionalString (!vm) "-BOOTX64";
+          ++ lib.optionals hypervisor [ "hv" ]
+          ++ lib.optionals vfio [ "vf" ]
+          ++ lib.optionals zfs [ "zfs" ]
+          ++ lib.optionals sudo [ "su" ];
+        imageName = revision
+          + lib.optionalString (imageTags != [ ]) "-${lib.concatStringsSep "-" imageTags}";
+        ukiName = "${imageName}-BOOTX64";
       in
       lib.nixosSystem {
         inherit system;
@@ -187,14 +187,14 @@
           [
             ({ config, lib, pkgs, modulesPath, ... }: {
               assertions = [{
-                assertion = !vfio || (!vm && hypervisor);
-                message = "vfio requires a physical hypervisor host";
+                assertion = !vfio || hypervisor;
+                message = "vfio requires hypervisor support";
               }];
 
-              imports =
-                lib.optional vm (modulesPath + "/profiles/qemu-guest.nix")
-                ++ [ (modulesPath + "/installer/netboot/netboot.nix") ]
-                ++ lib.optional (!vm) (modulesPath + "/profiles/minimal.nix");
+              imports = [
+                (modulesPath + "/installer/netboot/netboot.nix")
+                (modulesPath + (if vm then "/profiles/qemu-guest.nix" else "/profiles/minimal.nix"))
+              ];
 
               time.timeZone = "Europe/Belgrade";
               i18n.defaultLocale = "en_US.UTF-8";
@@ -202,16 +202,16 @@
               nixpkgs.config.allowUnfreePredicate = pkg: lib.hasPrefix "nvidia-" (lib.getName pkg);
               nix.settings = {
                 experimental-features = [ "nix-command" "flakes" ];
-                max-jobs = lib.mkIf (!vm) 4;
-                cores = lib.mkIf (!vm) 32;
+                max-jobs = 4;
+                cores = 32;
               };
 
               networking = {
-                hostName = imageBaseName;
-                hostId = lib.mkIf (!vm) "06e694f9";
+                hostName = imageName;
+                hostId = lib.mkIf zfs "06e694f9";
                 firewall.enable = true;
-                nftables.enable = lib.mkIf (!vm) true;
-                networkmanager.enable = lib.mkIf (!vm) false;
+                nftables.enable = true;
+                networkmanager.enable = true;
               };
 
               services.openssh = {
@@ -248,18 +248,16 @@
               users.groups.kvm.members = lib.optionals hypervisor [ "qemu-libvirtd" ];
 
               boot = {
-                supportedFilesystems = lib.optionals (!vm) [ "zfs" ];
+                supportedFilesystems = lib.optionals zfs [ "zfs" ];
 
                 # NVIDIA GeForce GT 710
-                initrd.kernelModules = lib.optionals (!vm) (
+                initrd.kernelModules =
                   lib.optionals vfio [ "vfio_pci" "vfio" "vfio_iommu_type1" ]
-                  ++ lib.optionals (gnome && !nvidia) [ "nouveau" ]
-                );
+                  ++ lib.optionals (gnome && !nvidia) [ "nouveau" ];
                 kernelModules =
                   lib.optionals vm [ "virtiofs" ]
-                  ++ lib.optionals (!vm && hypervisor) [ "kvm-amd" ];
-                kernelParams = lib.optionals (!vm) (
-                  [ "nohibernate" "modprobe.blacklist=ast" "transparent_hugepage=madvise" ]
+                  ++ lib.optionals hypervisor [ "kvm-amd" ];
+                kernelParams = [ "nohibernate" "modprobe.blacklist=ast" "transparent_hugepage=madvise" ]
                   ++ lib.optionals hypervisor [
                     "kvm_amd.sev=1"
                     "kvm_amd.sev_es=1"
@@ -270,21 +268,20 @@
                   ++ lib.optionals vfio [
                     # 41:00.0 RTX PRO 6000 and 41:00.1 HDMI audio.
                     "vfio-pci.ids=10de:2bb1,10de:22e8"
-                  ]
-                );
-                blacklistedKernelModules = lib.optionals (!vm) [ "ast" ];
+                  ];
+                blacklistedKernelModules = [ "ast" ];
                 uki = {
                   name = ukiName;
                   version = null;
                   settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
                 };
-                zfs.forceImportRoot = lib.mkIf (!vm) false;
+                zfs.forceImportRoot = lib.mkIf zfs false;
               };
 
-              services.udev.extraRules = lib.optionalString (!vm && hypervisor) ''
+              services.udev.extraRules = lib.optionalString hypervisor ''
                 SUBSYSTEM=="misc", KERNEL=="sev", GROUP="kvm", MODE="0660"
               '';
-              services.xserver.videoDrivers = lib.mkIf (!vm && gnome && !nvidia) [ "nouveau" ];
+              services.xserver.videoDrivers = lib.mkIf (gnome && !nvidia) [ "nouveau" ];
 
               services.qemuGuest.enable = vm;
               services.spice-vdagentd.enable = vm && gnome;
@@ -308,9 +305,10 @@
                 user = "nixos";
               };
 
-              programs.virt-manager.enable = !vm && hypervisor;
+              programs.firefox.enable = firefox;
+              programs.virt-manager.enable = hypervisor;
 
-              virtualisation.libvirtd = lib.mkIf (!vm && hypervisor) {
+              virtualisation.libvirtd = lib.mkIf hypervisor {
                 enable = true;
                 onBoot = "ignore";
                 onShutdown = "shutdown";
@@ -331,7 +329,7 @@
                 };
               };
 
-              systemd.services.virt-secret-init-encryption = lib.mkIf (!vm && hypervisor) {
+              systemd.services.virt-secret-init-encryption = lib.mkIf hypervisor {
                 serviceConfig = {
                   StateDirectory = "libvirt/secrets";
                   StateDirectoryMode = "0700";
@@ -349,20 +347,30 @@
                 };
               };
 
-              systemd.tmpfiles.rules = lib.optionals (!vm) [
+              systemd.tmpfiles.rules = [
                 "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer"
               ];
-              systemd.targets.sleep.enable = lib.mkIf (!vm) false;
-              systemd.targets.suspend.enable = lib.mkIf (!vm) false;
-              systemd.targets.hibernate.enable = lib.mkIf (!vm) false;
-              systemd.targets.hybrid-sleep.enable = lib.mkIf (!vm) false;
+              systemd.targets.sleep.enable = false;
+              systemd.targets.suspend.enable = false;
+              systemd.targets.hibernate.enable = false;
+              systemd.targets.hybrid-sleep.enable = false;
 
               environment.etc."nixos/flake.nix".source = ./flake.nix;
               environment.systemPackages =
-                (with pkgs; [ curl git htop python3 tmux vim tree wireguard-tools jq ])
-                ++ lib.optionals tools (with pkgs; [ pciutils usbutils dmidecode ethtool ])
-                ++ lib.optionals (!vm) (with pkgs; [ zfs ])
-                ++ lib.optionals (!vm && tools) (with pkgs; [
+                (with pkgs; [
+                  curl
+                  git
+                  htop
+                  python3
+                  tmux
+                  vim
+                  tree
+                  wireguard-tools
+                  jq
+                  pciutils
+                  usbutils
+                  dmidecode
+                  ethtool
                   smartmontools
                   nvme-cli
                   lm_sensors
@@ -370,7 +378,9 @@
                   ipmitool
                   efibootmgr
                 ])
-                ++ lib.optionals (!vm && hypervisor) (with pkgs; [
+                ++ lib.optionals vscode (with pkgs; [ vscodium ])
+                ++ lib.optionals zfs (with pkgs; [ zfs ])
+                ++ lib.optionals hypervisor (with pkgs; [
                   qemu_kvm
                   libvirt
                   openssl
@@ -378,14 +388,15 @@
                   passt
                   virtiofsd
                 ]);
-              environment.shellAliases = lib.optionalAttrs (!vm) {
+              environment.sessionVariables = lib.optionalAttrs vscode { NIXOS_OZONE_WL = "1"; };
+              environment.shellAliases = lib.optionalAttrs zfs {
                 mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
               };
 
               system.stateVersion = "26.05";
             })
           ]
-          ++ lib.optional gnome (gnomeModule { inherit extras scalingFactor; includeVMManager = hypervisor; })
+          ++ lib.optional gnome (gnomeModule { inherit scalingFactor; includeVMManager = hypervisor; })
           ++ lib.optional nvidia (nvidiaModule { inherit gnome; })
           ++ lib.optional containers containersModule
           ++ lib.optional (containers && nvidia) nvidiaContainerToolkitModule;
@@ -395,16 +406,15 @@
     nixosConfigurations = {
       host = stateless {
         gnome = true;
-        tools = true;
         hypervisor = true;
         vfio = true;
+        zfs = true;
         sudo = true;
         password = mainPassword;
         scalingFactor = 2;
       };
       vm = stateless {
         vm = true;
-        tools = true;
         nvidia = true;
         containers = true;
         sudo = true;

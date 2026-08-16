@@ -30,7 +30,7 @@ apt install wireguard-tools
 wg-quick up ./wg0.conf
 ufw allow 2026/udp
 
-python3 vm.py --cpu 64 --ram 128 --kernel /ssd/vm/vm-pod-nv-r8-rc2.efi --net wg-hermes --ui --gpu --ssh 2222 --ro /ssd/internet --rw /ssd/vm/containers
+python3 vm.py --cpu 64 --ram 128 --kernel /ssd/vm/r8-rc2-vm-nv-pod-su-BOOTX64.efi --net wg-hermes --ui --gpu --ssh 2222 --ro /ssd/internet --rw /ssd/vm/containers
 
 mount -t virtiofs /ssd/internet /ssd/internet
 mount -t virtiofs /ssd/vm/containers /var/lib/containers
