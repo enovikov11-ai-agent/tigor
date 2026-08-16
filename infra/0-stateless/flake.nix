@@ -277,10 +277,15 @@
                   nftables.enable = true;
                   networkmanager.enable = true;
                   interfaces.${netInterface} = {
-                    useDHCP = lib.mkIf staticIP false;
-                    ipv4.addresses = lib.mkIf staticIP [ staticIP ];
+                    useDHCP = lib.mkIf (staticIP != null) false;
+                    ipv4.addresses = lib.mkIf (staticIP != null) [
+                      {
+                        address = builtins.head (lib.splitString "/" staticIP);
+                        prefixLength = builtins.fromJSON (builtins.elemAt (lib.splitString "/" staticIP) 1);
+                      }
+                    ];
                   };
-                  defaultGateway = lib.mkIf staticIPGateway {
+                  defaultGateway = lib.mkIf (staticIPGateway != null) {
                     address = staticIPGateway;
                     interface = netInterface;
                   };
