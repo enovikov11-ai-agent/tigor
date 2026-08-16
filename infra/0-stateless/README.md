@@ -38,6 +38,8 @@ ip route add 10.67.69.1/32 dev eth0
 
 echo o > /proc/sysrq-trigger
 
+nft flush ruleset
+
 ## Learnings
 
 Memory can be encrypted with TSME, but it hurts perf
@@ -47,8 +49,9 @@ UMAF inspect
 ## Ideas
 
 Console/vsock
-Make host ssh not respond on wg0 :22
 Control plane
+Template production xml+xsl in one file
+Make host ssh not respond on wg0 :22
 Check --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
 Check --no-map-gw --map-host-loopback present
 Better hash algo: mkpasswd -m yescrypt -R 11
