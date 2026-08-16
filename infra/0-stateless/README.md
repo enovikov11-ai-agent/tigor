@@ -39,6 +39,9 @@ python3 vm.py
 mount -t virtiofs /ssd/internet /ssd/internet
 mount -t virtiofs /var/lib/containers /var/lib/containers
 
+ip addr add 10.67.69.2/24 dev eth0
+ip route add 10.67.69.1/32 dev eth0
+
 ## Learnings
 
 Memory can be encrypted with TSME, but it hurts perf
@@ -47,7 +50,8 @@ UMAF inspect
 
 ## Ideas
 
-Reusable EFI target, only params do change
+Make host ssh not respond on wg0 :22
+Port forwarding
 
 Template nodes
 Sysrq sillswitch for VM: echo o > /proc/sysrq-trigger
