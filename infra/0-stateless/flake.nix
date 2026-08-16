@@ -256,7 +256,7 @@
                 networking = {
                   hostName = imageName;
                   hostId = lib.mkIf (!vm) "06e694f9";
-                  firewall.enable = true;
+                  firewall.enable = !vm;
                   nftables.enable = true;
                   networkmanager.enable = true;
                 };

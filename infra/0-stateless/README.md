@@ -30,10 +30,14 @@ apt install wireguard-tools
 wg-quick up ./wg0.conf
 ufw allow 2026/udp
 
-python3 vm.py --cpu 64 --ram 128 --kernel /ssd/vm/r8-rc2-vm-nv-pod-su-BOOTX64.efi --net wg-hermes --ui --gpu --ssh 2222 --ro /ssd/internet --rw /ssd/vm/containers
+# Edit CONFIG_JSON in vm.py, then define the VM
+python3 vm.py
+
+`mounts` maps each host `src` to an independent guest `dst`; `readonly` defaults to true.
+`net.forwards` maps `host` to `guest` for TCP or UDP. A forward can also set `address` or `dev` to restrict the host listener.
 
 mount -t virtiofs /ssd/internet /ssd/internet
-mount -t virtiofs /ssd/vm/containers /var/lib/containers
+mount -t virtiofs /var/lib/containers /var/lib/containers
 
 ## Learnings
 
@@ -46,9 +50,6 @@ UMAF inspect
 Reusable EFI target, only params do change
 
 Template nodes
-Template generation/json input
-Folder path diff src dst
-
 Sysrq sillswitch for VM: echo o > /proc/sysrq-trigger
 Check it is --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
 Harden with --no-map-gw --map-host-loopback none

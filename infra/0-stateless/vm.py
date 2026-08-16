@@ -1,12 +1,47 @@
 #!/usr/bin/env python3
 
-import argparse
-from copy import deepcopy
+import json
 import subprocess
 import tempfile
+import xml.etree.ElementTree as ET
+from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
-import xml.etree.ElementTree as ET
+
+CONFIG_JSON = r"""
+{
+  "cpu": 64,
+  "ram": 128,
+  "kernel": "/ssd/vm/r8-rc3-vm-nvda-pods-su-BOOTX64.efi",
+  "name": null,
+  "ui": true,
+  "gpu": true,
+  "security": false,
+  "mounts": [
+    {
+      "src": "/ssd/internet",
+      "dst": "/ssd/internet",
+      "readonly": true
+    },
+    {
+      "src": "/ssd/vm/containers",
+      "dst": "/var/lib/containers",
+      "readonly": false
+    }
+  ],
+  "net": {
+    "dev": "wg-hermes",
+    "forwards": [
+      {
+        "proto": "tcp",
+        "host": 2222,
+        "guest": 22
+      }
+    ]
+  },
+  "define": true
+}
+"""
 
 ROOT = """
 <domain type="kvm">
@@ -26,7 +61,7 @@ ROOT = """
   <devices>
     <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
     <disk type="file" device="disk"><driver name="qemu" type="qcow2" iommu="on"/><source/><target dev="vda" bus="virtio"/></disk>
-    <interface type="user"><source/><model type="virtio"/><driver iommu="on"/><rom enabled="no"/><backend type="passt"/><portForward proto="tcp"><range/></portForward></interface>
+    <interface type="user"><source/><model type="virtio"/><driver iommu="on"/><rom enabled="no"/><backend type="passt"/></interface>
     <filesystem type="mount"><driver type="virtiofs"/><source/><target/><readonly/></filesystem>
     <input type="mouse" bus="ps2"/>
     <input type="keyboard" bus="ps2"/>
@@ -48,32 +83,25 @@ ROOT = """
 """
 
 
-def generate_xml(
-    cpu,
-    ram,
-    kernel=None,
-    disk=None,
-    net=None,
-    ui=False,
-    gpu=False,
-    sec=False,
-    name=None,
-    ro=None,
-    rw=None,
-    ssh=None,
-):
-    if sec and (ro or rw):
-        raise ValueError("--sec cannot be combined with --ro or --rw")
-    if (kernel is None) == (disk is None):
-        raise ValueError("exactly one of --kernel or --disk is required")
+def generate_xml(config):
+    kernel = config.get("kernel")
+    disk = config.get("disk")
+    mounts = config.get("mounts", [])
+    net = config.get("net")
+    security = config.get("security", False)
 
-    name = name or datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    if security and mounts:
+        raise ValueError("security cannot be combined with mounts")
+    if (kernel is None) == (disk is None):
+        raise ValueError("exactly one of kernel or disk is required")
+
+    name = config.get("name") or datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     root = ET.fromstring(ROOT)
     devices = root.find("devices")
 
     root.find("name").text = name
-    root.find("memory").text = str(ram)
-    root.find("vcpu").text = str(cpu)
+    root.find("memory").text = str(config["ram"])
+    root.find("vcpu").text = str(config["cpu"])
     kernel_element = root.find("os/kernel")
     if kernel is not None:
         kernel_element.text = kernel
@@ -88,35 +116,55 @@ def generate_xml(
         devices.remove(disk_element)
 
     interface = devices.find("interface")
-    if net is not None:
-        interface.find("source").set("dev", net)
-    port_forward = interface.find("portForward")
-    if net is not None and ssh is not None:
-        port_forward.find("range").attrib.update(start=str(ssh), to="22")
+    source = interface.find("source")
+    if net is None:
+        interface.remove(source)
     else:
-        interface.remove(port_forward)
+        if net.get("dev") is not None:
+            source.set("dev", net["dev"])
+        else:
+            interface.remove(source)
+
+        for forwarding in net.get("forwards", []):
+            proto = forwarding.get("proto", "tcp")
+            if proto not in ("tcp", "udp"):
+                raise ValueError(f"unsupported forwarding protocol: {proto}")
+
+            port_forward = ET.SubElement(interface, "portForward", proto=proto)
+            for attribute in ("address", "dev"):
+                if forwarding.get(attribute) is not None:
+                    port_forward.set(attribute, str(forwarding[attribute]))
+
+            host_port = int(forwarding["host"])
+            guest_port = int(forwarding.get("guest", host_port))
+            if not (1 <= host_port <= 65535 and 1 <= guest_port <= 65535):
+                raise ValueError("forwarded ports must be between 1 and 65535")
+
+            attributes = {"start": str(host_port)}
+            if guest_port != host_port:
+                attributes["to"] = str(guest_port)
+            ET.SubElement(port_forward, "range", attributes)
 
     filesystem_template = devices.find("filesystem")
     devices.remove(filesystem_template)
-    filesystems = [(path, True) for path in ro or []] + [(path, False) for path in rw or []]
-    for path, readonly in filesystems:
+    for mount in mounts:
         filesystem = deepcopy(filesystem_template)
-        filesystem.find("source").set("dir", path)
-        filesystem.find("target").set("dir", path)
-        if not readonly:
+        filesystem.find("source").set("dir", mount["src"])
+        filesystem.find("target").set("dir", mount["dst"])
+        if not mount.get("readonly", True):
             filesystem.remove(filesystem.find("readonly"))
         devices.append(filesystem)
 
-    if not ui:
+    if not config.get("ui", False):
         for tag in ("input", "graphics", "video"):
             for item in devices.findall(tag):
                 devices.remove(item)
 
-    if not gpu:
+    if not config.get("gpu", False):
         for item in devices.findall("hostdev"):
             devices.remove(item)
 
-    if sec:
+    if security:
         os = root.find("os")
         os.attrib.pop("firmware")
         memory_backing = root.find("memoryBacking")
@@ -127,7 +175,7 @@ def generate_xml(
         root.remove(root.find("launchSecurity"))
         memory_backing = root.find("memoryBacking")
         memory_backing.remove(memory_backing.find("locked"))
-        if not filesystems:
+        if not mounts:
             root.remove(memory_backing)
 
     ET.indent(root, space="  ")
@@ -135,42 +183,14 @@ def generate_xml(
 
 
 def main():
-    p = argparse.ArgumentParser()
-    p.add_argument("--cpu", type=int, required=True)
-    p.add_argument("--ram", type=int, required=True)
-    p.add_argument("--kernel", help="direct-boot UKI containing the complete system")
-    p.add_argument("--disk", help="QCOW2 boot disk attached as vda")
-    p.add_argument("--name", help="libvirt domain name (default: current timestamp)")
-    p.add_argument("--net", metavar="DEV", help="host interface used by passt")
-    p.add_argument("--ssh", metavar="PORT", help="forward host TCP PORT to guest port 22 when --net is used")
-    p.add_argument("--ro", action="append", metavar="DIR", help="share DIR read-only")
-    p.add_argument("--rw", action="append", metavar="DIR", help="share DIR read-write")
-    p.add_argument("--ui", action="store_true")
-    p.add_argument("--gpu", action="store_true")
-    p.add_argument("--sec", action="store_true", help="enable AMD SEV-ES")
-    p.add_argument("--dry-run", action="store_true")
-    args = p.parse_args()
+    config = json.loads(CONFIG_JSON)
     generated_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    name = args.name or generated_name
-    xml = generate_xml(
-        args.cpu,
-        args.ram,
-        args.kernel,
-        disk=args.disk,
-        net=args.net,
-        ui=args.ui,
-        gpu=args.gpu,
-        sec=args.sec,
-        name=name,
-        ro=args.ro,
-        rw=args.rw,
-        ssh=args.ssh,
-    )
+    xml = generate_xml(config)
     path = Path(tempfile.gettempdir()) / f"{generated_name}.xml"
     path.write_text(xml, encoding="utf-8")
     print(path)
 
-    if not args.dry_run:
+    if config.get("define", True):
         subprocess.run(["virsh", "define", str(path)], check=True)
 
 
