@@ -23,14 +23,15 @@ nixos-rebuild switch --flake .#host
 
 xsltproc vm.xsl vm.xml > /tmp/vm.xml
 virsh define /tmp/vm.xml
-virsh dumpxml hermes-r10
 virsh start hermes-r10
+
+virsh dumpxml hermes-r10
 virsh destroy hermes-r10
 virsh undefine hermes-r10 --nvram
 
 apt install wireguard-tools
-wg-quick up ./wg0.conf
 ufw allow 2026/udp
+wg-quick up ./wg-hermes.conf
 
 ip addr add 10.67.69.2/24 dev eth0
 ip route add 10.67.69.1/32 dev eth0
