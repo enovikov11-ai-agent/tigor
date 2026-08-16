@@ -197,6 +197,67 @@
           ++ lib.optionals tools (with pkgs; [ pciutils usbutils dmidecode ethtool ]);
       };
 
+    vmModule = { imageBaseName, gnome, nvidia, sudo, password }:
+          ({ config, lib, modulesPath, pkgs, ... }: {
+          imports = [ (modulesPath + "/installer/netboot/netboot.nix") ];
+
+          networking.hostName = imageBaseName;
+
+          boot.kernelModules = [ "virtiofs" ];
+          boot.uki.name = imageBaseName;
+          boot.uki.version = null;
+          boot.uki.settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
+
+          services.qemuGuest.enable = true;
+          services.spice-vdagentd.enable = gnome;
+          systemd.services.mount-virtiofs-shares = {
+            description = "Mount virtiofs path shares";
+            wantedBy = [ "multi-user.target" ];
+            after = [ "systemd-modules-load.service" ];
+            serviceConfig.Type = "oneshot";
+            path = with pkgs; [ coreutils util-linux ];
+            script = ''
+              shopt -s nullglob
+              for tagFile in /sys/fs/virtiofs/*/tag; do
+                IFS= read -r path < "$tagFile"
+                mkdir -p -- "$path"
+                mount -t virtiofs -- "$path" "$path"
+              done
+            '';
+          };
+          services.displayManager.autoLogin = lib.mkIf gnome {
+            enable = true;
+            user = "nixos";
+          };
+
+          services.openssh = {
+            openFirewall = true;
+            settings = {
+              PermitRootLogin = "prohibit-password";
+              AllowUsers = [ "root" "nixos" ];
+            };
+          };
+
+          security.sudo = { enable = sudo; }
+            // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
+
+          users.users = {
+            root = {
+              hashedPassword = password;
+              openssh.authorizedKeys.keys = [ sshKey ];
+            };
+
+            nixos = {
+              isNormalUser = true;
+              extraGroups =
+                lib.optionals sudo [ "wheel" ]
+                ++ lib.optionals (gnome || nvidia) [ "video" "render" ];
+              hashedPassword = password;
+              openssh.authorizedKeys.keys = [ sshKey ];
+            };
+          };
+          });
+
     stateless = { gnome, extras, tools, virtualization, sudo, password, scalingFactor ? 1 }:
       lib.nixosSystem {
         inherit system;
@@ -368,66 +429,7 @@
           ++ lib.optional containers guestContainersModule
           ++ lib.optional (containers && nvidia) guestNvidiaContainerToolkitModule
           ++ [
-
-          ({ config, lib, modulesPath, pkgs, ... }: {
-          imports = [ (modulesPath + "/installer/netboot/netboot.nix") ];
-
-          networking.hostName = imageBaseName;
-
-          boot.kernelModules = [ "virtiofs" ];
-          boot.uki.name = imageBaseName;
-          boot.uki.version = null;
-          boot.uki.settings.UKI.Initrd = lib.mkForce "${config.system.build.netbootRamdisk}/initrd";
-
-          services.qemuGuest.enable = true;
-          services.spice-vdagentd.enable = gnome;
-          systemd.services.mount-virtiofs-shares = {
-            description = "Mount virtiofs path shares";
-            wantedBy = [ "multi-user.target" ];
-            after = [ "systemd-modules-load.service" ];
-            serviceConfig.Type = "oneshot";
-            path = with pkgs; [ coreutils util-linux ];
-            script = ''
-              shopt -s nullglob
-              for tagFile in /sys/fs/virtiofs/*/tag; do
-                IFS= read -r path < "$tagFile"
-                mkdir -p -- "$path"
-                mount -t virtiofs -- "$path" "$path"
-              done
-            '';
-          };
-          services.displayManager.autoLogin = lib.mkIf gnome {
-            enable = true;
-            user = "nixos";
-          };
-
-          services.openssh = {
-            openFirewall = true;
-            settings = {
-              PermitRootLogin = "prohibit-password";
-              AllowUsers = [ "root" "nixos" ];
-            };
-          };
-
-          security.sudo = { enable = sudo; }
-            // lib.optionalAttrs sudo { wheelNeedsPassword = false; };
-
-          users.users = {
-            root = {
-              hashedPassword = password;
-              openssh.authorizedKeys.keys = [ sshKey ];
-            };
-
-            nixos = {
-              isNormalUser = true;
-              extraGroups =
-                lib.optionals sudo [ "wheel" ]
-                ++ lib.optionals (gnome || nvidia) [ "video" "render" ];
-              hashedPassword = password;
-              openssh.authorizedKeys.keys = [ sshKey ];
-            };
-          };
-          })
+            (vmModule { inherit imageBaseName gnome nvidia sudo password; })
         ];
       };
   in
