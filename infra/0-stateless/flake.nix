@@ -119,39 +119,30 @@
           nvidiaPersistenced = true;
         };
 
-        systemd.services.nvidia-ecc = {
-          description = "Enable NVIDIA GPU ECC when supported";
+        systemd.services.nvidia-profile = {
+          description = "Configure NVIDIA GPU ECC and power profile";
           wantedBy = [ "multi-user.target" ];
           after = [ "nvidia-persistenced.service" ];
           wants = [ "nvidia-persistenced.service" ];
           serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-            ExecStart = pkgs.writeShellScript "enable-nvidia-ecc" ''
-              current="$(${nvidiaSmi} --query-gpu=ecc.mode.current --format=csv,noheader 2>&1)" || {
-                echo "NVIDIA ECC status unavailable: $current"
-                exit 0
-              }
-              if ${pkgs.gnugrep}/bin/grep -qv '^Enabled$' <<< "$current"; then
-                ${nvidiaSmi} --ecc-config=1 || \
-                  echo "NVIDIA ECC is not configurable on this GPU in its current mode"
-              fi
-            '';
+            Type = "oneshot"; RemainAfterExit = true; Restart = "on-failure"; RestartSec = "2s";
           };
+          script = ''
+            current="$(${nvidiaSmi} --query-gpu=ecc.mode.current --format=csv,noheader 2>&1)" || {
+              echo "NVIDIA ECC status unavailable: $current"
+              current=
+            }
+            if [[ -n "$current" ]] &&
+               ${pkgs.gnugrep}/bin/grep -qv '^Enabled$' <<< "$current"; then
+              ${nvidiaSmi} --ecc-config=1 ||
+                echo "NVIDIA ECC is not configurable on this GPU in its current mode"
+            fi
+            ${nvidiaSmi} -pm 1 &&
+              ${nvidiaSmi} -pl 450 &&
+              ${nvidiaSmi} --lock-gpu-clocks=300,2400
+          '';
         };
 
-        systemd.services."nvidia-power-limit" = {
-          description = "Set NVIDIA GPU stable profile";
-          wantedBy = [ "multi-user.target" ];
-          after = [ "network-online.target" ];
-          wants = [ "network-online.target" ];
-          path = [ config.boot.kernelPackages.nvidia_x11 ];
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-            ExecStart = "${pkgs.bash}/bin/bash -c 'nvidia-smi -pm 1 && nvidia-smi -pl 450 && nvidia-smi --lock-gpu-clocks=300,2400'";
-          };
-        };
       };
 
     guestContainersModule = { pkgs, ... }: {
