@@ -1,0 +1,99 @@
+networks:
+  tgrdb:
+    driver: bridge
+    internal: true
+  honkbot:
+    driver: bridge
+  a101bot:
+    driver: bridge
+
+services:
+  caddy:
+    build: ./caddy
+    restart: unless-stopped
+    container_name: caddy
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    user: "1000:1000"
+    environment:
+      - ACME_AGREE=true
+    volumes:
+      - /hdd/caddy/data:/data
+      - ../../web/0-hardwave/wave-v1:/var/www/hardwave.tgr.rs:ro
+      - ../../web/0-tgr.rs:/var/www/tgr.rs:ro
+    ports:
+      - 80:80
+      - 443:443
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - default
+      - honkbot
+      - tgrdb
+
+  tgrmariadb:
+    image: mariadb:lts
+    restart: unless-stopped
+    container_name: tgrmariadb
+    environment:
+      - MARIADB_RANDOM_ROOT_PASSWORD=1
+    volumes:
+      - /hdd/tgrmariadb:/var/lib/mysql
+    user: "1000:1000"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - tgrdb
+
+  pet101bot:
+    build: ../../telegram/0-101bot-prod
+    restart: unless-stopped
+    container_name: pet101bot
+    environment:
+      - A101BOT_API_KEY=${PET101BOT_API_KEY}
+      - DB_PASSWORD=${A101BOT_DB_PASSWORD}
+      - BOT_NAME=pet101bot
+    depends_on:
+      - tgrmariadb
+    user: "33:33"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - a101bot
+      - tgrdb
+
+  honk101bot:
+    build: ../../telegram/0-101bot-prod
+    restart: unless-stopped
+    container_name: honk101bot
+    environment:
+      - A101BOT_API_KEY=${HONK101BOT_API_KEY}
+      - DB_PASSWORD=${A101BOT_DB_PASSWORD}
+      - BOT_NAME=honk101bot
+    depends_on:
+      - tgrmariadb
+    user: "33:33"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - a101bot
+      - tgrdb
+
+  beo101bot:
+    build: ../../telegram/0-101bot-prod
+    restart: unless-stopped
+    container_name: beo101bot
+    environment:
+      - A101BOT_API_KEY=${BEO101BOT_API_KEY}
+      - DB_PASSWORD=${A101BOT_DB_PASSWORD}
+      - BOT_NAME=beo101bot
+    depends_on:
+      - tgrmariadb
+    user: "33:33"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - a101bot
+      - tgrdb

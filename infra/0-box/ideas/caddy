@@ -1,0 +1,109 @@
+(proxy) {
+	header_up Host {host}
+	header_up X-Real-IP {remote_host}
+}
+
+http:// {
+	redir https://{host}{uri} 301
+}
+
+(csp) {
+	header Content-Security-Policy "default-src 'self' 'unsafe-inline' data:"
+}
+
+(llm) {
+	flush_interval -1
+	transport http {
+		read_timeout 1000s
+		write_timeout 1000s
+		response_header_timeout 1000s
+		expect_continue_timeout 0
+	}
+}
+
+p-files.tgr.rs {
+	import mtls
+	import csp
+
+	@blocked path *.php *.pl *.py *.jsp *.asp *.aspx *.html *.htm
+    respond @blocked "Forbidden" 403
+
+	root * /var/www/p-files.tgr.rs
+	file_server browse
+}
+
+p-llama.tgr.rs {
+	import mtls
+	import csp
+
+	reverse_proxy /* p-llama:8000 {
+		import proxy
+		import llm
+    }
+
+	request_body {
+        max_size 20MB
+    }
+}
+
+p-vllm.tgr.rs {
+	import mtls
+
+	reverse_proxy /* p-vllm:8000 {
+		import proxy
+		import llm
+    }
+
+    request_body {
+        max_size 20MB
+    }
+}
+
+p-chat.tgr.rs {
+	import mtls
+
+	reverse_proxy /* p-chat:8080 {
+		import proxy
+	}
+}
+
+p-whisper.tgr.rs {
+	import mtls
+	import csp
+	
+	reverse_proxy /* p-whisper:8000 {
+		import proxy
+		import llm
+	}
+
+	request_body {
+		max_size 20MB
+	}
+}
+
+p-t.tgr.rs {
+	import mtls
+	import csp
+
+	reverse_proxy /* gluetun:9091 {
+		import proxy
+	}
+}
+
+p-forgejo.tgr.rs {
+	import mtls
+	import csp
+
+	reverse_proxy /* p-forgejo:3000 {
+		import proxy
+	}
+}
+
+p-db.tgr.rs {
+	import mtls
+	import csp
+
+	reverse_proxy /* p-db:80 {
+		import proxy
+	}
+}

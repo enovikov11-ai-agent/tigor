@@ -1,0 +1,37 @@
+(proxy) {
+	header_up Host {host}
+	header_up X-Real-IP {remote_host}
+}
+
+http:// {
+	redir https://{host}{uri} 301
+}
+
+tgr.rs {
+	root * /var/www/tgr.rs
+	file_server
+
+    redir /spherium* https://enovikov11.github.io/spherium/ 302
+	redir /luck* https://eth-luck.github.io/ 302
+	redir /tactoe* https://tess-tac-toe.github.io/ 302
+	redir /telegram* https://t.me/enovikov11 302
+	redir /linkedin* https://linkedin.com/in/enovikov11 302
+	redir /habr* https://habr.com/en/users/enovikov11 302
+	redir /github* https://github.com/enovikov11 302
+
+	header /101bot* Access-Control-Allow-Origin "*"
+
+	handle /pet101-widget-orig/* {
+		header Access-Control-Allow-Origin "*"
+		try_files {path} /pet101-widget-orig/404.jpg
+	}
+
+	handle /home-llm* {
+		file_server browse
+	}
+}
+
+hardwave.tgr.rs {
+	root * /var/www/hardwave.tgr.rs
+	file_server
+}

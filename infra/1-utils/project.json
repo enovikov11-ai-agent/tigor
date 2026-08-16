@@ -1,0 +1,1 @@
+{"use": "live", "stage": "done", "description": "CI check scripts for project YAML structure, Python AST validation, and security invariants"}

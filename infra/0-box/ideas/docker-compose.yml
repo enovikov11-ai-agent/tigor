@@ -1,0 +1,111 @@
+
+  # p-forgejo:
+  #   image: codeberg.org/forgejo/forgejo:14-rootless
+  #   restart: unless-stopped
+  #   container_name: p-forgejo
+  #   user: "1000:1000"
+  #   volumes:
+  #     - /hdd/p-forgejo:/var/lib/gitea
+  #   ports:
+  #     - 10.69.42.2:24:2222
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   networks:
+  #     - p-devbox
+
+  # p-llama:
+  #   image: ghcr.io/ggml-org/llama.cpp:server-cuda13-b8643
+  #   # command: --host 0.0.0.0 --port 8000 --threads 64 --ctx-size 196608 --no-mmap --mlock -m /huggingface.co/unsloth/MiniMax-M2.5-GGUF/resolve/main/Q4_K_M/MiniMax-M2.5-Q4_K_M-00001-of-00004.gguf
+  #   command: --host 0.0.0.0 --port 8000 --threads 64 --ctx-size 262144 --chat-template-kwargs '{"enable_thinking":false}' -m /huggingface.co/unsloth/Qwen3.5-397B-A17B-GGUF/UD-Q4_K_XL/Qwen3.5-397B-A17B-UD-Q4_K_XL-00001-of-00006.gguf
+  #   restart: unless-stopped
+  #   container_name: p-llama
+  #   gpus: all
+  #   environment:
+  #     - NVIDIA_VISIBLE_DEVICES=all
+  #     - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+  #   volumes:
+  #     - /ssd/huggingface.co:/huggingface.co:ro
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   networks:
+  #     - ai
+  #   cpuset: "0-63"
+
+  # p-vllm:
+  #   image: vllm/vllm-openai:nightly
+  #   command: >
+  #     /huggingface.co/cyankiwi/Qwen3-Next-80B-A3B-Instruct-AWQ-4bit
+  #     --served-model-name qwen3-next-80b
+  #     --host 0.0.0.0
+  #     --port 8000
+  #     --max-model-len 65536
+  #     --kv-cache-memory-bytes 34G
+  #     --kv-cache-dtype fp8
+  #     --optimization-level 3
+  #     --performance-mode interactivity
+  #     --enable-auto-tool-choice
+  #     --tool-call-parser hermes
+  #     --enable-log-requests
+  #   restart: unless-stopped
+  #   container_name: p-vllm
+  #   gpus: all
+  #   environment:
+  #     - NVIDIA_VISIBLE_DEVICES=all
+  #     - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+  #     - PYTORCH_ALLOC_CONF=expandable_segments:True
+  #     - VLLM_LOGGING_LEVEL=DEBUG
+  #   volumes:
+  #     - /ssd/huggingface.co:/huggingface.co:ro
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   networks:
+  #     - ai
+  #   cpuset: "0-63"
+
+  # p-chat:
+  #   image: ghcr.io/open-webui/open-webui:main
+  #   restart: unless-stopped
+  #   container_name: p-chat
+  #   user: "1000:1000"
+  #   environment:
+  #     - OPENAI_API_BASE_URL=http://p-vllm:8000/v1
+  #     - OPENAI_API_KEY=none
+  #     - WEBUI_AUTH=false
+  #     - ENABLE_OLLAMA_API=false
+  #     - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
+  #   volumes:
+  #     - /hdd/p-chat:/app/backend/data
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   networks:
+  #     - ai
+
+  # p-whisper:
+  #   image: ghcr.io/ggml-org/whisper.cpp:main
+  #   entrypoint: ["whisper-server", "--host", "0.0.0.0", "--port", "8000", "--model", "/models/ggml-medium.bin", "--threads", "64"]
+  #   restart: unless-stopped
+  #   container_name: p-whisper
+  #   user: "1000:1000"
+  #   volumes:
+  #     - /ssd/whisper:/models:ro
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   networks:
+  #     - ai
+  #   cpuset: "0-63"
+
+  # p-db:
+  #   image: phpmyadmin:latest
+  #   restart: unless-stopped
+  #   container_name: p-db
+  #   environment:
+  #     - PMA_HOST=tgrmariadb
+  #     - PMA_PORT=3306
+  #     - PMA_ABSOLUTE_URI=https://p-db.tgr.rs/
+  #     - UPLOAD_LIMIT=4G
+  #   depends_on:
+  #     - tgrmariadb
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   networks:
+  #     - tgrdb
