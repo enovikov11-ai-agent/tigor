@@ -19,8 +19,7 @@ reboot now
 
 cat /etc/nixos/flake.nix > flake.nix
 nix build .#vm
-
-nixos-rebuild switch --flake .#stateless
+nixos-rebuild switch --flake .#host
 
 xsltproc vm.xsl vm.xml > /tmp/vm.xml
 virsh define /tmp/vm.xml
@@ -36,6 +35,8 @@ ufw allow 2026/udp
 ip addr add 10.67.69.2/24 dev eth0
 ip route add 10.67.69.1/32 dev eth0
 
+echo o > /proc/sysrq-trigger
+
 ## Learnings
 
 Memory can be encrypted with TSME, but it hurts perf
@@ -45,14 +46,11 @@ UMAF inspect
 ## Ideas
 
 Make host ssh not respond on wg0 :22
-Port forwarding
-
-Template nodes
-Sysrq sillswitch for VM: echo o > /proc/sysrq-trigger
-Check it is --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
-Harden with --no-map-gw --map-host-loopback none
+Control plane
+Check --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
+Check --no-map-gw --map-host-loopback present
 Better hash algo: mkpasswd -m yescrypt -R 11
 nvidia-smi conf-compute -q
 USB mouse passthrough to VM
-TPM SSH & VPN key handling
+Pack SSH key
 Lightweight repo and nix build github:owner/repo
