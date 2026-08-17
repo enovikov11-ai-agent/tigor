@@ -1,9 +1,11 @@
-<vm name="hermes-r11" cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/vm-r11-nvda-pods-su-BOOTX64.efi">
+<vm name="hermes" cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/vm-r11-nvda-pods-su-BOOTX64.efi">
   <mount src="/ssd/internet" dst="/ssd/internet" readonly="true"/>
   <mount src="/hdd/internet/kiwix" dst="/hdd/internet/kiwix" readonly="true"/>
   <mount src="/hdd/internet/wikipedia" dst="/hdd/internet/wikipedia" readonly="true"/>
-  <mount src="/ssd/vm/containers" dst="/var/lib/containers"/>
-  <mount src="/ssd/vm/hermes" dst="/root/data"/>
-  <mount src="/hdd/vm/hermes" dst="/root/data-hdd"/>
-  <net dev="wg-hermes"><forward host="2222" guest="22"/><forward host="8000" guest="8000"/></net>
+  <mount src="/ssd/vm/hermes" dst="/home/nixos"/>
+  <net dev="wg-hermes">
+    <forward host="2222" guest="22"/>
+    <forward host="3000" guest="3000"/>
+    <forward host="8000" guest="8000"/>
+  </net>
 </vm>

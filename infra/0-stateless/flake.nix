@@ -10,7 +10,7 @@
     { self, nixpkgs, ... }:
     let
       # For release candidates use r5-rc1 format
-      revision = "r11";
+      revision = "r12";
 
       # Public password hash is a tradeoff between usability and security, underlying is high entropy
       yubiSshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -317,12 +317,13 @@
                 users.mutableUsers = false;
                 users.users = {
                   root = {
-                    hashedPassword = password;
-                    openssh.authorizedKeys.keys = authorizedSshKeys;
+                    hashedPassword = "!";
+                    openssh.authorizedKeys.keys = [ yubiSshKey ];
                   };
 
                   nixos = {
                     isNormalUser = true;
+                    linger = true;
                     hashedPassword = password;
                     extraGroups =
                       lib.optionals sudo [ "wheel" ]
@@ -409,15 +410,22 @@
                 programs.firefox.enable = firefox;
                 programs.virt-manager.enable = (!vm);
 
-                systemd.services.autostart = lib.mkIf vm {
-                  description = "Run /root/data/autostart.sh";
+                systemd.services.podman-compose = lib.mkIf (vm && containers) {
+                  description = "Start Podman Compose stack";
                   wantedBy = [ "multi-user.target" ];
                   after = [ "mount-virtiofs-shares.service" ];
                   requires = [ "mount-virtiofs-shares.service" ];
+                  path = with pkgs; [
+                    podman
+                    podman-compose
+                  ];
                   serviceConfig = {
                     Type = "oneshot";
                     RemainAfterExit = true;
-                    ExecStart = [ "/root/data/autostart.sh" ];
+                    User = "nixos";
+                    Group = "users";
+                    WorkingDirectory = "/home/nixos";
+                    ExecStart = "${pkgs.podman}/bin/podman compose up -d --remove-orphans";
                   };
                 };
 
@@ -538,7 +546,6 @@
           vm = true;
           nvidia = true;
           containers = true;
-          sudo = true;
           password = "";
           authorizedSshKeys = [ yubiSshKey hermesSshKey ];
           netInterface = "enp4s0";

@@ -52,6 +52,9 @@ UMAF inspect
 
 ## Ideas
 
+Digitalocean image + VPS
+Hermes VPN charing
+Nvidia chip dump for backup
 Template production xml+xsl in one file (put VM xml to xslt)
 Enable firewall
 Console/vsock
