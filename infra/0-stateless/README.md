@@ -38,11 +38,18 @@ wg-quick up ./wg-hermes.conf
 ip addr add 10.67.69.2/24 dev eth0
 ip route add 10.67.69.1/32 dev eth0
 
-sshfs root@10.67.69.2:/ /mnt/vm -o IdentityFile=~/.ssh/id_ed25519,Port=2222,reconnect
+sshfs nixos@10.67.69.2:/home/nixos /home/nixos -o Port=2222,reconnect
 
 echo o > /proc/sysrq-trigger
 
 nft flush ruleset
+
+podman pull docker.io/vllm/vllm-openai:nightly
+podman pull codeberg.org/forgejo/forgejo:16
+podman save docker.io/vllm/vllm-openai:nightly | gzip > /home/nixos/vllm.tar.gz
+podman save codeberg.org/forgejo/forgejo:16 | gzip > /home/nixos/forgejo.tar.gz
+gunzip -c vllm.tar.gz | podman load
+gunzip -c forgejo.tar.gz | podman load
 
 ## Learnings
 
@@ -52,6 +59,8 @@ UMAF inspect
 
 ## Ideas
 
+Rootless podman
+Img as data store
 Digitalocean image + VPS
 Hermes VPN charing
 Nvidia chip dump for backup

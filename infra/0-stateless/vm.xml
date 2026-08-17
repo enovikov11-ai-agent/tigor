@@ -1,8 +1,9 @@
-<vm name="hermes" cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/vm-r12-nvda-pods-BOOTX64.efi">
+<vm name="hermes" cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/vm-r13-nvda-pods-BOOTX64.efi">
   <mount src="/ssd/internet" dst="/ssd/internet" readonly="true"/>
   <mount src="/hdd/internet/kiwix" dst="/hdd/internet/kiwix" readonly="true"/>
   <mount src="/hdd/internet/wikipedia" dst="/hdd/internet/wikipedia" readonly="true"/>
   <mount src="/ssd/vm/hermes" dst="/home/nixos"/>
+  <mount src="/ssd/vm/hermes-containers" dst="/var/lib/containers"/>
   <net dev="wg-hermes">
     <forward host="2222" guest="22"/>
     <forward host="3000" guest="3000"/>

@@ -10,7 +10,7 @@
     { self, nixpkgs, ... }:
     let
       # For release candidates use r5-rc1 format
-      revision = "r12";
+      revision = "r13";
 
       # Public password hash is a tradeoff between usability and security, underlying is high entropy
       yubiSshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -409,25 +409,6 @@
 
                 programs.firefox.enable = firefox;
                 programs.virt-manager.enable = (!vm);
-
-                systemd.services.podman-compose = lib.mkIf (vm && containers) {
-                  description = "Start Podman Compose stack";
-                  wantedBy = [ "multi-user.target" ];
-                  after = [ "mount-virtiofs-shares.service" ];
-                  requires = [ "mount-virtiofs-shares.service" ];
-                  path = with pkgs; [
-                    podman
-                    podman-compose
-                  ];
-                  serviceConfig = {
-                    Type = "oneshot";
-                    RemainAfterExit = true;
-                    User = "nixos";
-                    Group = "users";
-                    WorkingDirectory = "/home/nixos";
-                    ExecStart = "${pkgs.podman}/bin/podman compose up -d --remove-orphans";
-                  };
-                };
 
                 virtualisation.libvirtd = lib.mkIf (!vm) {
                   enable = true;
