@@ -2,7 +2,6 @@
 
 ## Commands
 
-ssh-keygen -R 192.168.1.28
 ssh root@192.168.1.28
 ssh -J root@192.168.1.28 root@127.0.0.1 -p 2222
 
@@ -17,19 +16,11 @@ sync
 umount /root/mnt
 reboot now
 
-diff ~/flake.nix /etc/nixos/flake.nix
-cat /etc/nixos/flake.nix > flake.nix
-nix build .#vm
-nixos-rebuild switch --flake .#host
+diff /etc/stateless/flake.nix /etc/stateless/source.nix
+nix build .#host
 nixos-rebuild switch --flake .#vm --override flake.nix '{ modules = [{ networking.firewall.enable = true; }]; }'
 
-xsltproc --nonet vm.xsl vm.xsl
-virsh define /tmp/vm.xml
-virsh start hermes-r10
-
-virsh dumpxml hermes-r10
-virsh destroy hermes-r10
-virsh undefine hermes-r10 --nvram
+virsh dumpxml hermes
 
 apt install wireguard-tools
 ufw allow 2026/udp
@@ -63,30 +54,24 @@ chown -R nixos:users /home/nixos
 Memory can be encrypted with TSME, but it hurts perf
 Numa, prefetcher, cpu timings, ram timings, boot guard
 UMAF inspect
-
-## Postmortem
-
 Editing chmod -x on all made vllm non executable and crashed inference and forgejo
 
 ## Ideas
 
-Rootless podman
-
-Hermes tg proxy
-Dl proxy via commands (nix copy, podman load)
-Save nix artifacts on separate VM
+Proxy: hermes tg
+Proxy: nix copy, podman load, git clone
+Nix build VM with persistent store
 Nested vm off <cpu mode='host-passthrough'><feature policy='disable' name='svm'/></cpu>
-Cloud init, External configuration for vm where possible
-Docker downloader, nix downloader
-Hf check hash
+Cloud init: ssh host key, podman compose up -d, network config
+Check huggingface hashes
+Make minimal eval of nix
 Dump rtx pro Nvidia chip dump for backup
-HardwareSpecific Credentials
+Config: move HardwareSpecific and Credentials
 Guarantee pci device reset between runs
 Hermes VPN sharing OR Digitalocean image + VPS
 Enable firewall
-Console/vsock
-Control plane
-Pack SSH key, source it
+Console/vsock for SSH
+Control plane via tg/web
 Make host ssh not respond on wg0 :22
 Check --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
 Check --no-map-gw --map-host-loopback present
