@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:cfg="urn:vm-config"
+  xmlns:exsl="http://exslt.org/common"
+  extension-element-prefixes="exsl"
+  exclude-result-prefixes="cfg exsl">
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
-  <xsl:template match="/vm">
+
+  <xsl:template match="/">
+    <xsl:for-each select="/xsl:stylesheet/cfg:vm">
+      <exsl:document href="{concat(@name, '.xml')}" method="xml" encoding="UTF-8" indent="yes">
+        <xsl:apply-templates select="."/>
+      </exsl:document>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="cfg:vm">
     <domain type="kvm">
       <name><xsl:value-of select="@name"/></name>
       <memory unit="GiB"><xsl:value-of select="@ram"/></memory>
       <memoryBacking>
         <xsl:choose>
             <xsl:when test="@hardened = 'true'"><locked/></xsl:when>
-            <xsl:when test="mount"><source type="memfd"/><access mode="shared"/></xsl:when>
+            <xsl:when test="cfg:mount"><source type="memfd"/><access mode="shared"/></xsl:when>
         </xsl:choose>
       </memoryBacking>
       <vcpu><xsl:value-of select="@cpu"/></vcpu>
@@ -25,22 +39,22 @@
       <clock offset="utc"/>
       <devices>
         <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
-        <xsl:if test="@disk">
+        <xsl:for-each select="cfg:disk">
           <disk type="file" device="disk">
             <driver name="qemu" type="qcow2" iommu="on"/>
-            <source file="{@disk}"/>
-            <target dev="vda" bus="virtio"/>
+            <source file="{@src}"/>
+            <target dev="{@dst}" bus="virtio"/>
           </disk>
-        </xsl:if>
-        <xsl:for-each select="net">
+        </xsl:for-each>
+        <xsl:for-each select="cfg:net">
           <interface type="user">
             <xsl:if test="@dev"><source dev="{@dev}"/></xsl:if>
             <model type="virtio"/>
             <driver iommu="on"/>
             <rom enabled="no"/>
-            <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+            <address type="pci" domain="0x0000" bus="{@bus}" slot="0x00" function="0x0"/>
             <backend type="passt"/>
-            <xsl:for-each select="forward">
+            <xsl:for-each select="cfg:forward">
               <portForward proto="tcp"><range start="{@host}" to="{@guest}"/></portForward>
             </xsl:for-each>
           </interface>
@@ -63,7 +77,7 @@
         <watchdog model="itco" action="reset"/>
         <memballoon model="none"/>
         <rng model="virtio"><driver iommu="on"/><backend model="random">/dev/urandom</backend></rng>
-        <xsl:for-each select="mount">
+        <xsl:for-each select="cfg:mount">
           <filesystem type="mount">
             <driver type="virtiofs"/>
             <source dir="{@src}"/>
@@ -77,4 +91,17 @@
       </xsl:if>
     </domain>
   </xsl:template>
+
+  <vm xmlns="urn:vm-config" name="hermes" cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/vm-r13-nvda-pods-BOOTX64.efi">
+    <mount src="/ssd/internet" dst="/ssd/internet" readonly="true"/>
+    <mount src="/hdd/internet/kiwix" dst="/hdd/internet/kiwix" readonly="true"/>
+    <mount src="/hdd/internet/wikipedia" dst="/hdd/internet/wikipedia" readonly="true"/>
+    <mount src="/ssd/vm/hermes" dst="/ssd/vm/hermes"/>
+    <disk src="/ssd/vm/hermes.qcow2" dst="vda"/>
+    <net dev="wg-hermes" bus="0x04">
+      <forward host="2222" guest="22"/>
+      <forward host="3000" guest="3000"/>
+      <forward host="8000" guest="8000"/>
+    </net>
+  </vm>
 </xsl:stylesheet>

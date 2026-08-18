@@ -10,7 +10,7 @@
     { self, nixpkgs, ... }:
     let
       # For release candidates use r5-rc1 format
-      revision = "r13";
+      revision = "r14";
 
       # Public password hash is a tradeoff between usability and security, underlying is high entropy
       yubiSshKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMltMQTMSIcxPbZLNCxkAT/MWRqJo1IFOfH95OoscQbCAAAABHNzaDo= enovikov11@novikov.local";
@@ -291,9 +291,19 @@
                   };
                 };
 
+                fileSystems."/home/nixos" = lib.mkIf vm {
+                  device = "/dev/vda";
+                  fsType = "ext4";
+                  options = [
+                    "noatime"
+                    "nofail"
+                    "x-systemd.device-timeout=1s"
+                  ];
+                };
+
                 services.openssh = {
                   enable = true;
-                  generateHostKeys = true;
+                  generateHostKeys = vm;
                   openFirewall = true;
                   settings = {
                     AuthenticationMethods = "publickey";
@@ -358,6 +368,8 @@
                     "transparent_hugepage=madvise"
                   ]
                   ++ lib.optionals (!vm) [
+                    "default_hugepagesz=1G"
+                    "hugepagesz=1G"
                     "kvm_amd.sev=1"
                     "kvm_amd.sev_es=1"
                     "amd_iommu=on"
@@ -449,15 +461,32 @@
                   };
                 };
 
-                systemd.tmpfiles.rules = [
-                  "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer"
-                ];
+                systemd.tmpfiles.rules =
+                  [ "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer" ]
+                  ++ lib.optionals (!vm) [ "d /etc/stateless 0775 root libvirtd -" ];
                 systemd.targets.sleep.enable = false;
                 systemd.targets.suspend.enable = false;
                 systemd.targets.hibernate.enable = false;
                 systemd.targets.hybrid-sleep.enable = false;
 
-                environment.etc."nixos/flake.nix".source = ./flake.nix;
+                environment.etc =
+                  {
+                    "stateless/source.nix".source = ./flake.nix;
+                  }
+                  // lib.optionalAttrs (!vm) {
+                    "stateless/vm.xsl" = {
+                      source = ./vm.xsl;
+                      mode = "0644";
+                    };
+                    "stateless/ssh_host_ed25519_key" = {
+                      source = ./ssh_host_ed25519_key;
+                      mode = "0600";
+                    };
+                    "ssh/ssh_host_ed25519_key" = {
+                      source = ./ssh_host_ed25519_key;
+                      mode = "0600";
+                    };
+                  };
                 environment.systemPackages =
                   (with pkgs; [
                     curl
@@ -479,6 +508,7 @@
                     hdparm
                     ipmitool
                     efibootmgr
+                    e2fsprogs
                     libxslt
                   ])
                   ++ lib.optionals vscodium (with pkgs; [ vscodium ])
@@ -497,7 +527,13 @@
                 environment.sessionVariables = lib.optionalAttrs vscodium { NIXOS_OZONE_WL = "1"; };
                 environment.shellAliases = lib.optionalAttrs (!vm) {
                   mnt = "zpool import -a && zfs load-key -a && zfs mount -a";
+                  vm-gen = "cd /etc/stateless && xsltproc --nonet vm.xsl vm.xsl";
+                  vm-list = "virsh list --all";
                 };
+                environment.interactiveShellInit = lib.optionalString (!vm) ''
+                  vm-start() { virsh define "/etc/stateless/$1.xml" && virsh start "$1"; }
+                  vm-stop() { virsh shutdown "$1" && virsh undefine "$1" --nvram; }
+                '';
 
                 system.stateVersion = "26.05";
               }

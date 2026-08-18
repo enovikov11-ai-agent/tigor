@@ -23,7 +23,7 @@ nix build .#vm
 nixos-rebuild switch --flake .#host
 nixos-rebuild switch --flake .#vm --override flake.nix '{ modules = [{ networking.firewall.enable = true; }]; }'
 
-xsltproc vm.xsl vm.xml > /tmp/vm.xml
+xsltproc --nonet vm.xsl vm.xsl
 virsh define /tmp/vm.xml
 virsh start hermes-r10
 
@@ -44,12 +44,19 @@ echo o > /proc/sysrq-trigger
 
 nft flush ruleset
 
+codeberg.org/forgejo/forgejo:16
 podman pull docker.io/vllm/vllm-openai:nightly
-podman pull codeberg.org/forgejo/forgejo:16
 podman save docker.io/vllm/vllm-openai:nightly | gzip > /home/nixos/vllm.tar.gz
-podman save codeberg.org/forgejo/forgejo:16 | gzip > /home/nixos/forgejo.tar.gz
 gunzip -c vllm.tar.gz | podman load
-gunzip -c forgejo.tar.gz | podman load
+
+cd /ssd/internet
+chown -R nixos:users .
+find . -type d -exec chmod 2775 {} +
+find . -type f -exec chmod 664 {} +
+
+qemu-img create -f qcow2 /ssd/vm/hermes.qcow2 500G
+mkfs.ext4 -L data /dev/vda
+chown -R nixos:users /home/nixos
 
 ## Learnings
 
@@ -57,14 +64,25 @@ Memory can be encrypted with TSME, but it hurts perf
 Numa, prefetcher, cpu timings, ram timings, boot guard
 UMAF inspect
 
+## Postmortem
+
+Editing chmod -x on all made vllm non executable and crashed inference and forgejo
+
 ## Ideas
 
 Rootless podman
-Img as data store
-Digitalocean image + VPS
-Hermes VPN charing
-Nvidia chip dump for backup
-Template production xml+xsl in one file (put VM xml to xslt)
+
+Hermes tg proxy
+Dl proxy via commands (nix copy, podman load)
+Save nix artifacts on separate VM
+Nested vm off <cpu mode='host-passthrough'><feature policy='disable' name='svm'/></cpu>
+Cloud init, External configuration for vm where possible
+Docker downloader, nix downloader
+Hf check hash
+Dump rtx pro Nvidia chip dump for backup
+HardwareSpecific Credentials
+Guarantee pci device reset between runs
+Hermes VPN sharing OR Digitalocean image + VPS
 Enable firewall
 Console/vsock
 Control plane
@@ -76,3 +94,4 @@ Better hash algo: mkpasswd -m yescrypt -R 11
 nvidia-smi conf-compute -q
 USB mouse passthrough to VM
 Lightweight repo and nix build github:owner/repo
+Xen?
