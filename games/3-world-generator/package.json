@@ -1,0 +1,24 @@
+{
+  "name": "world-generator",
+  "version": "0.1.0",
+  "description": "Generates voxel world by code",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": ". ./secret.sh && node index",
+    "debug": ". ./secret.sh && DEBUG=1 node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/new-village-mc/world-generator.git"
+  },
+  "author": "",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/new-village-mc/world-generator/issues"
+  },
+  "homepage": "https://github.com/new-village-mc/world-generator#readme",
+  "dependencies": {
+    "rcon": "^1.0.3"
+  }
+}

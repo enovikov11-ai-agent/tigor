@@ -1,0 +1,4 @@
+name: CodeWorld
+version: 1.0
+main: rs.tgr.codeworld.CodeWorld
+api-version: 1.16

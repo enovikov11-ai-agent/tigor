@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Key Management Page</title>
+</head>
+
+<body>
+    <button onclick="fileInputElem.click();">🔑 Import private key</button>
+    <button onclick="generateKeypair()">⚙️ Generate keypair</button>
+    <button onclick="clearKeyStorage()">🚫 Clear key storage</button>
+    <input id="fileInput" type="file" accept=".json" onchange="onFileChange()" style="display: none;">
+    <div id="log"></div>
+    <script>
+        const name = "RSA-OAEP", hash = "SHA-256", modulusLength = 2048, publicExponent = new Uint8Array([0x01, 0x00, 0x01]);
+        const fileInputElem = document.getElementById("fileInput"), logElem = document.getElementById("log");
+
+        let dbPromise = null;
+        dbPrintKeys();
+
+        function log(...items) {
+            logElem.innerText += "\n\n" + items.join("\n");
+        }
+
+        function saveJson(filename, object) {
+            const blob = new Blob([JSON.stringify(object)], { type: "application/json" });
+            const href = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+
+            a.href = href;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(href);
+        }
+
+        async function generateKeypair() {
+            try {
+                const keyId = crypto.randomUUID();
+
+                const keyPair = await crypto.subtle.generateKey(
+                    { name, modulusLength, publicExponent, hash },
+                    true,          // extractable
+                    ["encrypt", "decrypt"]
+                );
+
+                const privateJwk = await crypto.subtle.exportKey("jwk", keyPair.privateKey);
+                privateJwk.kid = keyId;
+
+                const publicJwk = await crypto.subtle.exportKey("jwk", keyPair.publicKey);
+                publicJwk.kid = keyId;
+
+                saveJson(`private-key-${keyId}.json`, privateJwk);
+                saveJson(`public-key-${keyId}.json`, publicJwk);
+            } catch (e) {
+                log(e);
+            }
+        }
+
+        function onFileChange() {
+            const file = fileInputElem.files[0];
+
+            if (!file) {
+                log("Expected a .json file");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = ({ target }) => dbAddKey(JSON.parse(target.result));
+            reader.readAsText(file);
+        }
+
+        function getDB() {
+            if (!dbPromise) {
+                dbPromise = new Promise((resolve, reject) => {
+                    const request = indexedDB.open("store", 1);
+                    request.onerror = () => reject(request.error);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onupgradeneeded = (e) => {
+                        const db = request.result;
+                        db.createObjectStore("keys");
+                    };
+                });
+            }
+            return dbPromise;
+        }
+
+        async function dbAddKey(jwk) {
+            const db = await getDB();
+
+            const importedKey = await crypto.subtle.importKey(
+                "jwk",
+                jwk,
+                { name, hash },
+                false, // extractable
+                ["decrypt"]
+            );
+
+            const tx = db.transaction("keys", "readwrite");
+            tx.objectStore("keys").put(importedKey, jwk.kid);
+
+            log(`Imported key ${jwk.kid}`);
+        }
+
+        async function dbPrintKeys(params) {
+            const db = await getDB();
+
+            const tx = db.transaction("keys", "readonly");
+            const store = tx.objectStore("keys");
+            const req = store.getAllKeys();
+
+            req.onsuccess = () => {
+                if (req.result.length > 0) {
+                    log("DB contains keys:", ...req.result);
+                } else {
+                    log("No keys in DB");
+                }
+            };
+            req.onerror = log;
+        }
+
+
+        async function clearKeyStorage() {
+            const db = await getDB();
+
+            const tx = db.transaction("keys", "readwrite");
+            tx.objectStore("keys").clear();
+
+            tx.oncomplete = () => {
+                log("Deleted all keys from IndexedDB");
+                dbPrintKeys();
+            };
+
+            tx.onerror = () => log("Error deleting keys: " + tx.error);
+        }
+    </script>
+</body>
+
+</html>

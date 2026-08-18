@@ -1,0 +1,21 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="word-wrap: anywhere;">
+
+    <script>
+        function animate() {
+            document.body.innerHTML = `<div style="font-size:2em;">${Date.now().toString(2).replace(/0/g, '□').replace(/1/g, '■').replaceAll(/(.{3})/g, '$1<br/>')}</div>`
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+    </script>
+</body>
+
+</html>

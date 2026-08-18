@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style id="vars">
+        :root {
+            --size: 4.1vmin;
+        }
+    </style>
+    <style>
+        table.inner {
+            border-collapse: collapse;
+
+            border: 2px solid #000;
+        }
+
+        td.inner {
+            width: var(--size);
+            height: var(--size);
+            line-height: var(--size);
+            font-size: var(--size);
+
+            padding: 0.5vmin;
+            border: 1px solid #000;
+
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        td.main {
+            padding: 0.3vmin;
+        }
+
+        button {
+            margin: 0.5vmin;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="./src/itertools.js"></script>
+    <script src="./src/logic.js"></script>
+    <script src="./src/ui.js"></script>
+    <script src="./src/save.js"></script>
+</body>
+
+</html>

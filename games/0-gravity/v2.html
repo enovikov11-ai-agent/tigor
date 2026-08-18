@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="copyright" content="© 2025 Evgenii Novikov & co-authors">
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1">
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    v2 <a href="versions.html" class="nospawn">Версии и changelog</a>
+    <script>
+        let points = [], kd = false;
+
+        function click(e) {
+            if (Array.from(e.target.classList).includes("nospawn")) {
+                return;
+            }
+
+            const div = document.createElement("div");
+            div.style.backgroundColor = `hsl(${(251 * points.length % 360) | 0}deg 100% 50%)`;
+
+            div.style.width = "30px";
+            div.style.height = "30px";
+            div.style.position = "absolute";
+            div.style.borderRadius = "15px";
+
+            // Use pointer event coordinates (works for mouse and touch)
+            const x = e.pageX;
+            const y = e.pageY;
+
+            div.x = x - 15;
+            div.y = y - 15;
+
+            div.ddx = 0;
+            div.ddy = 0;
+
+            div.update = function () {
+                this.style.left = this.x + "px";
+                this.style.top = this.y + "px";
+            }
+
+            div.update();
+            document.body.appendChild(div);
+            points.push(div);
+        }
+
+        addEventListener("pointerup", click);
+
+        addEventListener("keydown", () => kd = true);
+        addEventListener("keyup", () => kd = false);
+
+        function recalc() {
+            for (let item of points) {
+                item.dx = 0;
+                item.dy = 0;
+            }
+
+            for (let i = 0; i < points.length; ++i) {
+                const a = points[i];
+
+                for (let j = i + 1; j < points.length; ++j) {
+                    const b = points[j];
+
+                    let dist = Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+
+                    let Fx = (dist - 100) * (a.x - b.x) / (dist + 2) / 10 / ((10 + points.length) ** 2);
+                    let Fy = (dist - 100) * (a.y - b.y) / (dist + 2) / 10 / ((10 + points.length) ** 2);
+
+                    a.dx -= Fx;
+                    a.dy -= Fy;
+                    b.dx += Fx;
+                    b.dy += Fy;
+                }
+            }
+
+            for (let item of points) {
+                item.ddx += item.dx;
+                item.ddy += item.dy;
+
+                item.x += item.ddx;
+                item.y += item.ddy;
+                item.update();
+            }
+        }
+
+        function update() {
+            let n = kd ? 3 : 1;
+            for (let i = 0; i < n; i++) {
+                recalc();
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        update();
+    </script>
+</body>
+
+</html>

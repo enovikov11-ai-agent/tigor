@@ -1,0 +1,1 @@
+{"use": "dead", "stage": "done", "description": "Multiplayer cursor position sharing over WebSockets, broadcasts colored cursor coords to all connected clients"}

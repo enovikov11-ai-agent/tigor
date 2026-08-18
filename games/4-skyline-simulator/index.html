@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <style>
+        .animated {
+            transition: transform 0.2s linear;
+        }
+
+        svg {
+            user-select: none;
+            background-color: #eeeeee;
+        }
+    </style>
+</head>
+
+<body style="margin: 0;">
+    <svg width="620" height="700" xmlns="http://www.w3.org/2000/svg"></svg>
+    <script>
+        const ELEVATORS = "ABCDEFGH", FLOORS = 31, FLOOR_SIZE_PX = 20, ELEVATOR_STEP_PX = 70;
+        let elevators, people;
+
+        function render() {
+
+            let html = [];
+
+            // Elevator letters
+            for (let i = 0; i < ELEVATORS.length; i++) {
+                const x = 50 + 70 * i, letter = ELEVATORS[i];
+                html.push(`<text x="${x}" y="40" font-size="40" fill="black" font-weight="bold">${letter}</text>`);
+            }
+
+            // Floor numbers
+            for (let i = 0; i <= FLOORS; i++) {
+                html.push(`<text x="${16 <= i && i <= 30 ? 300 : 590}" y="${70 + FLOOR_SIZE_PX * i}" font-size="${FLOOR_SIZE_PX}" fill="black" font-weight="bold">${FLOORS - i}</text>`);
+            }
+
+            // Floor separators
+            for (let i = 0; i <= FLOORS + 1; i++) {
+                const y = 53 + FLOOR_SIZE_PX * i, keepHigh = i <= 16 || i >= 31;
+                const parts = [[0, 285], keepHigh && [285, 700]].filter(Boolean);
+
+                for (let [start, end] of parts) {
+                    html.push(`<line x1="${start}" y1="${y}" x2="${end}" y2="${y}" stroke="gray" stroke-width="1" />`);
+                }
+            }
+
+            // Elevator shafts
+            for (let i = 0; i < ELEVATORS.length * 2; i++) {
+                const x = 40 + ELEVATOR_STEP_PX / 2 * i + (i % 2 == 0 ? 15 : 0);
+                html.push(`<line x1="${x}" y1="${i >= 8 ? 53 : 313}" x2="${x}" y2="693" stroke="gray" stroke-width="1" stroke-dasharray="5,5" />`);
+            }
+
+            // Elevators
+            for (let i = 0; i < ELEVATORS.length; i++) {
+                const x = 55 + ELEVATOR_STEP_PX * i;
+                html.push(`<rect x="${x}" y="674" width="20" height="18" fill="gray" stroke="black" stroke-width="2" class="elevator animated" />`);
+            }
+
+            // People
+            for (let i = 0; i < 100; i++) {
+                html.push(`<circle cx="-10" cy="685" r="7" stroke="black" stroke-width="1" fill="white" class="person animated" />`);
+            }
+
+            document.querySelector("svg").innerHTML = html.filter(Boolean).join("\n");
+
+            elevators = Array.from(document.querySelectorAll('.elevator')).map(element => ({
+                element,
+                floor: 0,
+                wait: 0,
+                order: null
+            }));
+
+            people = Array.from(document.querySelectorAll('.person')).map(element => ({
+                element,
+                hidden: true,
+                floor: 0,
+                position: 0,
+                ridingFrom: null,
+                ridingTo: null,
+                isRiding: false
+            }));
+        }
+
+        function orderStop(elevatorId, floor, wait = 3) {
+            if (!elevators[elevatorId].order) {
+                elevators[elevatorId].order = { floor, wait, next: null };
+                return;
+            }
+
+            let next = elevators[elevatorId].order;
+            while (next.next) next = next.next;
+
+            next.next = { floor, wait, next: null };
+        }
+
+        function order(personId, elevatorId, from, to) {
+            people[personId].ridingFrom = from;
+            people[personId].ridingTo = to;
+
+        }
+
+        render();
+
+        setInterval(() => {
+            for (let elevator of elevators) {
+                if (!elevator.order) continue;
+
+                if (elevator.wait > 0) {
+                    elevator.wait--;
+                    continue;
+                }
+
+                if (elevator.order.floor == elevator.floor) {
+                    elevator.wait = elevator.order.wait;
+                    elevator.order = elevator.order.next;
+
+                    if (elevator.wait > 0) continue;
+                }
+
+                elevator.floor += elevator.order.floor > elevator.floor ? 0.5 : -0.5;
+
+                elevator.element.style.transform = `translateY(-${20 * elevator.floor}px)`
+            }
+
+        }, 200);
+    </script>
+</body>
+
+</html>

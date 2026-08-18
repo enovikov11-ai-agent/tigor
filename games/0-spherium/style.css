@@ -1,0 +1,42 @@
+body,
+html {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+#icons {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+i {
+  color: black;
+  font-size: 6em !important;
+}
+
+/* material icons */
+/* fallback */
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./vendor/material.woff") format("woff2");
+}
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}

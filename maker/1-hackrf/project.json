@@ -1,0 +1,1 @@
+{"use": "maybe", "stage": "done", "description": "Real-time RF spectrum visualizer using hackrf_sweep piped into a Deno WebSocket server with canvas heatmap"}

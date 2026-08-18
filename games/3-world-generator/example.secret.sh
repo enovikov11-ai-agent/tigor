@@ -1,0 +1,3 @@
+export RCON_HOST=localhost
+export RCON_PORT=25575
+export RCON_PASSWORD=some_secret

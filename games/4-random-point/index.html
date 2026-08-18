@@ -1,0 +1,128 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div style="display: flex;width: 100%;height: 100%;flex-wrap: wrap;">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"
+            style="max-width: 100%; max-height: 100%; aspect-ratio: 1;" id="image">
+            <rect x="0" y="0" width="1000" height="1000" fill="black" />
+        </svg>
+        <div style="padding: 10px;">
+            <div id="fps"></div><br />
+            <form method="GET">
+                0 &lt; Points count &lt;= 20000:<br />
+                <input name="POINTS_COUNT" /><br />
+                <br />
+                0 &lt; Point radius &lt;= 200:<br />
+                <input name="POINT_RADIUS" /><br />
+                <br />
+                0 &lt; Point delta per move &lt;= 400:<br />
+                <input name="POINT_DELTA_PER_MOVE" /><br />
+                <br />
+                0 &lt; New point after ms &lt;= 40:<br />
+                <input name="NEW_POINT_AFTER_MS" /><br />
+                <br />
+                <input type="submit" value="Apply" />
+                <input type="button" value="Reset" onclick="location.search = ''" />
+            </form>
+            Presets:<br />
+            <a href="?POINTS_COUNT=3000&POINT_RADIUS=15&POINT_DELTA_PER_MOVE=45&NEW_POINT_AFTER_MS=1">Basic</a><br />
+            <a href="?POINTS_COUNT=1000&POINT_RADIUS=20&POINT_DELTA_PER_MOVE=30&NEW_POINT_AFTER_MS=2">Little
+                fat</a><br />
+            <a href="?POINTS_COUNT=10000&POINT_RADIUS=5&POINT_DELTA_PER_MOVE=9&NEW_POINT_AFTER_MS=0.3">Long
+                thin</a><br />
+            <a href="?POINTS_COUNT=200&POINT_RADIUS=20&POINT_DELTA_PER_MOVE=60&NEW_POINT_AFTER_MS=3">Slow
+                fat</a><br />
+        </div>
+    </div>
+
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+
+        let POINTS_COUNT = +urlParams.get('POINTS_COUNT'), POINT_RADIUS = +urlParams.get('POINT_RADIUS'),
+            POINT_DELTA_PER_MOVE = +urlParams.get('POINT_DELTA_PER_MOVE'),
+            NEW_POINT_AFTER_MS = +urlParams.get('NEW_POINT_AFTER_MS');
+
+        if (!(0 < POINTS_COUNT && POINTS_COUNT <= 20000)) {
+            POINTS_COUNT = 3000;
+        }
+
+        if (!(0 < POINT_RADIUS && POINT_RADIUS <= 200)) {
+            POINT_RADIUS = 15;
+        }
+
+        if (!(0 < POINT_DELTA_PER_MOVE && POINT_DELTA_PER_MOVE <= 400)) {
+            POINT_DELTA_PER_MOVE = 45;
+        }
+
+        if (!(0 < NEW_POINT_AFTER_MS && NEW_POINT_AFTER_MS <= 40)) {
+            NEW_POINT_AFTER_MS = 1;
+        }
+
+        document.querySelector('[name=POINTS_COUNT]').value = POINTS_COUNT;
+        document.querySelector('[name=POINT_RADIUS]').value = POINT_RADIUS;
+        document.querySelector('[name=POINT_DELTA_PER_MOVE]').value = POINT_DELTA_PER_MOVE;
+        document.querySelector('[name=NEW_POINT_AFTER_MS]').value = NEW_POINT_AFTER_MS;
+
+        const SVG_SIZE = 1000;
+        let x = SVG_SIZE / 2, y = SVG_SIZE / 2;
+        const points = [], svg = document.querySelector('#image');
+
+        let framesRendered = 0;
+
+        for (let i = 0; i < POINTS_COUNT; i++) {
+            const point = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+
+            point.setAttribute('cx', x);
+            point.setAttribute('cy', y);
+            point.setAttribute('r', POINT_RADIUS);
+            point.setAttribute('fill', 'white');
+
+            svg.appendChild(point);
+            points.push(point);
+        }
+
+        let renderedPointId = Math.floor(Date.now() / NEW_POINT_AFTER_MS);
+
+        function animate() {
+            const currentPointId = Math.floor(Date.now() / NEW_POINT_AFTER_MS);
+
+            for (; renderedPointId < currentPointId - POINTS_COUNT; renderedPointId += POINTS_COUNT) { }
+
+            for (; renderedPointId < currentPointId; renderedPointId++) {
+                const point = points[renderedPointId % POINTS_COUNT];
+
+                x += (Math.random() - 0.5) * POINT_DELTA_PER_MOVE;
+                y += (Math.random() - 0.5) * POINT_DELTA_PER_MOVE;
+                x %= SVG_SIZE;
+                y %= SVG_SIZE;
+                if (x < 0) {
+                    x += SVG_SIZE;
+                }
+                if (y < 0) {
+                    y += SVG_SIZE;
+                }
+
+                point.setAttribute('cx', x);
+                point.setAttribute('cy', y);
+            }
+
+            framesRendered++;
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        setInterval(function () {
+            document.querySelector('#fps').innerText = 'FPS: ' + framesRendered;
+            framesRendered = 0;
+        }, 1000);
+    </script>
+</body>
+
+</html>

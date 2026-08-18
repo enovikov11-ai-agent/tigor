@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="copyright" content="© 2025 Evgenii Novikov & co-authors">
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    v1 <a href="versions.html" class="nospawn">Версии и changelog</a>
+    <script>
+        let points = [];
+
+        addEventListener("click", e => {
+            if (Array.from(e.target.classList).includes("nospawn")) {
+                return;
+            }
+
+            const div = document.createElement("div");
+            div.style.backgroundColor = "green";
+            div.style.width = "30px";
+            div.style.height = "30px";
+            div.style.position = "absolute";
+            div.style.borderRadius = "15px";
+
+            div.x = e.pageX - 15;
+            div.y = e.pageY - 15;
+
+            div.ddx = 0;
+            div.ddy = 0;
+
+            div.update = function () {
+                this.style.left = this.x + "px";
+                this.style.top = this.y + "px";
+            }
+
+            div.update();
+
+            document.body.appendChild(div);
+
+            points.push(div);
+        });
+
+        function update() {
+            for (let item of points) {
+                item.dx = 0;
+                item.dy = 0;
+            }
+
+            for (let i = 0; i < points.length; ++i) {
+                const a = points[i];
+
+                for (let j = i + 1; j < points.length; ++j) {
+                    const b = points[j];
+
+                    let dist = Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+
+                    let Fx = (dist - 100) * (a.x - b.x) / (dist + 2) / 1000;
+                    let Fy = (dist - 100) * (a.y - b.y) / (dist + 2) / 1000;
+
+                    a.dx -= Fx;
+                    a.dy -= Fy;
+                    b.dx += Fx;
+                    b.dy += Fy;
+                }
+            }
+
+            for (let item of points) {
+                item.ddx += item.dx;
+                item.ddy += item.dy;
+
+                item.x += item.ddx;
+                item.y += item.ddy;
+                item.update();
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        update();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.min.js"></script>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #video {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <video id="video" controls></video>
+
+    <script>
+        const video = document.getElementById("video");
+
+        function start() {
+            video.removeEventListener("click", start);
+
+            if (!mpegts.isSupported()) {
+                alert("Not supported");
+                return;
+            }
+
+            const player = mpegts.createPlayer({
+                type: "mpegts",
+                isLive: true,
+                url: "ws://192.168.10.6:3321"
+            });
+
+            player.attachMediaElement(video);
+            player.load();
+            player.play();
+        }
+
+        video.addEventListener("click", start);
+    </script>
+</body>
+
+</html>

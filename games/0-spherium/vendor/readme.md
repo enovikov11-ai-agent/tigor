@@ -1,0 +1,10 @@
+material.woff https://fonts.gstatic.com/s/materialicons/v50/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2
+material.css https://fonts.googleapis.com/icon?family=Material+Icons
+jquery-ui.css https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css
+jquery-1.12.4.js https://code.jquery.com/jquery-1.12.4.js
+jquery-ui.js https://code.jquery.com/ui/1.12.1/jquery-ui.js
+three.min.js https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js
+OrbitControls.js https://raw.githubusercontent.com/mrdoob/three.js/r92/examples/js/controls/OrbitControls.js
+ui-icons_555555_256x240.png https://code.jquery.com/ui/1.12.1/themes/base/images/ui-icons_555555_256x240.png
+ui-icons_444444_256x240.png https://code.jquery.com/ui/1.12.1/themes/base/images/ui-icons_444444_256x240.png
+ui-icons_777777_256x240.png https://code.jquery.com/ui/1.12.1/themes/base/images/ui-icons_777777_256x240.png

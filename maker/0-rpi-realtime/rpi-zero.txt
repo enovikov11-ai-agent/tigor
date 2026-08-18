@@ -1,0 +1,30 @@
+docker run -v /hdd/www/rpi:/rpi --rm -it ubuntu:24.04 bash
+
+apt update
+apt install -y build-essential git bc bison flex libssl-dev make gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf make bc bison flex libssl-dev libncurses5-dev libncursesw5-dev libelf-dev dwarves wget
+
+cd /rpi
+rm -rf linux
+
+git clone --depth=1 --branch rpi-6.12.y https://github.com/raspberrypi/linux
+cd linux
+
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+export KERNEL=kernel
+
+wget https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.12/patch-6.12.57-rt14.patch.gz
+gunzip patch-6.12.57-rt14.patch.gz
+cat patch-6.12.57-rt14.patch | patch -p1
+
+make bcmrpi_defconfig
+make menuconfig
+
+"General Setup" -> "Fully Preemptible Kernel (Real-Time)"
+
+make -j128
+
+cd ..
+tar -cf rpi-zero-build-v2.tar.gz linux
+
+https://tgr.rs/rpi/rpi-zero-build-v2.tar.gz

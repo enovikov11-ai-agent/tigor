@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="copyright" content="© 2025 Evgenii Novikov & co-authors">
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1">
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <div class="nospawn">v6 <a href="versions.html">Версии и changelog</a> <span class="stats"></span></div>
+    <script>
+        /*
+            Идеи и фичреквесты:
+            - Center of mass recentering
+            - Selectors for G, EPS, pwr, wall, stepsPerFrame
+            - Стрелочки с векторами скорости и ускорения для отображения
+            - Трейсеры с путями
+            - Import / export based on url
+            - Play/pause 
+            - Clear
+            - Скейлинг карты
+            - Возможность перемещать или менять объекты в паузе
+            - Чтить закон сохранения энергии
+        */
+
+        let points = [], lastTime = Date.now(), point = null;
+        let statsElem = document.querySelector(".stats"), frames = 0, steps = 0, visibleCount = 0;
+
+        function updateSize() {
+            this.r = Math.sqrt(this.m) * 5;
+            this.style.width = this.r * 2 + "px";
+            this.style.height = this.r * 2 + "px";
+            this.style.borderRadius = this.r + "px";
+        }
+
+        function updatePos() {
+            this.style.left = this.px - this.r + "px";
+            this.style.top = this.py - this.r + "px";
+        }
+
+        document.querySelector(".nospawn").addEventListener("pointerdown", e => e.stopPropagation());
+        document.querySelector(".nospawn").addEventListener("pointerup", e => e.stopPropagation());
+
+        addEventListener("pointerdown", e => {
+            point = document.createElement("div");
+
+            point.style.backgroundColor = `hsl(${(251 * points.length % 360) | 0}deg 100% 50%)`;
+            point.style.position = "absolute";
+
+            point.m = 0.1;
+            point.addedAt = Date.now();
+
+            point.px = e.pageX;
+            point.py = e.pageY;
+
+            point.vx = 0;
+            point.vy = 0;
+
+            point.updateSize = updateSize;
+            point.updatePos = updatePos;
+
+            point.updateSize();
+            point.updatePos();
+
+            document.body.appendChild(point);
+        });
+
+        const vCoeff = -0.003;
+
+        addEventListener("pointermove", e => {
+            if (point && (e.pageX - point.px) ** 2 + (e.pageY - point.py) ** 2 > 100) { point.lockSize = true; }
+        });
+
+        addEventListener("pointerup", e => {
+            point.vx = vCoeff * (e.pageX - point.px);
+            point.vy = vCoeff * (e.pageY - point.py);
+
+            points.push(point);
+            point = null;
+        });
+
+        setInterval(() => {
+            statsElem.innerText = `FPS: ${frames}, simulations per second: ${steps}, planets: ${points.length}, visible: ${visibleCount}`;
+            frames = 0;
+            steps = 0;
+        }, 1000);
+
+        // EPS нужен чтобы ограничивать силу близких взаимодействий
+        // Формула гравитации не настоящая, делит на r, не на r^2 тк так красивее (pwr)
+        let G = 0.01, EPS = 10, pwr = 1, walls = "NONE", stepsPerFrame = 100;
+
+        function simulateStep(dt) {
+            steps++;
+
+            for (let item of points) {
+                item.ax = 0;
+                item.ay = 0;
+            }
+
+            for (let i = 0; i < points.length; ++i) {
+                const a = points[i];
+
+                for (let j = i + 1; j < points.length; ++j) {
+                    const b = points[j];
+
+                    const dx = a.px - b.px, dy = a.py - b.py;
+                    const r = Math.sqrt(dx ** 2 + dy ** 2 + EPS);
+                    const F = G * a.m * b.m / (r ** pwr);
+
+                    a.ax -= (F / a.m) * (dx / r);
+                    a.ay -= (F / a.m) * (dy / r);
+
+                    b.ax += (F / b.m) * (dx / r);
+                    b.ay += (F / b.m) * (dy / r);
+                }
+            }
+
+            for (let item of points) {
+                item.vx += item.ax * dt;
+                item.vy += item.ay * dt;
+
+                item.px += item.vx * dt;
+                item.py += item.vy * dt;
+            }
+        }
+
+        function render() {
+            frames++;
+
+            const now = Date.now(), dt = now - lastTime;
+            lastTime = now;
+
+            if (dt > 1000) {
+                console.warn("Clock skew detected");
+            } else {
+                for (let i = 0; i < stepsPerFrame; i++) { simulateStep(dt / stepsPerFrame); }
+
+                visibleCount = 0;
+
+                for (let point of points) {
+                    point.updatePos();
+
+                    if (walls != "NONE") {
+                        if (point.px < 0) {
+                            point.px *= -1;
+                            point.vx *= walls == "DUMP" ? 0 : -1;
+                        }
+
+                        if (point.px > window.innerWidth) {
+                            point.px = 2 * window.innerWidth - point.px;
+                            point.vx *= walls == "DUMP" ? 0 : -1;
+                        }
+
+                        if (point.py < 0) {
+                            point.py *= -1;
+                            point.vy *= walls == "DUMP" ? 0 : -1;
+                        }
+
+                        if (point.py > window.innerHeight) {
+                            point.py = 2 * window.innerHeight - point.py;
+                            point.vy *= walls == "DUMP" ? 0 : -1;
+                        }
+                    }
+
+                    let xPct = point.px / window.innerWidth, yPct = point.px / window.innerHeight;
+
+                    if (0 < xPct && xPct < 1 && 0 < yPct && yPct < 1) { visibleCount++; }
+                }
+            }
+
+            if (point && !point.lockSize) {
+                point.m = 0.1 + Math.sqrt(Date.now() - point.addedAt) / 4;
+                point.updateSize();
+                point.updatePos();
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        render();
+    </script>
+</body>
+
+</html>

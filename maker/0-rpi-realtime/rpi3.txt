@@ -1,0 +1,22 @@
+docker run -v /hdd/www/rpi:/rpi --rm -it ubuntu:24.04 bash
+
+apt update
+apt install -y build-essential git bc bison flex libssl-dev make gcc-aarch64-linux-gnu g++-aarch64-linux-gnu bc bison flex libssl-dev libncurses5-dev libncursesw5-dev libelf-dev dwarves
+
+git clone --depth=1 --branch rpi-6.12.y https://github.com/raspberrypi/linux
+cd linux
+
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+export KERNEL=kernel8
+
+make bcm2711_defconfig
+make menuconfig
+
+"General Setup" -> "Preemption Model" и выбери "Fully Preemptible Kernel (Real-Time)"
+
+make -j128
+
+tar -cf rpi-3b.tar.gz linux
+
+https://tgr.rs/rpi/rpi-3b.tar.gz
