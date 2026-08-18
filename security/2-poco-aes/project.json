@@ -1,0 +1,1 @@
+{"use": "dead", "stage": "done", "description": "C++ AES-128-CBC encryption/decryption demo using Poco crypto library with random IV generation"}

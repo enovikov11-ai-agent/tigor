@@ -1,0 +1,16 @@
+pattern: hex => {
+        let out = "";
+        let outSymbols = new Set();
+        let counter = encodeModulus(hex, 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2);
+
+        for (let i = 9; i > 0; i--) {
+          let symbol = counter % i;
+          counter = Math.floor(counter / i);
+          while (outSymbols.has(symbol)) {
+            symbol = (symbol + 1) % 9;
+          }
+          outSymbols.add(symbol);
+          out += symbol + 1;
+        }
+        return out;
+      }
