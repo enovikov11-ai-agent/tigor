@@ -212,6 +212,7 @@
           netInterface ? "enp4s0",
           staticIP ? null,
           staticIPGateway ? null,
+          vsock ? false,
         }:
         let
           hostNvidia = (!vm) && nvidia;
@@ -236,7 +237,8 @@
             + lib.optionalString gnome "-gui"
             + lib.optionalString firefox "-ff"
             + lib.optionalString vscodium "-vs"
-            + lib.optionalString sudo "-su";
+            + lib.optionalString sudo "-su"
+            + lib.optionalString vsock "-vsock";
           ukiName = "${imageName}-BOOTX64";
         in
         lib.nixosSystem {
@@ -305,6 +307,9 @@
                   enable = true;
                   generateHostKeys = vm;
                   openFirewall = true;
+                  extraConfig = lib.mkIf (vm && vsock) ''
+                    ListenAddress vsock:*:22
+                  '';
                   settings = {
                     AuthenticationMethods = "publickey";
                     PasswordAuthentication = false;
@@ -361,7 +366,9 @@
                     ]
                     # NVIDIA GeForce GT 710
                     ++ lib.optionals (gnome && !nvidia) [ "nouveau" ];
-                  kernelModules = lib.optionals vm [ "virtiofs" ] ++ lib.optionals (!vm) [ "kvm-amd" ];
+                  kernelModules = lib.optionals vm [ "virtiofs" ]
+                    ++ lib.optionals (vm && vsock) [ "vsock_virtio" ]
+                    ++ lib.optionals (!vm) [ "kvm-amd" ];
                   kernelParams = [
                     "nohibernate"
                     "modprobe.blacklist=ast"
@@ -563,6 +570,7 @@
           vm = true;
           nvidia = true;
           containers = true;
+          vsock = true;
           password = "";
           authorizedSshKeys = [ yubiSshKey hermesSshKey ];
           netInterface = "enp4s0";

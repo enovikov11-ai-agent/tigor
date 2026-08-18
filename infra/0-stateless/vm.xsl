@@ -77,6 +77,9 @@
         <watchdog model="itco" action="reset"/>
         <memballoon model="none"/>
         <rng model="virtio"><driver iommu="on"/><backend model="random">/dev/urandom</backend></rng>
+        <xsl:if test="@vsock = 'true'">
+          <vsock model="virtio"><cid>auto</cid></vsock>
+        </xsl:if>
         <xsl:for-each select="cfg:mount">
           <filesystem type="mount">
             <driver type="virtiofs"/>
@@ -92,7 +95,7 @@
     </domain>
   </xsl:template>
 
-  <vm xmlns="urn:vm-config" name="hermes" cpu="64" ram="128" ui="true" gpu="true" kernel="/ssd/vm/vm-r13-nvda-pods-BOOTX64.efi">
+  <vm xmlns="urn:vm-config" name="hermes" cpu="64" ram="128" ui="true" gpu="true" vsock="true" kernel="/ssd/vm/vm-r14-nvda-pods-BOOTX64.efi">
     <mount src="/ssd/internet" dst="/ssd/internet" readonly="true"/>
     <mount src="/hdd/internet/kiwix" dst="/hdd/internet/kiwix" readonly="true"/>
     <mount src="/hdd/internet/wikipedia" dst="/hdd/internet/wikipedia" readonly="true"/>
