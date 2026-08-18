@@ -58,23 +58,19 @@ Editing chmod -x on all made vllm non executable and crashed inference and forge
 
 ## Ideas
 
+Dump rtx pro Nvidia chip dump for backup
+Hermes VPN sharing OR Digitalocean image + VPS
+
+Cloud init: ssh host key, podman compose up -d, network config
+Local portal with VPN
+Simplify nix on amount of hidden options, shown via full eval
+Control plane via tg/web
+Agent usernet: enable firewall, no host wg0:22, --outbound-if4 wg0 --outbound-if6 wg0 not -i wg0, add --no-map-gw --map-host-loopback present
+
 Proxy: hermes tg
 Proxy: nix copy, podman load, git clone
-Nix build VM with persistent store
-Nested vm off <cpu mode='host-passthrough'><feature policy='disable' name='svm'/></cpu>
-Cloud init: ssh host key, podman compose up -d, network config
-Check huggingface hashes
-Make minimal eval of nix
-Dump rtx pro Nvidia chip dump for backup
-Config: move HardwareSpecific and Credentials
-Guarantee pci device reset between runs
-Hermes VPN sharing OR Digitalocean image + VPS
-Enable firewall
-Console/vsock for SSH
-Control plane via tg/web
-Make host ssh not respond on wg0 :22
-Check --outbound-if4 wg0 --outbound-if6 wg0 Not -i wg0
-Check --no-map-gw --map-host-loopback present
+Nix builder VM with persistent store
+
 Better hash algo: mkpasswd -m yescrypt -R 11
 nvidia-smi conf-compute -q
 USB mouse passthrough to VM
