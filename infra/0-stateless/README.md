@@ -79,7 +79,7 @@ Editing chmod -x on all made vllm non executable and crashed inference and forge
 
 ## Ideas
 
-tigor-ai
+CODEOWNERS
 reject unverified
 git mv
 
