@@ -1,5 +1,7 @@
 # Home AI Box
 
+find . -type f -exec sha256sum {} +
+
 ## Commands
 
 ### Host
