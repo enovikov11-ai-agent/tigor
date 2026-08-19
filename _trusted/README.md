@@ -81,7 +81,6 @@ Editing chmod -x on all made vllm non executable and crashed inference and forge
 
 CODEOWNERS
 reject unverified
-git mv
 
 .hermes publish
 
