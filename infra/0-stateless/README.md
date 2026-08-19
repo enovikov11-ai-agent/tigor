@@ -79,6 +79,19 @@ Editing chmod -x on all made vllm non executable and crashed inference and forge
 
 ## Ideas
 
+tigor-ai
+reject unverified
+git mv
+
+.hermes publish
+
+policy flags
+
+Nixos config compartmentalization, less privileged code
+Vpn configuration for VM
+Nosuid img mount
+Commits organization
+
 Dump rtx pro Nvidia chip dump for backup
 Hermes VPN sharing OR Digitalocean image + VPS
 
@@ -87,6 +100,9 @@ Local portal with VPN
 Simplify nix on amount of hidden options, shown via full eval
 Control plane via tg/web
 Agent usernet: enable firewall, no host wg0:22, --outbound-if4 wg0 --outbound-if6 wg0 not -i wg0, add --no-map-gw --map-host-loopback present
+
+http://10.67.69.1:3000/hermes/tigor/compare/main...gpu-reset
+http://10.67.69.1:3000/hermes/tigor/compare/main...isolate-host-params
 
 Proxy: hermes tg
 Proxy: nix copy, podman load, git clone
