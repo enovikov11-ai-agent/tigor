@@ -1,0 +1,13 @@
+# Code owners — changes to the paths below require review/approval by @enovikov11.
+
+# CODEOWNERS file itself
+.github/CODEOWNERS @enovikov11
+
+# Root README
+README.md @enovikov11
+
+# Trusted directory — authoritative specs and security-critical code
+_trusted/ @enovikov11
+
+# All root-level directories starting with _ (private/system)
+/_* @enovikov11
