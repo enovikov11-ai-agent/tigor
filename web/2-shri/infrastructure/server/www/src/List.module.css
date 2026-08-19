@@ -1,0 +1,11 @@
+.table {
+  border: 0;
+}
+
+.item {
+  cursor: pointer;
+}
+
+.id {
+  text-decoration: underline;
+}

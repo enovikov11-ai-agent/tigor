@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="copyright" content="© 2025 Evgenii Novikov & co-authors">
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1">
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <div class="nospawn">
+        v8 <a href="versions.html">Версии и changelog</a> <span class="stats"></span><br />
+        <button onclick="clearAll()">clear</button>
+        <button onclick="playpause(this)">pause</button>
+    </div>
+    <script>
+        /*
+            Идеи и фичреквесты:
+            - Обновлять позиции в hash
+            - Стрелочки с векторами скорости и ускорения для отображения
+            - Скейлинг карты
+            - Возможность перемещать или менять объекты в паузе
+            - Чтить закон сохранения энергии
+            - Онлайн
+            - Метод интегрирования второго (или даже четверного) порядка
+        */
+
+        // EPS нужен чтобы ограничивать силу близких взаимодействий
+        // Формула гравитации не настоящая, делит на r, не на r^2 тк так красивее (exp)
+
+        const params = new URLSearchParams(location.search);
+        let G = +(params.get("G") ?? 0.01);
+        let EPS = +(params.get("EPS") ?? 10);
+        let pwr = +(params.get("exp") ?? 1);
+        let walls = (params.get("walls") ?? "NONE");
+        let stepsPerFrame = +(params.get("spf") ?? 100);
+        let doRecenter = (params.get("recenter") ?? "1") == "1";
+        let doTracers = (params.get("tracers") ?? "1") == "1";
+        let dt = 1000.0 / 60 / stepsPerFrame;
+
+        if (!["NONE", "DUMP", "BOUNCE"].includes(walls)) {
+            walls = "NONE";
+        }
+
+        let points = [], lastTime = Date.now(), point = null, halt = false;
+        let statsElem = document.querySelector(".stats"), frames = 0, steps = 0, visibleCount = 0;
+
+        function playpause(button) {
+            halt = !halt;
+            button.innerText = halt ? "play" : "pause";
+        }
+
+        function clearAll() {
+            for (let point of points) {
+                document.body.removeChild(point);
+
+                if (point.tracers) {
+                    for (let tracer of point.tracers) {
+                        document.body.removeChild(tracer);
+                    }
+                }
+            }
+
+            points = [];
+        }
+
+        function updateSize() {
+            this.r = Math.sqrt(this.m) * 5;
+            this.style.width = this.r * 2 + "px";
+            this.style.height = this.r * 2 + "px";
+            this.style.borderRadius = this.r + "px";
+        }
+
+        function updatePos() {
+            this.style.left = this.px - this.r + "px";
+            this.style.top = this.py - this.r + "px";
+
+            if (!doTracers || this.tracers.length == 0) { return; }
+
+            this.tracerSkip = (this.tracerSkip + 1) % 5;
+
+            if (this.tracerSkip != 0) { return; }
+
+            this.tracers[this.tracersActive].style.left = this.px - 3 + "px";
+            this.tracers[this.tracersActive].style.top = this.py - 3 + "px";
+
+            this.tracersActive = (this.tracersActive + 1) % this.tracers.length;
+        }
+
+        document.querySelector(".nospawn").addEventListener("pointerdown", e => e.stopPropagation());
+        document.querySelector(".nospawn").addEventListener("pointerup", e => e.stopPropagation());
+
+        addEventListener("pointerdown", e => {
+            point = document.createElement("div");
+
+            point.style.backgroundColor = `hsl(${(251 * points.length % 360) | 0}deg 100% 50%)`;
+            point.style.position = "absolute";
+
+            point.m = 0.1;
+            point.addedAt = Date.now();
+
+            point.px = e.pageX;
+            point.py = e.pageY;
+
+            point.p0x = point.px;
+            point.p0y = point.py;
+
+            point.updateSize = updateSize;
+            point.updatePos = updatePos;
+
+            if (doTracers) {
+                point.tracers = [];
+                point.tracersActive = 0;
+                point.tracerSkip = 0;
+
+            }
+
+            point.updateSize();
+            point.updatePos();
+
+            if (doTracers) {
+                for (let i = 0; i < 10; i++) {
+                    let tracer = document.createElement("div");
+
+                    tracer.style.backgroundColor = point.style.backgroundColor;
+                    tracer.style.position = "absolute";
+
+                    tracer.style.left = point.style.left;
+                    tracer.style.top = point.style.top;
+
+                    tracer.style.width = tracer.style.height = "6px";
+                    tracer.style.borderRadius = "3px";
+
+                    document.body.appendChild(tracer);
+                    point.tracers.push(tracer);
+                }
+            }
+
+            document.body.appendChild(point);
+        });
+
+        const vCoeff = -0.003;
+
+        addEventListener("pointermove", e => {
+            if (point && (e.pageX - point.px) ** 2 + (e.pageY - point.py) ** 2 > 100) { point.lockSize = true; }
+        });
+
+        addEventListener("pointerup", e => {
+            const vx = vCoeff * (e.pageX - point.px);
+            const vy = vCoeff * (e.pageY - point.py);
+
+            point.p0x = point.px - vx * dt;
+            point.p0y = point.py - vy * dt;
+
+            points.push(point);
+            point = null;
+        });
+
+        setInterval(() => {
+            statsElem.innerText = `FPS: ${frames}, simulations per second: ${steps}, planets: ${points.length}, visible: ${visibleCount}`;
+            frames = 0;
+            steps = 0;
+        }, 1000);
+
+        function simulateStep() {
+            steps++;
+
+            for (let item of points) {
+                item.ax = 0;
+                item.ay = 0;
+            }
+
+            for (let i = 0; i < points.length; ++i) {
+                const a = points[i];
+
+                for (let j = i + 1; j < points.length; ++j) {
+                    const b = points[j];
+
+                    const dx = a.px - b.px, dy = a.py - b.py;
+                    const r = Math.sqrt(dx ** 2 + dy ** 2 + EPS);
+                    const F = G * a.m * b.m / (r ** pwr);
+
+                    a.ax -= (F / a.m) * (dx / r);
+                    a.ay -= (F / a.m) * (dy / r);
+
+                    b.ax += (F / b.m) * (dx / r);
+                    b.ay += (F / b.m) * (dy / r);
+                }
+            }
+
+            for (let item of points) {
+                const oldPx = item.px;
+                const oldPy = item.py;
+                
+                // Verlet integration formula: next_pos = 2*current_pos - prev_pos + acceleration*dt^2
+                item.px = item.px * 2 - item.p0x + item.ax * 0.5 * dt * dt;
+                item.py = item.py * 2 - item.p0y + item.ay * 0.5 * dt * dt;
+                
+                // Update previous position for next step
+                item.p0x = oldPx;
+                item.p0y = oldPy;
+            }
+        }
+
+        function applyWalls() {
+            if (walls === "NONE") { return; }
+
+            const c = walls == "DUMP" ? 0 : -1;
+
+            for (let point of points) {
+                // For Verlet integration, we need to adjust both current and previous positions
+                // to create the bounce or damping effect
+                
+                if (point.px < 0) {
+                    const dx = point.px - point.p0x;
+                    point.px *= -1;
+                    point.p0x = point.px - dx * c;
+                }
+
+                if (point.px > window.innerWidth) {
+                    const dx = point.px - point.p0x;
+                    point.px = 2 * window.innerWidth - point.px;
+                    point.p0x = point.px - dx * c;
+                }
+
+                if (point.py < 0) {
+                    const dy = point.py - point.p0y;
+                    point.py *= -1;
+                    point.p0y = point.py - dy * c;
+                }
+
+                if (point.py > window.innerHeight) {
+                    const dy = point.py - point.p0y;
+                    point.py = 2 * window.innerHeight - point.py;
+                    point.p0y = point.py - dy * c;
+                }
+            }
+        }
+
+        function recenter() {
+            let totalM = 0, totalX = 0, totalY = 0;
+
+            for (let point of points) {
+                totalM += point.m;
+                totalX += point.m * point.px;
+                totalY += point.m * point.py;
+            }
+
+            let dx = window.innerWidth / 2 - totalX / totalM, dy = window.innerHeight / 2 - totalY / totalM;
+
+            for (let point of points) {
+                point.px += dx / 30;
+                point.py += dy / 30;
+                point.p0x += dx / 30;
+                point.p0y += dy / 30;
+            }
+        }
+
+        function render() {
+            if (halt) {
+                requestAnimationFrame(render);
+                return;
+            }
+
+            frames++;
+
+            const now = Date.now(), dtFromLastFrame = now - lastTime;
+            lastTime = now;
+
+            if (dtFromLastFrame > 1000) {
+                console.warn("Clock skew detected");
+            } else {
+                const stepsCount = dtFromLastFrame / dt
+                for (let i = 0; i < stepsCount; i++) {
+                    simulateStep();
+                }
+
+                visibleCount = 0;
+
+                applyWalls();
+
+                if (doRecenter) {
+                    recenter();
+                }
+
+                for (let point of points) {
+                    point.updatePos();
+
+                    let xPct = point.px / window.innerWidth, yPct = point.px / window.innerHeight;
+
+                    if (0 < xPct && xPct < 1 && 0 < yPct && yPct < 1) { visibleCount++; }
+                }
+            }
+
+            if (point && !point.lockSize) {
+                point.m = 0.1 + Math.sqrt(Date.now() - point.addedAt) / 4;
+                point.updateSize();
+                point.updatePos();
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        render();
+    </script>
+</body>
+
+</html>

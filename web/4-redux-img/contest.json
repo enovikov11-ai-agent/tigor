@@ -1,0 +1,56 @@
+{
+  "header": {
+    "language": "ru",
+    "login": "enovikov11"
+  },
+  "contest": {
+    "id": 12341,
+    "title": "Программирование - ШАД 2018"
+  },
+  "dates": {
+    "now": 1581537365000,
+    "start": 1552982400000,
+    "end": null
+  },
+  "achivements": [
+    {
+      "name": "А. Частый элемент",
+      "id": 1,
+      "points": 1,
+      "status": "done"
+    },
+    {
+      "name": "B. Вершинное покрытие",
+      "id": 2,
+      "points": 1,
+      "status": "done"
+    },
+    {
+      "name": "C. Функция Эйлера",
+      "id": 3,
+      "points": 1,
+      "status": "done"
+    },
+    {
+      "name": "D. Оптимизация",
+      "id": 4,
+      "points": 1,
+      "status": "done"
+    },
+    {
+      "name": "E. Стены",
+      "id": 5,
+      "points": null
+    }
+  ],
+  "problem": {
+    "name": "А. Частый элемент",
+    "id": 1,
+    "restrictions": {
+      "time": "2 секунды",
+      "memory": "256Mb",
+      "input": "стандартный ввод или input.txt",
+      "output": "стандартный вывод или output.txt"
+    }
+  }
+}

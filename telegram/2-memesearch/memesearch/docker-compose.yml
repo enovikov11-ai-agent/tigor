@@ -1,0 +1,17 @@
+  memesearch:
+    build: ./prod/memesearch
+    restart: unless-stopped
+    container_name: memesearch
+    environment:
+      - API_KEY=${MEMESEARCH_API_KEY}
+      - DB_PASSWORD=${MEMESEARCH_DB_PASSWORD}
+      - OPENAI_KEY=${MEMESEARCH_OAI_KEY}
+      - ADMIN_UID=818630945
+    volumes:
+      - ./data-box/memes:/usr/src/app/memes
+      - ./data-box/memedb:/usr/src/app/db
+    depends_on:
+      - mariadb
+    user: "1000:1001"
+    security_opt:
+      - no-new-privileges:true

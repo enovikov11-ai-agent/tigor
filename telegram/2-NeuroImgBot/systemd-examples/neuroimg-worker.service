@@ -1,0 +1,23 @@
+[Unit]
+Description=NeuroImgBot worker
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+ExecStartPre=sshfs -o reconnect HOST:/home/enovikov11/models-ramdisk /home/enovikov11/.cache/huggingface/diffusers
+ExecStartPre=sshfs -o reconnect HOST:/home/enovikov11/NeuroImgBot /home/enovikov11/NeuroImgBot
+ExecStart=/home/enovikov11/anaconda3/envs/neuroimgbot/bin/python3.8 /home/enovikov11/NeuroImgBot/worker/main.py
+WorkingDirectory=/home/enovikov11/NeuroImgBot
+Restart=always
+
+User=enovikov11
+Group=enovikov11
+
+Environment=CONDA_EXE=/home/enovikov11/anaconda3/bin/conda
+Environment=CONDA_PREFIX=/home/enovikov11/anaconda3/envs/neuroimgbot
+Environment=PATH=/home/enovikov11/anaconda3/envs/neuroimgbot/bin:/home/enovikov11/anaconda3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+Environment=WORKER_ID=0
+
+[Install]
+WantedBy=multi-user.target

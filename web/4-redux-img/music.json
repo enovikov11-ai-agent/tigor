@@ -1,0 +1,55 @@
+{
+  "user": {
+    "avatar": "static/user1.jpg"
+  },
+  "player": {
+    "track": {
+      "id": 1,
+      "picture": "static/album1.jpg",
+      "title": "Все, что мне нужно",
+      "description": "из фильма Секс и ничего личного",
+      "duration": "3:19",
+      "artist": "MONATIK",
+      "like": true
+    },
+    "time": "1:23"
+  },
+  "playlist": {
+    "picture": "static/playlist1.jpg",
+    "tracks": [
+      {
+        "id": 1,
+        "picture": "static/album1.jpg",
+        "title": "Все, что мне нужно",
+        "description": "из фильма Секс и ничего личного",
+        "duration": "3:19",
+        "artist": "MONATIK",
+        "like": true
+      },
+      {
+        "id": 2,
+        "picture": "static/album2.jpg",
+        "title": "Get Ready For This",
+        "description": "",
+        "duration": "3:44",
+        "artist": "2 Unlimited",
+        "like": true
+      },
+      {
+        "id": 3,
+        "picture": "static/album3.jpg",
+        "title": "Play Hard",
+        "description": "New Edit; feat Ne-Yo & Akon",
+        "duration": "3:28",
+        "artist": "David Guetta, Akon, Ne-Yo",
+        "like": true
+      }
+    ]
+  },
+  "header": {
+    "main": { "new": true },
+    "genres": { "new": false },
+    "radio": { "new": false },
+    "favourites": { "pressed": true }
+  }
+}

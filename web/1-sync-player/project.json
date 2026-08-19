@@ -1,0 +1,1 @@
+{"use": "maybe", "stage": "done", "description": "Synchronized video player with FastAPI and WebSocket real-time sync with latency correction"}

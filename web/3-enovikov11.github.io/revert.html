@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="charset" content="utf-8" />
+</head>
+
+<body>
+    <script src="./revert/revert.js"></script>
+    Строка: <input id="str" oninput="document.querySelector('#rev').value = revertAlgo(this.value)" /><br />
+    Буквы a-z идут наоборот, а остальное на месте: <input id="rev" disabled /><br />
+    <code>
+        npm run test<br/>
+        <br />
+        > revert@1.0.0 test /home/enovikov11/Документы/github/enovikov11.github.io/revert<br />
+        > jest<br />
+        <br />
+        PASS ./revert.test.js<br />
+        revertAlgo<br />
+        ✓ empty (4 ms)<br />
+        ✓ num (1 ms)<br />
+        ✓ str<br />
+        ✓ combined<br />
+        <br />
+        Test Suites: 1 passed, 1 total<br />
+        Tests: 4 passed, 4 total<br />
+        Snapshots: 0 total<br />
+        Time: 2.011 s<br />
+        Ran all test suites.
+    </code>
+    <script>
+        document.querySelector('#str').value = 'jbdh16jv!go';
+        document.querySelector('#rev').value = revertAlgo(document.querySelector('#str').value);
+    </script>
+</body>
+
+</html>

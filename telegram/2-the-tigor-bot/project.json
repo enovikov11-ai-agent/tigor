@@ -1,0 +1,1 @@
+{"use": "dead", "stage": "done", "description": "HMAC-SHA256 signed bearer token generation bot for Tigor service with configurable expiration"}

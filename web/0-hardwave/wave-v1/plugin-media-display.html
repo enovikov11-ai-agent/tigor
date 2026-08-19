@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>HardWave Display Plugin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: sans-serif;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+    .welcome {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      font-size: 50px;
+      text-align: center;
+    }
+    .photo-view {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      flex-shrink: 0;
+    }
+    .sender {
+      font-size: 50px;
+      font-weight: bold;
+    }
+    .bot-name {
+      font-size: 50px;
+    }
+    .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .image-container img,
+    .image-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+    .image-container.keep-aspect img,
+    .image-container.keep-aspect video {
+      object-fit: contain;
+    }
+    #video {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome" id="welcome">Loading...</div>
+
+  <div class="photo-view" id="photoView">
+    <div class="header">
+      <div class="sender" id="sender"></div>
+      <div class="bot-name" id="botName"></div>
+    </div>
+    <div class="image-container" id="imageContainer">
+      <img id="photo" src="" alt="Photo">
+      <video id="video" src="" autoplay loop muted playsinline></video>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // CONFIG
+    // ============================================================
+    const CONFIG = {
+      RANDOM_PACKAGE_COUNT: 100,
+      RANDOM_DIGIT_MAX: 128,
+      RANDOM_SYMBOLS_MAX: 4096,
+    };
+
+    // ============================================================
+    // State
+    // ============================================================
+    let chatName = '';
+    let displayEnabled = true;
+
+    // ============================================================
+    // DOM Elements
+    // ============================================================
+    const welcomeEl = document.getElementById('welcome');
+    const botNameEl = document.getElementById('botName');
+    const photoViewEl = document.getElementById('photoView');
+    const senderEl = document.getElementById('sender');
+    const photoEl = document.getElementById('photo');
+    const videoEl = document.getElementById('video');
+    const imageContainerEl = document.getElementById('imageContainer');
+
+    // ============================================================
+    // Media Renderer
+    // ============================================================
+    function showWelcome() {
+      videoEl.pause();
+      videoEl.src = '';
+      videoEl.style.display = 'none';
+      photoEl.src = '';
+      photoEl.style.display = 'none';
+      photoViewEl.style.display = 'none';
+      welcomeEl.style.display = 'flex';
+      welcomeEl.textContent = 'send media in ' + chatName;
+    }
+
+    function showPlaceholder() {
+      videoEl.pause();
+      videoEl.src = '';
+      videoEl.style.display = 'none';
+      photoEl.src = '';
+      photoEl.style.display = 'none';
+      photoViewEl.style.display = 'none';
+      welcomeEl.style.display = 'flex';
+      welcomeEl.textContent = 'display is off';
+    }
+
+    function showError(message) {
+      welcomeEl.textContent = message;
+    }
+
+    function showMedia(url, isVideo, sender) {
+      welcomeEl.style.display = 'none';
+      photoViewEl.style.display = 'flex';
+      senderEl.textContent = sender;
+
+      if (isVideo) {
+        photoEl.style.display = 'none';
+        photoEl.src = '';
+        videoEl.style.display = 'block';
+        videoEl.src = url;
+      } else {
+        videoEl.pause();
+        videoEl.src = '';
+        videoEl.style.display = 'none';
+        photoEl.style.display = 'block';
+        photoEl.src = url;
+      }
+    }
+
+    // ============================================================
+    // Communication with Parent
+    // ============================================================
+    function sendToParent(msg) {
+      window.parent.postMessage(msg, '*');
+    }
+
+    function sendHidCommand(command, data) {
+      sendToParent({ type: 'hid', command, ...data });
+    }
+
+    function sendReaction(chatId, messageId, emoji) {
+      sendToParent({ type: 'reaction', chatId, messageId, emoji });
+    }
+
+    function setKeyDisplayMode(enabled) {
+      sendToParent({ type: 'keyDisplayMode', enabled });
+    }
+
+    // ============================================================
+    // Command Handlers
+    // ============================================================
+    async function handleDisplayCommand(text, chatId, messageId) {
+      const displayText = text.substring(9); // Remove '/display '
+      console.log('[Plugin] /display command:', displayText);
+      sendHidCommand('runningText', { text: displayText });
+    }
+
+    async function handleRandomCommand(chatId, messageId) {
+      console.log('[Plugin] /random command - sending packages');
+      for (let i = 0; i < CONFIG.RANDOM_PACKAGE_COUNT; i++) {
+        const randomDigits = [
+          Math.floor(Math.random() * CONFIG.RANDOM_DIGIT_MAX),
+          Math.floor(Math.random() * CONFIG.RANDOM_DIGIT_MAX),
+          Math.floor(Math.random() * CONFIG.RANDOM_DIGIT_MAX),
+          Math.floor(Math.random() * CONFIG.RANDOM_DIGIT_MAX)
+        ];
+        const randomSymbols = Math.floor(Math.random() * CONFIG.RANDOM_SYMBOLS_MAX);
+        sendHidCommand('raw', { digits: randomDigits, symbols: randomSymbols });
+      }
+      sendReaction(chatId, messageId, '👀');
+    }
+
+    // ============================================================
+    // Message Handler from Parent
+    // ============================================================
+    let pendingReaction = null;
+
+    window.addEventListener('message', (event) => {
+      const msg = event.data;
+      if (!msg || !msg.type) return;
+
+      console.log('[Plugin] Received message:', msg.type);
+
+      switch (msg.type) {
+        case 'init':
+          chatName = msg.chatName || '';
+          botNameEl.textContent = 'send media in ' + chatName;
+          if (msg.keepAspectRatio) {
+            imageContainerEl.classList.add('keep-aspect');
+          }
+          if (displayEnabled) {
+            showWelcome();
+          }
+          break;
+
+        case 'error':
+          showError(msg.message);
+          break;
+
+        case 'displayOn':
+          displayEnabled = true;
+          showWelcome();
+          break;
+
+        case 'displayOff':
+          displayEnabled = false;
+          showPlaceholder();
+          break;
+
+        case 'keypress':
+          // Handle START (Enter) for aspect ratio toggle
+          if (msg.description === 'START' || msg.key === 'Enter') {
+            imageContainerEl.classList.toggle('keep-aspect');
+          }
+          break;
+
+        case 'media':
+          if (displayEnabled) {
+            if (msg.videoUrl) {
+              showMedia(msg.videoUrl, true, msg.sender);
+            } else if (msg.photoUrl) {
+              showMedia(msg.photoUrl, false, msg.sender);
+            }
+          }
+          break;
+
+        case 'command':
+          if (msg.text.startsWith('/display ')) {
+            pendingReaction = { chatId: msg.chatId, messageId: msg.messageId };
+            handleDisplayCommand(msg.text, msg.chatId, msg.messageId);
+          } else if (msg.text === '/random') {
+            handleRandomCommand(msg.chatId, msg.messageId);
+          }
+          break;
+
+        case 'hidResult':
+          if (msg.command === 'runningText' && pendingReaction) {
+            sendReaction(pendingReaction.chatId, pendingReaction.messageId, msg.success ? '👀' : '👎');
+            pendingReaction = null;
+          }
+          break;
+      }
+    });
+
+    // Initial state
+    welcomeEl.textContent = 'Loading...';
+  </script>
+</body>
+</html>

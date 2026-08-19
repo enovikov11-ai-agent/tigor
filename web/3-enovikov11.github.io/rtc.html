@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WebRTC SDP Example</title>
+  </head>
+  <body>
+    <script>
+      // Initialize peer connection
+      const pc = new RTCPeerConnection();
+
+      // Add video track to peer connection
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          const videoTrack = stream.getVideoTracks()[0];
+          pc.addTrack(videoTrack, stream);
+        })
+        .catch(error => {
+          console.error('Error accessing video device:', error);
+        });
+
+      // Create an offer and set local description
+      pc.createOffer()
+        .then(offer => {
+          return pc.setLocalDescription(offer);
+        })
+        .then(() => {
+          // Output local SDP string
+          document.body.innerText = pc.localDescription.sdp;
+        })
+        .catch(error => {
+          console.error('Error creating offer:', error);
+        });
+    </script>
+  </body>
+</html>

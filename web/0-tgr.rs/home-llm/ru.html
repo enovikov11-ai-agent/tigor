@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Как безопасно и приватно запускать LLM на своем железе</title>
+    <link rel="stylesheet" href="dist/css/reveal-5.0.4.css">
+    <link rel="stylesheet" href="dist/css/reveal-black-5.0.4.css">
+    <style>
+        .reveal {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #a78bfa;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .reveal section {
+            text-align: left;
+        }
+        .reveal .title-slide {
+            text-align: center;
+        }
+        .reveal .subtitle {
+            color: #ef4444;
+            font-size: 0.8em;
+        }
+        .reveal .date {
+            color: #a78bfa;
+            font-size: 0.7em;
+        }
+        .reveal .footer-text {
+            font-size: 0.6em;
+            color: #94a3b8;
+        }
+        .reveal img {
+            border: none;
+            box-shadow: none;
+            background: transparent;
+        }
+        .reveal .shield-bg {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.3;
+            max-width: 400px;
+        }
+        .reveal ul {
+            font-size: 0.55em;
+        }
+        .reveal li {
+            margin-bottom: 0.2em;
+        }
+        .reveal .columns {
+            display: flex;
+            gap: 15px;
+            font-size: 0.5em;
+        }
+        .reveal .column {
+            flex: 1;
+            min-width: 0;
+        }
+        .reveal .column ul {
+            font-size: 0.9em;
+        }
+        .reveal .column h4 {
+            font-size: 0.85em;
+            margin-bottom: 0.3em;
+        }
+        .content-with-image {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            overflow: hidden;
+        }
+        .content-left {
+            flex: 1;
+            min-width: 0;
+            overflow-y: hidden;
+            max-height: 550px;
+            padding-right: 15px;
+        }
+        .content-left ul {
+            font-size: 0.65em;
+            margin-right: 5px;
+        }
+        .content-left::-webkit-scrollbar {
+            width: 8px;
+        }
+        .content-left::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+        .content-left::-webkit-scrollbar-thumb {
+            background: rgba(167,139,250,0.5);
+            border-radius: 4px;
+        }
+        .image-left {
+            flex: 0 0 350px;
+            display: flex;
+            align-items: center;
+        }
+        .image-left img {
+            max-width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+                    <!-- Slide 1: Title -->
+            <section class="title-slide past" style="top: 0px; display: none;" hidden="" aria-hidden="true">
+                <h1>Как безопасно и приватно запускать LLM на своем железе</h1>
+                <p class="subtitle">Евгений Новиков, AI-энтузиаст</p>
+            </section>
+
+            <!-- Slide 2: About me -->
+            <section style="top: 0px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Обо мне</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">бэкграунд и интересы</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/person-at-laptop.jpg" alt="Profile">
+                    </div>
+                    <div class="content-left">
+                        <ul>
+                            <li>7 лет в Big Tech</li>
+                            <li>21 git-репозиторий с пет-проектами</li>
+                            <li>AI-энтузиаст с 2023 года, есть опыт в совете директоров AI стартапа</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: Why LLMs -->
+            <section style="top: 14px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Зачем нужны LLM</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">и с чем их едят</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/agentic-ai-economy-meme.jpg" alt="LLM Meme">
+                    </div>
+                    <div class="content-left">
+                        <ul>
+                            <li>Умеют кодить на уровне джуна</li>
+                            <li>Работают лучше FAQ в саппорте</li>
+                            <li>Крышесносно эффективно сжатый архив всех знаний и интернета</li>
+                            <li>Пишут за вас презентации</li>
+                            <li>¯\_(ツ)_/¯</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: LLM in cloud -->
+            <section style="top: 79px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>LLM в облаке</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">плюс и минусы</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/four-cats-ai-logos.jpg" alt="Cloud AIs">
+                    </div>
+                    <div class="content-left">
+                        <p style="font-style: italic;color: #94a3b8;margin-bottom: 20px;font-size: 0.85em;">The Cloud Is Just Someone Else's Computer</p>
+                        <div style="display: flex;gap: 20px;font-size: 0.7em;">
+                            <div style="flex: 1;">
+                                <h4 style="color: #4ade80;">Плюсы:</h4>
+                                <ul style="font-size: 0.9em;">
+                                    <li>Легко масштабируется</li>
+                                    <li>Не нужно обслуживать инфраструктуру</li>
+                                </ul>
+                            </div>
+                            <div style="flex: 1;">
+                                <h4 style="color: #f87171;">Минусы:</h4>
+                                <ul style="font-size: 0.9em;">
+                                    <li>Ваши данные уже не совсем ваши</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Loss and model size -->
+            <section style="top: 23px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Loss и размер модели</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">почему большие модели проще научить</h3>
+                <p style="font-size: 0.7em;">
+                    <a href="https://arxiv.org/pdf/2203.15556" style="color: #60a5fa;">https://arxiv.org/pdf/2203.15556</a><br>
+                    <a href="https://arxiv.org/pdf/2001.08361" style="color: #60a5fa;">https://arxiv.org/pdf/2001.08361</a>
+                </p>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+                    <img src="images/training-loss-vs-flops.png" style="width: 48%;" alt="Training loss">
+                    <img src="images/loss-vs-model-dataset-size.png" style="width: 48%;" alt="Loss vs model">
+                </div>
+            </section>
+
+            <!-- Slide 6: LMArena -->
+            <section style="top: 18.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>LMArena</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">находим лучшие локальные модели</h3>
+                <p style="font-size: 0.8em;">
+                    <a href="https://lmarena.ai/leaderboard/text" style="color: #60a5fa;">https://lmarena.ai/leaderboard/text</a>
+                </p>
+                <div style="margin-top: 20px;">
+                    <img src="images/ai-model-leaderboard.png" style="max-width: 85%;" alt="LMArena leaderboard">
+                </div>
+            </section>
+
+            <!-- Slide 7: Hardware types -->
+            <section style="top: 80px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Какое бывает железо</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">вычислительный блок</h3>
+                <div class="columns" style="font-size: 0.5em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">CPU (AMD, Intel, RISC-V)</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Дешево</li>
+                            <li>Доступна вся RAM</li>
+                            <li>Есть открытые архитектуры (RISC-V)</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Медленно</li>
+                            <li>Отнимает ресурсы у остальных задач</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">GPU (Nvidia, AMD, Intel)</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Быстро</li>
+                            <li>Понятно</li>
+                            <li>Есть много софта</li>
+                            <li>Хороший параллелизм</li>
+                            <li>Есть открытые архитектуры (AMD)</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Дорого</li>
+                            <li>Мало vRAM</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">NPU</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Наиболее эффективное железо</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Небольшой модельный ряд доступен для покупки</li>
+                            <li>Мало софта</li>
+                            <li>Обычно небольшая мощность</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Memory types -->
+            <section style="top: 114px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Какое бывает железо</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">оперативная память</h3>
+                <div class="columns" style="font-size: 0.55em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">RAM</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul>
+                            <li>Можно поставить хоть 4TB на сервер</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul>
+                            <li>Медленная (DDR4-DDR5)</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Unified Memory</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul>
+                            <li>Дешевый способ дать GPU много памяти</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul>
+                            <li>Медленная</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">vRAM</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul>
+                            <li>Очень быстрая (DDR6-DDR7)</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul>
+                            <li>Дорогая</li>
+                            <li>Мало (32GB / 80GB) на 1 чип</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: Tradeoffs -->
+            <section style="top: 32.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Трейдоффы</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">быстро дешево качественно - выберите любые 2</h3>
+                <p style="font-size: 0.8em; margin-top: 20px;">
+                    <a href="https://github.com/enovikov11/llm-hardware" style="color: #60a5fa;">https://github.com/enovikov11/llm-hardware</a>
+                </p>
+                <div style="margin-top: 30px; text-align: center;">
+                    <img src="images/gpu-benchmark-comparison.png" style="max-width: 85%;" alt="Hardware comparison">
+                </div>
+            </section>
+
+            <!-- Slide 10: My experience - hardware -->
+            <section style="top: 46px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Мой опыт</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">железо</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/cat-on-server.gif" alt="Server with cat">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>512GB DDR4 RAM</li>
+                            <li>64-core AMD EPYC 7702p</li>
+                            <li>8TB pci 4.0 x16 NVMe SSD</li>
+                            <li>72TB datacenter grade HDD</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 11: My experience - firmware -->
+            <section style="top: 54.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Мой опыт</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">фирмварь</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/computer-interior-motherboard.jpg" alt="Motherboard">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>BIOS и BMC чипы - читаем прошивку SPI программатором -&gt; сверяем со стоковой</li>
+                            <li>BMC исторически очень плохо написаны -&gt; OpenBMC если есть</li>
+                            <li>Ethernet по USB, тк BMC висит на обычном ethernet тоже</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 12: My experience - OS -->
+            <section style="top: 52px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Мой опыт</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">операционная система</h3>
+                <div class="columns" style="font-size: 0.5em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Alpine Linux</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Малый вектор атаки тк минимальный набор сервсов</li>
+                            <li>Musl вместо libc (security-hardened)</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Шаг влево шаг вправо и не работает</li>
+                            <li>Собирать софт из сорцов - обычное дело</li>
+                            <li>Нет Nvidia драйвера</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Debian-based Linux</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Все работает из коробки</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>БОльший вектор атаки тк больше лишних, ненужных или не понятных сервисов</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">OpenBSD</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Очень маленькое ядро (7M LoC vs 40M LoC у linux)</li>
+                            <li>Security-focused</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Не хватает оптимизаций</li>
+                            <li>Нет драйверов Nvidia</li>
+                            <li>Нет NUMA</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 13: My experience - inference software -->
+            <section style="top: 58.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Мой опыт</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">софт для инференса</h3>
+                <div class="columns" style="font-size: 0.5em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">llama.cpp</h4>
+                        <p style="color: #94a3b8;">Когда использовать:</p>
+                        <p>CPU инференс</p>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>0 dependency</li>
+                            <li>Нет проблем использовать квантованные модели</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Батчинг на CPU практически отсутствует</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">vLLM</h4>
+                        <p style="color: #94a3b8;">Когда использовать:</p>
+                        <p>GPU инференс</p>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Можно батчить запросы</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Нужны дорогие GPU</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Ollama / LM Studio</h4>
+                        <p style="color: #94a3b8;">Когда использовать:</p>
+                        <p>Вообще ни разу ничего не делал, хочется быстрый hello world</p>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Просто использовать</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Низкая производительность</li>
+                            <li>Много лишнего</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 14: My experience - models -->
+            <section style="top: 90.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Мой опыт</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">модели</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/sam-altman-deepseek-tweet.jpg" alt="DeepSeek meme">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>GLM-4.7-Flash-Q4_K_M.gguf 116 tps (31B, 18GB) на RTX 3090</li>
+                            <li>MiniMax-M2.5-Q4_K_M.gguf 15 tps (229B, 138GB) на EPYC 7702p</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15.1: My experience - GLM Flash demo -->
+            <section>
+                <h2>Мой опыт</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">GLM-4.7 Flash демо</h3>
+                <div style="margin-top: 20px; text-align: center;">
+                    <video controls style="max-width: 85%; max-height: 500px;">
+                        <source src="images/glm-flash-demo.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </section>
+
+            <!-- Slide 15.2: My experience - MiniMax demo -->
+            <section>
+                <h2>Мой опыт</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">MiniMax M2.5 демо</h3>
+                <div style="margin-top: 20px; text-align: center;">
+                    <video controls style="max-width: 85%; max-height: 500px;">
+                        <source src="images/minimax-demo.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </section>
+
+            <!-- Slide 16: Security - hardware -->
+            <section style="top: 55px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Безопасность</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">железо</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/motherboard-closeup.gif" alt="BMC motherboard">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>На серверных платах есть Baseboard Management Controller (BMC)</li>
+                            <li>Это ARM чип, который управляет всем</li>
+                            <li>Стоковая прошивка легендарно небезопасна</li>
+                            <li>OpenBMC - ваш выбор</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 17: Security - network -->
+            <section style="top: 10px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Безопасность</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">сегментация сети</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/cat-ai-warning-meme.jpg" alt="Cat security">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>Закрываем фаерволом</li>
+                            <li>Используем виртуальные линки внутри между контейнерами</li>
+                            <li>Из VPN хорош Wireguard - легковесный около 4к строк в Linux Kernel</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 18: Security - virtualization -->
+            <section style="top: 156.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Безопасность</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">виртуализация и контейнеризация</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/nested-vm-meme.jpg" alt="VM meme">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>Qemu для изоляции машин</li>
+                            <li>Runc/docker для рабочих нагрузок</li>
+                            <li>SEV-SNP - шифрованная память от гипервизора в AMD EPYC</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 19: Security - checklist -->
+            <section style="top: 23.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Безопасность</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">чеклист-рекомендация</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/local-ai-girlfriend-tweet.jpg" alt="AI girlfriend meme">
+                    </div>
+                    <div class="content-left" style="font-size: 0.5em;">
+                        <p><strong>Фирмварь</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Сбросить, зашить последний релиз</li>
+                            <li>Брать OpenBMC-совеместимую плату</li>
+                        </ul>
+                        <p><strong>ОС</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Опенсорсная (linux-подобная)</li>
+                            <li>Небольшой вектор атаки</li>
+                        </ul>
+                        <p><strong>Софт</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>От проверенных вендоров</li>
+                        </ul>
+                        <p><strong>Изоляция</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Разрешен только необходимый сетевой трафик</li>
+                            <li>Полезная нагрузка разделена</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 20: Performance -->
+            <section style="top: 67px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Производительность</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">kv кеш, mmap, latency</h3>
+                <div class="columns" style="font-size: 0.55em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">KV cache</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Ускоряет работу</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Требует оперативку</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Memory map</h4>
+                        <p style="color: #4ade80;">Плюсы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Можно не занимать оперативку весами модели</li>
+                        </ul>
+                        <p style="color: #f87171;">Минусы:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Медленнее если оперативная память это ботлнек</li>
+                            <li>Подходит только для CPU инференса</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Batch/очереди</h4>
+                        <p style="color: #4ade80;">Плюсы batch:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>В среднем обрабатывается быстрее тк несколько за раз</li>
+                        </ul>
+                        <p style="color: #4ade80;">Плюсы очереди:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Предсказуемый latency</li>
+                            <li>Лучше работает на CPU</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 21: Bonus - Open WebUI -->
+            <section style="top: 52.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Бонус</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">Open WebUI</h3>
+                <p style="font-size: 0.8em;">
+                    <a href="https://openwebui.com/" style="color: #60a5fa;">https://openwebui.com/</a>
+                </p>
+                <div style="margin-top: 20px;">
+                    <img src="images/chatgpt-claude-greeting.png" style="max-width: 70%;" alt="Open WebUI">
+                </div>
+            </section>
+
+            <!-- Slide 22: Bonus - RAG -->
+            <section style="top: 69.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Бонус</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">retrieval-augmented generation</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/cat-misinformation-meme.jpg" alt="Cat misinformation">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>Знания очень плотно упакованы в модель</li>
+                            <li>Нюансы и свежий контекст нужно добавлять в промпт</li>
+                            <li>RAG решает эту проблему подгружая релевантное</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 23: Bonus - LoRA -->
+            <section style="top: 25px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Бонус</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">LoRA</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/debugging-mystery-game.jpg" alt="Debugging meme">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>Это адаптация модели под тип задач</li>
+                            <li>Требует не так много ресурсов</li>
+                            <li>Ограничена по влиянию и экспериментальная</li>
+                            <li>Доступна если инференсить самому в своем коде</li>
+                        </ul>
+                        <p style="font-size: 0.85em; margin-top: 20px;">Ссылки:</p>
+                        <p style="font-size: 0.75em;">
+                            <a href="https://huggingface.co/learn/llm-course/en/chapter11/4" style="color: #60a5fa;">https://huggingface.co/learn/llm-course/en/chapter11/4</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 24: Bonus - Fine-tuning vs prompting -->
+            <section style="top: 46.5px; display: block;" class="past" hidden="" aria-hidden="true">
+                <h2>Бонус</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">дообучение VS промптинг</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/black-cat-closeup.jpg" alt="Cat">
+                    </div>
+                    <div class="content-left" style="font-size: 0.85em;">
+                        <ul style="font-size: 0.7em;">
+                            <li>Вероятно вам не нужно учить модель</li>
+                            <li>Промптинг решает многие проблемы</li>
+                            <li>Можно попробовать LoRa для LLM</li>
+                            <li>На крайний случай таки нужно выделить много GPU и доучить модель, попробуйте избежать этого</li>
+                        </ul>
+                        <p style="font-size: 0.85em; margin-top: 20px;">Ссылки:</p>
+                        <p style="font-size: 0.75em;">
+                            <a href="https://github.com/NirDiamant/RAG_Techniques" style="color: #60a5fa;">https://github.com/NirDiamant/RAG_Techniques</a><br>
+                            <a href="https://genai.owasp.org/llm-top-10/" style="color: #60a5fa;">https://genai.owasp.org/llm-top-10/</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 25: Bonus - YouTube playlist -->
+            <section style="top: 11.5px; display: block;" class="past" hidden="" aria-hidden="true">
+                <h2>Бонус</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">классный плейлист на тему как работают LLM</h3>
+                <p style="font-size: 0.8em;">
+                    <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi" style="color: #60a5fa;">https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi</a>
+                </p>
+                <div style="margin-top: 20px;">
+                    <img src="images/neural-networks-3blue1brown.png" style="max-width: 75%;" alt="3Blue1Brown playlist">
+                </div>
+            </section>
+
+            <!-- Slide 26: Thank you -->
+            <section class="title-slide present" style="top: 177px; display: block;">
+                <h2>Спасибо за внимание</h2>
+                <p style="font-size: 1.2em; margin-top: 40px;">@enovikov11</p>
+                <div style="display: flex; justify-content: center; gap: 30px; margin-top: 40px; align-items: center;">
+                    <img src="images/telegram-icon.svg" style="width: 80px;" alt="Telegram">
+                    <img src="images/linkedin-icon.svg" style="width: 80px;" alt="LinkedIn">
+                    <img src="images/github-icon.svg" style="width: 80px;" alt="GitHub">
+                    <img src="images/habr-icon.svg" style="width: 80px;" alt="Habr">
+                </div>
+            </section>
+
+</div>
+    </div>
+
+    <script src="dist/js/reveal-5.0.4.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            backgroundTransition: 'fade',
+            center: true,
+            slideNumber: true,
+            controls: true,
+            progress: true,
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+Presentation: LLM@home - privacy-first local inference in practice
+Speaker: Evgenii, Xecut Hackerspace Belgrade
+
+Large Language Models are increasingly being integrated into technical workflows, but their practical usefulness strongly depends on the use case, model choice, and how they are deployed. In some scenarios they can be helpful tooling; in others they add complexity without much benefit.
+
+In practice there is a trade-off between privacy, performance, and cost. Cloud-hosted models offer strong performance and low operational overhead, but operate through external services. Small local models keep everything on your own hardware, but often fall short in quality or speed. A third option is running larger models locally - not a cheap setup, but a realistic path for a dedicated hobbyist who wants to understand and control the full stack.
+
+This talk is a practical walkthrough of building and operating a security-first home LLM setup: a 64-core / 512 GB RAM machine used for local inference, capable of running 200B+ parameter models at kinda usable speeds. I'll cover hardware choices, firmware and OS considerations, inference software, and real bottlenecks - from an engineering and operations perspective rather than product marketing.
+
+The focus is on experience and knowledge sharing: what works, what doesn't, and what it actually takes to run capable models locally with a privacy-first mindset.

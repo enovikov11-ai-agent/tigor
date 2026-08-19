@@ -1,0 +1,133 @@
+body {
+    margin: 0;
+    cursor: none;
+    user-select: none;
+    overflow: hidden;
+    background: #222;
+}
+
+@keyframes drift {
+    0% {
+        transform: rotate(-2.55deg) scale(0.95);
+    }
+
+    25% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(2.55deg) scale(0.95);
+    }
+
+    75% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    100% {
+        transform: rotate(-2.55deg) scale(0.95);
+    }
+}
+
+.screen {
+    position: relative;
+    width: 1080px;
+    height: 1920px;
+    background-color: black;
+    animation: drift 60s linear infinite;
+    overflow: hidden;
+}
+
+.widget {
+    position: absolute;
+    overflow: hidden;
+}
+
+.widget-caption {
+    color: red;
+    font-size: 85px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.widget-clock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.clock-digit {
+    background-image: url('./img/digits.png');
+    background-repeat: no-repeat;
+}
+
+.clock-item {
+    width: 68px;
+    height: 150px;
+    display: inline-block;
+}
+
+.image {
+    height: 400px;
+}
+
+.widget-camera {
+    transform: rotate(-90deg);
+}
+
+.camera {
+    width: 400px;
+    transform: scaleY(-1);
+    filter: brightness(3);
+}
+
+.widget-backdoor {
+    background: red;
+    padding: 1em;
+    text-decoration: line-through;
+    font-weight: bold;
+}
+
+.widget-backdoor.hidden {
+    display: none;
+}
+
+.widget-chat {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    overflow-x: hidden;
+    font-size: 20px;
+    word-wrap: break-word;
+    overflow-y: auto;
+}
+
+.widget-chat::-webkit-scrollbar {
+    display: none;
+}
+
+.widget-pull-request {
+    color: red;
+    font-size: 80px;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.widget-temperature {
+    color: green;
+    font-size: 70px;
+}
+
+.widget-co2 {
+    color: white;
+    font-size: 40px;
+}
+
+.widget-devices {
+    color: white;
+    font-size: 30px;
+}
+
+.ai-token {
+    width: 250px;
+    height: 250px;
+}

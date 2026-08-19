@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Safely and Privately Run LLMs on Your Own Hardware</title>
+    <link rel="stylesheet" href="dist/css/reveal-5.0.4.css">
+    <link rel="stylesheet" href="dist/css/reveal-black-5.0.4.css">
+    <style>
+        .reveal {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #a78bfa;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .reveal section {
+            text-align: left;
+        }
+        .reveal .title-slide {
+            text-align: center;
+        }
+        .reveal .subtitle {
+            color: #ef4444;
+            font-size: 0.8em;
+        }
+        .reveal .date {
+            color: #a78bfa;
+            font-size: 0.7em;
+        }
+        .reveal .footer-text {
+            font-size: 0.6em;
+            color: #94a3b8;
+        }
+        .reveal img {
+            border: none;
+            box-shadow: none;
+            background: transparent;
+        }
+        .reveal .shield-bg {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.3;
+            max-width: 400px;
+        }
+        .reveal ul {
+            font-size: 0.55em;
+        }
+        .reveal li {
+            margin-bottom: 0.2em;
+        }
+        .reveal .columns {
+            display: flex;
+            gap: 15px;
+            font-size: 0.5em;
+        }
+        .reveal .column {
+            flex: 1;
+            min-width: 0;
+        }
+        .reveal .column ul {
+            font-size: 0.9em;
+        }
+        .reveal .column h4 {
+            font-size: 0.85em;
+            margin-bottom: 0.3em;
+        }
+        .content-with-image {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            overflow: hidden;
+        }
+        .content-left {
+            flex: 1;
+            min-width: 0;
+            overflow-y: hidden;
+            max-height: 550px;
+            padding-right: 15px;
+        }
+        .content-left ul {
+            font-size: 0.65em;
+            margin-right: 5px;
+        }
+        .content-left::-webkit-scrollbar {
+            width: 8px;
+        }
+        .content-left::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+        .content-left::-webkit-scrollbar-thumb {
+            background: rgba(167,139,250,0.5);
+            border-radius: 4px;
+        }
+        .image-left {
+            flex: 0 0 350px;
+            display: flex;
+            align-items: center;
+        }
+        .image-left img {
+            max-width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section class="title-slide past" style="top: 0px; display: none;" hidden="" aria-hidden="true">
+                <h1>LLM@home - privacy-first local inference in practice</h1>
+                <p class="subtitle">Evgenii Novikov, AI hobbyist</p>
+            </section>
+
+            <!-- Slide 2: About me -->
+            <section style="top: 0px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>About Me</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">background and interests</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/person-at-laptop.jpg" alt="Profile">
+                    </div>
+                    <div class="content-left">
+                        <ul>
+                            <li>7 years in Big Tech</li>
+                            <li>21 git repositories with pet projects</li>
+                            <li>AI enthusiast since 2023, experience on the board of directors of an AI startup</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: Why LLMs -->
+            <section style="top: 14px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Why We Need LLMs</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">and what they're good for</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/agentic-ai-economy-meme.jpg" alt="LLM Meme">
+                    </div>
+                    <div class="content-left">
+                        <ul>
+                            <li>Can code at junior developer level</li>
+                            <li>Work better than FAQ in support</li>
+                            <li>Incredibly efficient compressed archive of all knowledge and the internet</li>
+                            <li>Write presentations for you</li>
+                            <li>¯\_(ツ)_/¯</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: LLM in cloud -->
+            <section style="top: 79px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>LLMs in the Cloud</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">pros and cons</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/four-cats-ai-logos.jpg" alt="Cloud AIs">
+                    </div>
+                    <div class="content-left">
+                        <p style="font-style: italic;color: #94a3b8;margin-bottom: 20px;font-size: 0.85em;">The Cloud Is Just Someone Else's Computer</p>
+                        <div style="display: flex;gap: 20px;font-size: 0.7em;">
+                            <div style="flex: 1;">
+                                <h4 style="color: #4ade80;">Pros:</h4>
+                                <ul style="font-size: 0.9em;">
+                                    <li>Easy to scale</li>
+                                    <li>No infrastructure maintenance needed</li>
+                                </ul>
+                            </div>
+                            <div style="flex: 1;">
+                                <h4 style="color: #f87171;">Cons:</h4>
+                                <ul style="font-size: 0.9em;">
+                                    <li>Your data is no longer entirely yours</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Loss and model size -->
+            <section style="top: 23px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Loss and Model Size</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">why larger models are easier to train</h3>
+                <p style="font-size: 0.7em;">
+                    <a href="https://arxiv.org/pdf/2203.15556" style="color: #60a5fa;">https://arxiv.org/pdf/2203.15556</a><br>
+                    <a href="https://arxiv.org/pdf/2001.08361" style="color: #60a5fa;">https://arxiv.org/pdf/2001.08361</a>
+                </p>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+                    <img src="images/training-loss-vs-flops.png" style="width: 48%;" alt="Training loss">
+                    <img src="images/loss-vs-model-dataset-size.png" style="width: 48%;" alt="Loss vs model">
+                </div>
+            </section>
+
+            <!-- Slide 6: LMArena -->
+            <section style="top: 18.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>LMArena</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">finding the best local models</h3>
+                <p style="font-size: 0.8em;">
+                    <a href="https://lmarena.ai/leaderboard/text" style="color: #60a5fa;">https://lmarena.ai/leaderboard/text</a>
+                </p>
+                <div style="margin-top: 20px;">
+                    <img src="images/ai-model-leaderboard.png" style="max-width: 85%;" alt="LMArena leaderboard">
+                </div>
+            </section>
+
+            <!-- Slide 7: Hardware types -->
+            <section style="top: 80px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Types of Hardware</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">compute units</h3>
+                <div class="columns" style="font-size: 0.5em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">CPU (AMD, Intel, RISC-V)</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Cheap</li>
+                            <li>All RAM available</li>
+                            <li>Open architectures available (RISC-V)</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Slow</li>
+                            <li>Takes resources away from other tasks</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">GPU (Nvidia, AMD, Intel)</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Fast</li>
+                            <li>Straightforward</li>
+                            <li>Lots of software available</li>
+                            <li>Good parallelism</li>
+                            <li>Open architectures available (AMD)</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Expensive</li>
+                            <li>Limited vRAM</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">NPU</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Most efficient hardware</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Small range available for purchase</li>
+                            <li>Limited software</li>
+                            <li>Usually low power</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Memory types -->
+            <section style="top: 114px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Types of Hardware</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">memory</h3>
+                <div class="columns" style="font-size: 0.55em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">RAM</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul>
+                            <li>Can install up to 4TB on a server</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul>
+                            <li>Slow (DDR4-DDR5)</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Unified Memory</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul>
+                            <li>Cheap way to give GPU lots of memory</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul>
+                            <li>Slow</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">vRAM</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul>
+                            <li>Very fast (DDR6-DDR7)</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul>
+                            <li>Expensive</li>
+                            <li>Limited (32GB / 80GB) per chip</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: Tradeoffs -->
+            <section style="top: 32.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Tradeoffs</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">fast cheap quality - pick any 2</h3>
+                <p style="font-size: 0.8em; margin-top: 20px;">
+                    <a href="https://github.com/enovikov11/llm-hardware" style="color: #60a5fa;">https://github.com/enovikov11/llm-hardware</a>
+                </p>
+                <div style="margin-top: 30px; text-align: center;">
+                    <img src="images/gpu-benchmark-comparison.png" style="max-width: 85%;" alt="Hardware comparison">
+                </div>
+            </section>
+
+            <!-- Slide 10: My experience - hardware -->
+            <section style="top: 46px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>My Experience</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">hardware</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/cat-on-server.gif" alt="Server with cat">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>512GB DDR4 RAM</li>
+                            <li>64-core AMD EPYC 7702p</li>
+                            <li>8TB pci 4.0 x16 NVMe SSD</li>
+                            <li>72TB datacenter grade HDD</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 11: My experience - firmware -->
+            <section style="top: 54.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>My Experience</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">firmware</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/computer-interior-motherboard.jpg" alt="Motherboard">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>BIOS and BMC chips - read firmware with SPI programmer -> compare with stock version</li>
+                            <li>BMC historically very poorly written -> OpenBMC if available</li>
+                            <li>Ethernet over USB, since BMC also hangs on regular ethernet</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 12: My experience - OS -->
+            <section style="top: 52px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>My Experience</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">operating system</h3>
+                <div class="columns" style="font-size: 0.5em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Alpine Linux</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Small attack surface due to minimal service set</li>
+                            <li>Musl instead of libc (security-hardened)</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>One step left one step right and it doesn't work</li>
+                            <li>Building software from source - common practice</li>
+                            <li>No Nvidia driver</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Debian-based Linux</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Everything works out of the box</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Larger attack surface due to more unnecessary or unclear services</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">OpenBSD</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Very small kernel (7M LoC vs 40M LoC for linux)</li>
+                            <li>Security-focused</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Lacks optimizations</li>
+                            <li>No Nvidia drivers</li>
+                            <li>No NUMA</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 13: My experience - inference software -->
+            <section style="top: 58.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>My Experience</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">inference software</h3>
+                <div class="columns" style="font-size: 0.5em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">llama.cpp</h4>
+                        <p style="color: #94a3b8;">When to use:</p>
+                        <p>CPU inference</p>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>0 dependencies</li>
+                            <li>No issues using quantized models</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Batching on CPU practically non-existent</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">vLLM</h4>
+                        <p style="color: #94a3b8;">When to use:</p>
+                        <p>GPU inference</p>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Can batch requests</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Needs expensive GPUs</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Ollama / LM Studio</h4>
+                        <p style="color: #94a3b8;">When to use:</p>
+                        <p>Never done anything before, want quick hello world</p>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Easy to use</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Low performance</li>
+                            <li>Lots of unnecessary stuff</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 14: My experience - models -->
+            <section style="top: 90.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>My Experience</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">models</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/sam-altman-deepseek-tweet.jpg" alt="DeepSeek meme">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>GLM-4.7-Flash-Q4_K_M.gguf 116 tps (31B, 18GB) on RTX 3090</li>
+                            <li>MiniMax-M2.5-Q4_K_M.gguf 15 tps (229B, 138GB) on EPYC 7702p</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15.1: My experience - GLM Flash demo -->
+            <section>
+                <h2>My Experience</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">GLM-4.7 Flash demo</h3>
+                <div style="margin-top: 20px; text-align: center;">
+                    <video controls style="max-width: 85%; max-height: 500px;">
+                        <source src="images/glm-flash-demo.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </section>
+
+            <!-- Slide 15.2: My experience - MiniMax demo -->
+            <section>
+                <h2>My Experience</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">MiniMax M2.5 demo</h3>
+                <div style="margin-top: 20px; text-align: center;">
+                    <video controls style="max-width: 85%; max-height: 500px;">
+                        <source src="images/minimax-demo.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </section>
+
+            <!-- Slide 16: Security - hardware -->
+            <section style="top: 55px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Security</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">hardware</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/motherboard-closeup.gif" alt="BMC motherboard">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>Server boards have Baseboard Management Controller (BMC)</li>
+                            <li>It's an ARM chip that controls everything</li>
+                            <li>Stock firmware is legendarily insecure</li>
+                            <li>OpenBMC - your choice</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 17: Security - network -->
+            <section style="top: 10px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Security</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">network segmentation</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/cat-ai-warning-meme.jpg" alt="Cat security">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>Protect with firewall</li>
+                            <li>Use virtual links internally between containers</li>
+                            <li>For VPN, Wireguard is good - lightweight at around 4k lines in Linux Kernel</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 18: Security - virtualization -->
+            <section style="top: 156.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Security</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">virtualization and containerization</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/nested-vm-meme.jpg" alt="VM meme">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>Qemu for machine isolation</li>
+                            <li>Runc/docker for workloads</li>
+                            <li>SEV-SNP - encrypted memory from hypervisor in AMD EPYC</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 19: Security - checklist -->
+            <section style="top: 23.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Security</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">recommended checklist</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/local-ai-girlfriend-tweet.jpg" alt="AI girlfriend meme">
+                    </div>
+                    <div class="content-left" style="font-size: 0.5em;">
+                        <p><strong>Firmware</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Reset, flash latest release</li>
+                            <li>Get OpenBMC-compatible board</li>
+                        </ul>
+                        <p><strong>OS</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Open source (linux-like)</li>
+                            <li>Small attack surface</li>
+                        </ul>
+                        <p><strong>Software</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>From trusted vendors</li>
+                        </ul>
+                        <p><strong>Isolation</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Only necessary network traffic allowed</li>
+                            <li>Workload separated</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 20: Performance -->
+            <section style="top: 67px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Performance</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">kv cache, mmap, latency</h3>
+                <div class="columns" style="font-size: 0.55em;">
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">KV cache</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Speeds up performance</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Requires RAM</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Memory map</h4>
+                        <p style="color: #4ade80;">Pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Can avoid using RAM for model weights</li>
+                        </ul>
+                        <p style="color: #f87171;">Cons:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Slower if RAM is the bottleneck</li>
+                            <li>Only suitable for CPU inference</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4 style="color: #a78bfa;">Batch/queues</h4>
+                        <p style="color: #4ade80;">Batch pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Processes faster on average since multiple at once</li>
+                        </ul>
+                        <p style="color: #4ade80;">Queue pros:</p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Predictable latency</li>
+                            <li>Works better on CPU</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 21: Bonus - Open WebUI -->
+            <section style="top: 52.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Bonus</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">Open WebUI</h3>
+                <p style="font-size: 0.8em;">
+                    <a href="https://openwebui.com/" style="color: #60a5fa;">https://openwebui.com/</a>
+                </p>
+                <div style="margin-top: 20px;">
+                    <img src="images/chatgpt-claude-greeting.png" style="max-width: 70%;" alt="Open WebUI">
+                </div>
+            </section>
+
+            <!-- Slide 22: Bonus - RAG -->
+            <section style="top: 69.5px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Bonus</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">retrieval-augmented generation</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/cat-misinformation-meme.jpg" alt="Cat misinformation">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>Knowledge is very densely packed in the model</li>
+                            <li>Nuances and fresh context need to be added to the prompt</li>
+                            <li>RAG solves this problem by loading relevant information</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 23: Bonus - LoRA -->
+            <section style="top: 25px; display: none;" class="past" hidden="" aria-hidden="true">
+                <h2>Bonus</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">LoRA</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/debugging-mystery-game.jpg" alt="Debugging meme">
+                    </div>
+                    <div class="content-left">
+                        <ul style="font-size: 0.7em;">
+                            <li>This is model adaptation for specific task types</li>
+                            <li>Doesn't require as many resources</li>
+                            <li>Limited in impact and experimental</li>
+                            <li>Available if you run inference yourself in your own code</li>
+                        </ul>
+                        <p style="font-size: 0.85em; margin-top: 20px;">Links:</p>
+                        <p style="font-size: 0.75em;">
+                            <a href="https://huggingface.co/learn/llm-course/en/chapter11/4" style="color: #60a5fa;">https://huggingface.co/learn/llm-course/en/chapter11/4</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 24: Bonus - Fine-tuning vs prompting -->
+            <section style="top: 46.5px; display: block;" class="past" hidden="" aria-hidden="true">
+                <h2>Bonus</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">fine-tuning VS prompting</h3>
+                <div class="content-with-image" style="margin-top: 30px;">
+                    <div class="image-left">
+                        <img src="images/black-cat-closeup.jpg" alt="Cat">
+                    </div>
+                    <div class="content-left" style="font-size: 0.85em;">
+                        <ul style="font-size: 0.7em;">
+                            <li>You probably don't need to train the model</li>
+                            <li>Prompting solves many problems</li>
+                            <li>Can try LoRA for LLM</li>
+                            <li>As a last resort if you really need to allocate many GPUs and fine-tune the model, try to avoid this</li>
+                        </ul>
+                        <p style="font-size: 0.85em; margin-top: 20px;">Links:</p>
+                        <p style="font-size: 0.75em;">
+                            <a href="https://github.com/NirDiamant/RAG_Techniques" style="color: #60a5fa;">https://github.com/NirDiamant/RAG_Techniques</a><br>
+                            <a href="https://genai.owasp.org/llm-top-10/" style="color: #60a5fa;">https://genai.owasp.org/llm-top-10/</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 25: Bonus - YouTube playlist -->
+            <section style="top: 11.5px; display: block;" class="past" hidden="" aria-hidden="true">
+                <h2>Bonus</h2>
+                <h3 style="font-size: 0.8em; color: #94a3b8;">great playlist on how LLMs work</h3>
+                <p style="font-size: 0.8em;">
+                    <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi" style="color: #60a5fa;">https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi</a>
+                </p>
+                <div style="margin-top: 20px;">
+                    <img src="images/neural-networks-3blue1brown.png" style="max-width: 75%;" alt="3Blue1Brown playlist">
+                </div>
+            </section>
+
+            <!-- Slide 26: Thank you -->
+            <section class="title-slide present" style="top: 177px; display: block;">
+                <h2>Thank You for Your Attention</h2>
+                <p style="font-size: 1.2em; margin-top: 40px;">@enovikov11</p>
+                <div style="display: flex; justify-content: center; gap: 30px; margin-top: 40px; align-items: center;">
+                    <img src="images/telegram-icon.svg" style="width: 80px;" alt="Telegram">
+                    <img src="images/linkedin-icon.svg" style="width: 80px;" alt="LinkedIn">
+                    <img src="images/github-icon.svg" style="width: 80px;" alt="GitHub">
+                    <img src="images/habr-icon.svg" style="width: 80px;" alt="Habr">
+                </div>
+            </section>
+
+</div>
+    </div>
+
+    <script src="dist/js/reveal-5.0.4.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            backgroundTransition: 'fade',
+            center: true,
+            slideNumber: true,
+            controls: true,
+            progress: true,
+        });
+    </script>
+</body>
+</html>

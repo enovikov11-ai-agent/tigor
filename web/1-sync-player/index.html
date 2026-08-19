@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+    <div id="status">🟡 Connecting...</div>
+
+    <div>
+        Time correction (ms): <br />
+        <input id="correction" onchange="correctionChanged(this)" /> <br />
+        <span id="time"></span>
+    </div>
+
+    <form id="choose"></form>
+
+    <div id="connstat"></div>
+    <div id="playstat"></div>
+
+    <div><button id="play" onclick="issuePlay()">play</button><button id="play"
+            onclick="authorize()">authorize</button><br /></div>
+
+    <video preload="auto" id="video" />
+
+    <script>
+        const ws = new WebSocket("./ws"), time = document.querySelector("#time");
+        const video = document.querySelector("#video");
+        let correctionValue = 0, videoName = '';
+
+        ws.onclose = ws.onerror = () => document.querySelector("#status").innerText = "🔴 Disconnected";
+        ws.onopen = () => {
+            document.querySelector("#status").innerText = "🟢 Connected";
+
+            if (localStorage.token) ws.send(JSON.stringify({ token: localStorage.token }));
+        };
+
+        ws.onmessage = ({ data }) => {
+            const msg = JSON.parse(data);
+
+            if (msg.sessionId !== undefined) {
+                document.querySelector("#status").innerText += " sessionId: " + msg.sessionId;
+            }
+
+            if (msg.selected) {
+                loadVideo(msg.selected);
+
+                let elem = document.getElementById(msg.selected.replace(/[\./+]/g, "_"));
+                if (elem) elem.checked = true;
+            }
+
+            if (msg.canPlay) {
+                document.querySelector("#connstat").innerText = "Ready nodes: " + msg.canPlay.join(", ");
+            }
+
+            if (msg.play) {
+                document.querySelector("#playstat").innerText = "Issued play at: " + msg.play;
+
+                setTimeout(() => { video.play(); }, msg.play - Date.now() - correctionValue);
+
+            }
+
+            if (msg.videos) {
+                const choose = document.querySelector("#choose");
+                choose.innerHTML = "";
+
+                for (let video of msg.videos) {
+                    const input = document.createElement("input");
+                    const label = document.createElement("label");
+                    const br = document.createElement("br");
+
+                    const id = video.replace(/[\./+]/g, "_");
+
+                    input.type = "radio";
+                    input.id = id;
+                    input.name = "video";
+                    input.value = video;
+
+                    if (videoName == video) input.checked = true;
+
+                    label.setAttribute("for", id);
+                    label.innerText = video;
+
+                    choose.appendChild(input);
+                    choose.appendChild(label);
+                    choose.appendChild(br);
+                }
+            }
+
+            console.log(msg);
+        }
+
+        document.querySelector("#choose").addEventListener("change", ({ target }) => ws.send(JSON.stringify({ selected: target.value })));
+
+        correctionValue = document.querySelector("#correction").value = +localStorage.correction || 0;
+
+        function authorize() {
+            video.play();
+            setTimeout(() => {
+                video.pause();
+                video.currentTime = 0;
+            }, 400);
+        }
+
+        function loadVideo(name) {
+            if (videoName == name) return;
+            videoName = name;
+
+            video.setAttribute("src", "./videos/" + name);
+            video.addEventListener('canplaythrough', () => ws.send(JSON.stringify({ canPlay: videoName })));
+        }
+
+        function correctionChanged(correction) {
+            if (isNaN(+correction.value)) {
+                correction.style.border = '2px red solid';
+            } else {
+                correction.style.border = '';
+                correctionValue = localStorage.correction = correction.value = +correction.value;
+            }
+        }
+
+        function issuePlay() {
+            ws.send(JSON.stringify({ "play": Date.now() + correctionValue + 2000 }))
+        }
+
+        function updateTime() {
+            let now = Date.now() + correctionValue;
+            const result = new Array(20);
+
+            for (let i = 0; i < 20; i++) {
+                result[i] = now % 2 == 0 ? '□' : '■';
+                now >>= 1;
+            }
+
+            time.innerText = result.join(" ");
+
+            requestAnimationFrame(updateTime);
+        }
+
+        updateTime();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,221 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>XKCD password generator</title>
+    <script>
+        async function makePassword() {
+            // We download EFF list and check integrity. Don't trust integrity check, lets make sure it works
+            // Open https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt press F12 to open console and write
+
+            // await fetch(location.href, { integrity: 'sha384-08Zyc2ydrI+QM7TP2c1fgd3aA/gqwudW0UMg0DqfFf0fqP4CVuU45K7lnlUry9Ts' }).then((res) => res.text())
+
+            // You will see word list and no error
+            // Copy this expression, change one symbol (except sha384-, thats hash type) and evaluate it
+            // You will see integrity error
+            const wordList = await fetch("./eff_large_wordlist.txt", { integrity: 'sha384-08Zyc2ydrI+QM7TP2c1fgd3aA/gqwudW0UMg0DqfFf0fqP4CVuU45K7lnlUry9Ts' }).then((res) => res.text());
+
+            // Extract words using regular expression
+            const words = [...wordList.matchAll(/[a-z]+/g)].map(([word]) => word);
+
+            // Prepare array for random numbers
+            const passwordWordIds = new Uint16Array(4);
+
+            // Fill it by crypto strong pseudo random numbers
+            crypto.getRandomValues(passwordWordIds);
+
+            // Map each number to word. We use 4 words with 4096 combinations, thats 12 bits of entropy per word, 48 bits total
+            return [...passwordWordIds].map(id => words[id % 4096]).join(' ');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            makePassword()
+                // Make message
+                .then(password =>
+                    `<div>Your 48-bit entropy password:</div>` +
+                    `<div class="password-text">${password}</div>` +
+                    `<div>Good enough to be a master password, keep secret. Refresh page if you want another</div>`
+                )
+                // Intercept error
+                .catch(() => 'Error while generating password')
+                // Put into page
+                .then(message => document.querySelector('.password').innerHTML = message);
+        });
+    </script>
+    <style>
+        body {
+            font-size: 20px;
+            line-height: 40px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            row-gap: 20px;
+        }
+
+        img {
+            object-fit: contain;
+        }
+
+        .languages {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: column;
+        }
+
+        .language-selector {
+            text-decoration: none;
+            font-size: 50px;
+            margin: 10px;
+        }
+
+        .description {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            max-width: calc(100% - 400px);
+        }
+
+        .password-container {
+            flex-basis: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .password-text {
+            font-size: 42px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .password {
+            padding: 20px;
+            justify-content: center;
+            display: flex;
+            flex-flow: column;
+            background-color: lightgray;
+        }
+
+        .wow {
+            margin: 5px;
+            display: block;
+        }
+
+        .xkcd-line {
+            flex-basis: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .xkcd-item {
+            display: block;
+            margin: 5px;
+        }
+
+        .xkcd-image {
+            width: 100%;
+        }
+
+        @media (max-width: 1220px) {
+
+            body {
+                font-size: 15px;
+                line-height: 30px;
+            }
+
+            .languages {
+                flex-flow: row;
+            }
+
+            .password-text {
+                font-size: 30px;
+            }
+
+            body {
+                row-gap: 5px;
+            }
+
+            .password-container {
+                order: 1;
+            }
+
+            .description {
+                order: 2;
+                max-width: unset;
+            }
+
+            .xkcd-line {
+                order: 3;
+            }
+
+            .wow {
+                order: 4;
+            }
+        }
+
+        @media (max-width: 750px) {
+            .password-text {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="languages">
+        <a href="./" class="language-selector">🇺🇸</a>
+        <a href="./ru.html" class="language-selector">🇷🇺</a>
+    </div>
+    <div class="description">
+        <div class="description-text">Nothing upon my sleeve in-browser XKCD password generator (unofficial).</div>
+        <div class="description-text">
+            Lightweight, no JS dependencies, based on <a
+                href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API" target="_blank"
+                rel="noopener">Web Crypto API</a> and <a
+                href="https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt" target="_blank" rel="noopener">EFF
+                word list</a>.
+        </div>
+        <div class="description-text">
+            <b>Don't trust, add <code>view-source:</code> before URL and check, its well commented.</b>
+        </div>
+        <div class="description-text">For more secure operation, use incognito mode to disable extensions.</div>
+    </div>
+    <img src="./img/wow.jpeg" class="wow" />
+    <div class="password-container">
+        <div class="password">Generating...</div>
+    </div>
+    <div class="xkcd-line">
+        <a href="https://xkcd.com/936/" target="_blank" rel="noopener" class="xkcd-item">
+            <img src="./img/en/xkcd1.png" class="xkcd-image" />
+        </a>
+        <a href="https://xkcd.com/936/" target="_blank" rel="noopener" class="xkcd-item">
+            <img src="./img/en/xkcd2.png" class="xkcd-image" />
+        </a>
+        <a href="https://xkcd.com/936/" target="_blank" rel="noopener" class="xkcd-item">
+            <img src="./img/en/xkcd3.png" class="xkcd-image" />
+        </a>
+    </div>
+    <div class="xkcd-line">
+        <a href="https://xkcd.com/936/" target="_blank" rel="noopener" class="xkcd-item">
+            <img src="./img/en/xkcd4.png" class="xkcd-image" />
+        </a>
+        <a href="https://xkcd.com/936/" target="_blank" rel="noopener" class="xkcd-item">
+            <img src="./img/en/xkcd5.png" class="xkcd-image" />
+        </a>
+        <a href="https://xkcd.com/936/" target="_blank" rel="noopener" class="xkcd-item">
+            <img src="./img/en/xkcd6.png" class="xkcd-image" />
+        </a>
+    </div>
+    <div class="xkcd-line">
+        <a href="https://xkcd.com/936/" target="_blank" rel="noopener" class="xkcd-item">
+            <img src="./img/en/xkcd7.png" class="xkcd-image" />
+        </a>
+    </div>
+</body>
+
+</html>

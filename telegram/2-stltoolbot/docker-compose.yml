@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  stltoolbot:
+    build: .
+    restart: always
+    environment:
+      - API_KEY=${API_KEY}

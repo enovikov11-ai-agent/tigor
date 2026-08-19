@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Гадание на блокчейне</title>
+
+    <script type="module">
+        import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/5.5.4/ethers.esm.min.js";
+
+        const provider = ethers.getDefaultProvider(), params = new URLSearchParams(new URL(location).search);
+
+        window.provider = provider;
+
+        window.onerror = () => document.body.innerText = 'Ошибка, возможно перезагрузка страницы поможет';
+
+        window.textChanged = function (currentText) {
+            const isLast = document.querySelector('.questions').lastElementChild === currentText.parentElement,
+                isEmpty = currentText.value === '';
+
+            if (isLast && !isEmpty) {
+                const question = document.createElement('div'), number = document.createElement('span'), text = document.createElement('input'),
+                    n = (document.querySelector('.questions').childElementCount + 1);
+
+                question.className = 'question';
+                number.className = 'number';
+                text.className = 'text';
+
+                number.innerText = n + '. ';
+                text.setAttribute('oninput', 'textChanged(this)');
+                text.name = 'q' + n;
+
+                question.appendChild(number);
+                question.appendChild(text);
+                document.querySelector('.questions').appendChild(question);
+            }
+
+            if (!isLast && isEmpty) {
+                currentText.parentElement.remove();
+
+                const questions = [...document.querySelector('.questions').children];
+
+                for (let i = 0; i < questions.length; i++) {
+                    questions[i].querySelector('.number').innerText = (i + 1) + '. ';
+                    questions[i].querySelector('.text').name = 'q' + (i + 1);
+                }
+            }
+        }
+
+        window.updateFeedback = function (isGood) {
+            document.querySelector('.feedback').innerHTML = isGood ?
+                'Поздравляем везучих или хитрых хе-хе' :
+                '<a href="https://tjournal.ru/internet/455625" target="_blank" rel="noopener">Нажал F12 - хакер</a>, не трогал сорцы - тру хакер';
+        }
+
+        function show(className) {
+            ['.loading', '.input', '.output']
+                .forEach(selector => document.querySelector(selector).style.display = (selector === '.' + className) ? '' : 'none');
+            document.querySelector('.image-container').style.display = '';
+            document.querySelector('.footer').style.display = '';
+        }
+
+        async function main() {
+            if (params.get('block') && params.get('q1')) {
+                const { hash } = await provider.getBlock(+params.get('block')), answers = BigInt(hash).toString(2).split('').reverse();
+
+                for (let i = 1; params.get('q' + i); i++) {
+                    const row = document.createElement('tr'), line1 = document.createElement('td'),
+                        line2 = document.createElement('td'), line3 = document.createElement('td');
+
+                    line1.innerText = i + '. ';
+                    line2.innerText = params.get('q' + i);
+                    line3.innerText = (answers[i - 1] === '1') ? 'Да' : 'Нет';
+
+                    line1.className = 'border-row';
+                    line3.className = 'border-row';
+
+                    row.appendChild(line1)
+                    row.appendChild(line2)
+                    row.appendChild(line3)
+
+                    document.querySelector('.results').appendChild(row);
+                }
+
+                document.querySelector('.block').innerText = params.get('block');
+
+                show('output');
+            } else {
+                document.querySelector('[name=block]').value = await provider.getBlockNumber();
+                show('input');
+            }
+        }
+
+        addEventListener('DOMContentLoaded', main);
+    </script>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        body,
+        button,
+        input {
+            font-size: 20px;
+            line-height: 30px;
+            background-color: black;
+            color: red;
+            font-weight: 700;
+        }
+
+        button,
+        input {
+            border: 1px red dashed;
+            border-radius: 10px;
+            padding: 5px 15px;
+            margin: 5px 2px;
+
+        }
+
+        input:focus-visible {
+            outline: 0;
+        }
+
+        *::selection {
+            background-color: white;
+            color: black;
+        }
+
+        a {
+            color: red;
+        }
+
+        .footer {
+            margin-top: 40px;
+        }
+
+        body,
+        .intro,
+        .results,
+        .feedback,
+        .new,
+        .questions,
+        .go {
+            margin: 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .image {
+            max-width: 100%;
+            margin: 20px;
+        }
+
+        .main {
+            flex-shrink: 0;
+            flex-grow: 1;
+        }
+
+        .image-container {
+            flex-grow: 1;
+        }
+
+        td {
+            padding: 5px 10px;
+            border: 1px red dashed;
+        }
+
+        .feedback {
+            line-height: 45px;
+        }
+
+        .results {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .text {
+            width: 600px;
+        }
+
+        .go {
+            margin-left: 100px;
+        }
+
+        .border-row {
+            width: 50px;
+        }
+
+        .container {
+            max-width: 1300px;
+        }
+
+        .footer-container {
+            max-width: 1300px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .go {
+                margin: 0;
+                width: 100%;
+            }
+
+            .go-container {
+                padding: 0 20px;
+            }
+
+            .text {
+                width: calc(100% - 100px);
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            body,
+            button,
+            input {
+                font-size: 15px;
+                line-height: 20px;
+            }
+
+            .results {
+                margin: 0;
+            }
+
+            .border-row {
+                width: 30px;
+            }
+
+            .intro,
+            .results,
+            .feedback,
+            .new,
+            .questions,
+            .go {
+                margin: 5px 0;
+            }
+
+            body {
+                padding: 3px;
+                overflow-x: hidden;
+            }
+
+            .feedback {
+                line-height: 35px;
+                font-size: 12px;
+            }
+
+            .footer {
+                margin-top: 5px;
+            }
+
+            .image {
+                margin: 5px;
+            }
+
+            .image-container {
+                width: 100%;
+            }
+
+            .results {
+                width: 100%;
+                max-width: unset;
+            }
+
+            html,
+            body {
+                height: unset;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <div class="loading">Загрузка...</div>
+
+            <div class="input" style="display: none;">
+                <form action="." method="get">
+                    <input type="hidden" name="block"></input>
+                    <div class="intro">Гадание на эфириумной гуще</div>
+                    <div class="intro">Список вопросов с ответом Да или Нет:</div>
+                    <div class="questions">
+                        <div class="question">
+                            <span class="number">1.</span>
+                            <input class="text" oninput="textChanged(this)" name="q1" />
+                        </div>
+                    </div>
+                    <div class="go-container">
+                        <button class="go">Свет мой эфирце скажи, да всю правду доложи</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="output" style="display: none;">
+                <div class="intro">Эфириумная гуща из блока №<span class="block"></span> нагадала, что:</div>
+
+                <table class="results"></table>
+
+                <div class="feedback">
+                    <span>Нравится результат?</span>
+                    <button onclick="updateFeedback(true)">Да</button>
+                    <button onclick="updateFeedback(false)">Нет</button>
+                </div>
+
+                <a class="new" href=".">Нагадать еще что-нибудь</a>
+            </div>
+        </div>
+        <div class="image-container" style="display:none"><img src="./eth-luck.jpg" class="image" /></div>
+    </div>
+    <div class="footer-container">
+        <div class="footer" style="display:none">Сделано <a href="https://t.me/enovikov11">enovikov11</a> с ❤️</div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+#!/sbin/openrc-run
+
+name="kiosk"
+command="/usr/bin/chromium"
+command_args="--no-sandbox --kiosk --no-first-run --disable-infobars --noerrdialogs --use-fake-ui-for-media-stream --remote-debugging-port=9222 --enable-features=WebHID --disable-features=WebHIDBlocklist --auto-accept-this-tab-capture --enable-experimental-web-platform-features \"https://hardwave.tgr.rs/index.html?api_key=redacted&chat_id=redacted\""
+#command_args="--no-sandbox --kiosk --no-first-run --disable-infobars --noerrdialogs --use-fake-ui-for-media-stream --remote-debugging-port=9222 --enable-features=WebHID --disable-features=WebHIDBlocklist --auto-accept-this-tab-capture --enable-experimental-web-platform-features \"https://hardwave-new.tgr.rs/?api_key=redacted\""
+command_background=true
+pidfile="/run/kiosk.pid"
+command_user="kiosk:kiosk"
+directory="/home/kiosk/harddver"
+supervisor="supervise-daemon"
+supervise_daemon_args="--respawn-delay 1 --respawn-max 0 --respawn-period 1 --stdout /home/kiosk/logs/kiosk.log --stderr /home/kiosk/logs/kiosk.err"
+
+start_pre() {
+    export DISPLAY=:0
+}

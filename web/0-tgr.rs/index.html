@@ -1,0 +1,212 @@
+<html lang="ru">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Tiger Game Registry</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			padding: 40px 20px;
+			color: #333;
+		}
+
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+
+		header {
+			text-align: center;
+			margin-bottom: 60px;
+		}
+
+		#tgr {
+			font-size: 3rem;
+			font-weight: 700;
+			color: white;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+			margin-bottom: 10px;
+			animation: fadeIn 1s ease-in;
+		}
+
+		@keyframes fadeIn {
+			from { opacity: 0; transform: translateY(-20px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		.projects {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 30px;
+			margin-bottom: 60px;
+		}
+
+		.project-card {
+			background: white;
+			border-radius: 16px;
+			overflow: hidden;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			text-decoration: none;
+			color: inherit;
+			display: block;
+		}
+
+		.project-card:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+		}
+
+		.project-card img {
+			width: 100%;
+			height: 240px;
+			object-fit: cover;
+			display: block;
+		}
+
+		.project-info {
+			padding: 20px;
+		}
+
+		.project-info h3 {
+			font-size: 1.5rem;
+			margin-bottom: 10px;
+			color: #667eea;
+		}
+
+		.project-url {
+			font-size: 0.9rem;
+			color: #666;
+			font-family: 'Courier New', monospace;
+		}
+
+		footer {
+			background: white;
+			border-radius: 16px;
+			padding: 30px;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+		}
+
+		.social-links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			justify-content: center;
+		}
+
+		.social-link {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			text-decoration: none;
+			color: #333;
+			font-size: 1rem;
+			padding: 10px 20px;
+			border-radius: 8px;
+			background: #f5f5f5;
+			transition: background 0.3s ease, transform 0.2s ease;
+		}
+
+		.social-link:hover {
+			background: #e0e0e0;
+			transform: scale(1.05);
+		}
+
+		.social-link img {
+			width: 20px;
+			height: 20px;
+		}
+
+		@media (max-width: 768px) {
+			#tgr {
+				font-size: 2rem;
+			}
+
+			.projects {
+				grid-template-columns: 1fr;
+			}
+
+			.social-links {
+				flex-direction: column;
+				align-items: stretch;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<header>
+			<h1 id="tgr">Tiger Game Registry</h1>
+		</header>
+
+		<div class="projects">
+			<a href="https://tgr.rs/tactoe" target="_blank" class="project-card">
+				<img src="./img/tactoe.jpg" alt="4D tess-tac-toe" />
+				<div class="project-info">
+					<h3>4D tess-tac-toe</h3>
+					<div class="project-url">tgr.rs/tactoe</div>
+				</div>
+			</a>
+
+			<a href="https://tgr.rs/spherium" target="_blank" class="project-card">
+				<img src="./img/spherium.jpg" alt="Spherium" />
+				<div class="project-info">
+					<h3>Spherium</h3>
+					<div class="project-url">tgr.rs/spherium</div>
+				</div>
+			</a>
+
+			<a href="https://tgr.rs/luck" target="_blank" class="project-card">
+				<img src="./img/luck.jpg" alt="Ethereum fortune teller" />
+				<div class="project-info">
+					<h3>Ethereum fortune teller</h3>
+					<div class="project-url">tgr.rs/luck</div>
+				</div>
+			</a>
+		</div>
+
+		<footer>
+			<div class="social-links">
+				<a href="https://tgr.rs/github" target="_blank" class="social-link">
+					<img src="./img/github.png" alt="GitHub" />
+					<span>GitHub</span>
+				</a>
+				<a href="https://tgr.rs/linkedin" target="_blank" class="social-link">
+					<img src="./img/linkedin.png" alt="LinkedIn" />
+					<span>LinkedIn</span>
+				</a>
+				<a href="https://tgr.rs/habr" target="_blank" class="social-link">
+					<img src="./img/habr.png" alt="Habr" />
+					<span>Habr</span>
+				</a>
+				<a href="https://tgr.rs/telegram" target="_blank" class="social-link">
+					<img src="./img/telegram.png" alt="Telegram" />
+					<span>Telegram</span>
+				</a>
+			</div>
+		</footer>
+	</div>
+
+	<script>
+		const t = ["The", "Tiger", "Transmission", "Trade", "Total", "Technology", "Targeted", "Tactical", "Transport", "Terrain", "Time"];
+		const g = ["Golden", "Game", "Gear", "Goods", "Genetics", "Growth", "Gene", "Ground", "Gradient", "Gap"];
+		const r = ["Rule", "Research", "Ratio", "Registry", "Rate", "Reserve", "Roadmap", "Regulation", "Reconnaissance", "Route", "Reduction"];
+
+		const rnd = arr => arr[Math.floor(Math.random() * arr.length)];
+		const update = () => document.querySelector("#tgr").innerText = document.title = `${rnd(t)} ${rnd(g)} ${rnd(r)}`;
+
+		setInterval(update, 2000);
+	</script>
+</body>
+
+</html>

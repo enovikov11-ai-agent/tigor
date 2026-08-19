@@ -1,0 +1,22 @@
+{
+  "name": "neuroimgbot",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bot": "node ./bot/index.js;yc compute instance stop neuroimgbot-worker",
+    "enable-nsfw": "node ./enable-nsfw.js",
+    "cache-ramdisk": "sudo mount -t tmpfs -o size=6G tmpfs ~/models-ramdisk && cp -r ./models/models--CompVis--stable-diffusion-v1-4 ./models-ramdisk/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "node-fetch": "^2.6.1",
+    "nodemon": "^2.0.19",
+    "yaml": "^2.2.2"
+  }
+}

@@ -1,0 +1,1 @@
+{"use": "maybe", "stage": "pilot", "description": "Telegram bot for semantic meme search using OpenAI embeddings, returns top 10 similar memes"}
