@@ -517,6 +517,7 @@
                     efibootmgr
                     e2fsprogs
                     libxslt
+                    telegraf
                   ])
                   ++ lib.optionals vscodium (with pkgs; [ vscodium ])
                   ++ lib.optionals (!vm) (with pkgs; [ zfs ])
@@ -541,6 +542,45 @@
                   vm-start() { virsh define "/etc/stateless/$1.xml" && virsh start "$1"; }
                   vm-stop() { virsh shutdown "$1" && virsh undefine "$1" --nvram; }
                 '';
+
+                environment.etc."nixos/telegraf.conf".text = ''
+                  [agent]
+                    interval = "10s"
+                  [[inputs.cpu]]
+                    percpu = true
+                    totalcpu = true
+                  [[inputs.mem]]
+                  [[inputs.disk]]
+                    ignore_fs = ["tmpfs", "devtmpfs", "devfs", "sysfs", "squashfs", "efivarfs"]
+                  [[inputs.diskio]]
+                  [[inputs.swap]]
+                  [[inputs.net]]
+                  [[inputs.netstat]]
+                  [[inputs.processes]]
+                  [[inputs.system]]
+                  [[inputs.kernel]]
+                  [[inputs.nvidia_smi]]
+                  [[outputs.file]]
+                    files = ["/ssd/telegraf/host-metrics.log"]
+                    rotation_max_archives = 3
+                    data_format = "influx"
+                '';
+
+                systemd.services.telegraf = {
+                  description = "Telegraf metrics collector";
+                  wantedBy = [ "multi-user.target" ];
+                  after = [ "network.target" ];
+                  serviceConfig = {
+                    Type = "simple";
+                    User = "nixos";
+                    Group = "nixos";
+                  };
+                  script = ''
+                    exec ${pkgs.telegraf}/bin/telegraf --non-strict-env-handling \
+                      -c /etc/nixos/telegraf.conf \
+                      --config-directory /etc/nixos/telegraf.d
+                  '';
+                };
 
                 system.stateVersion = "26.05";
               }

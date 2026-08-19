@@ -104,6 +104,7 @@
     <mount src="/hdd/internet/kiwix" dst="/hdd/internet/kiwix" readonly="true"/>
     <mount src="/hdd/internet/wikipedia" dst="/hdd/internet/wikipedia" readonly="true"/>
     <mount src="/ssd/vm/hermes" dst="/ssd/vm/hermes"/>
+    <mount src="/ssd/telegraf/hermes" dst="/ssd/telegraf/host"/>
     <disk src="/ssd/vm/hermes.qcow2" dst="vda"/>
     <net dev="wg-hermes" bus="0x04">
       <forward host="2222" guest="22"/>
